@@ -23,7 +23,7 @@ public class PlayState extends GameState {
 	private Player player;
 	private Camera camera;
 	private GameStateMode gameStateMode;
-	private EntityManager entityHandler;
+//	private EntityManager entityHandler;
 	private ItemManager itemManager;
 	
 	// USER INTERFACE
@@ -44,7 +44,7 @@ public class PlayState extends GameState {
 		chunkSystem 		= gameObjectManager.getChunkSystem();
 		player 				= gameObjectManager.getPlayer();
 		transition 			= gameObjectManager.getTransition();
-		entityHandler 		= gameObjectManager.getEntityHandler();
+//		entityHandler 		= gameObjectManager.getEntityHandler();
 		itemManager			= gameObjectManager.getItemManager();
 		inventoryManager 	= gameObjectManager.getInventoryManager();
 		infoPane 			= gameObjectManager.getUIInfoPane();
@@ -88,16 +88,14 @@ public class PlayState extends GameState {
 		// Hier werden auch die Entitäten im EntityManager aktualisiert (update)
 		chunkSystem.update(timeSinceLastFrame);
 		
-		player.update(timeSinceLastFrame);
-		
-		CollisionController.collision(chunkSystem, entityHandler.getEntities());
+		//player.update(timeSinceLastFrame);
 		
 		
 		// update item manager
 		itemManager.update();
 		
 		// y-sort entity list 
-		entityHandler.ySort();
+//		entityHandler.ySort();
 	}
 
 	private void updateGameStateModeInteraction(float timeSinceLastFrame) {
@@ -133,7 +131,7 @@ public class PlayState extends GameState {
 	public void render(Graphics g) {
 		chunkSystem.render(g, camera);
 		itemManager.render(g, camera);
-		entityHandler.render(g, camera);
+//		entityHandler.render(g, camera);
 		transition.render(g);
 		inventoryManager.render(g);
 		infoPane.render(g);

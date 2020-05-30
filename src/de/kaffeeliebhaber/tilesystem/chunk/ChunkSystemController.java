@@ -26,7 +26,7 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 	private ChunkSystem chunkSystem;
 	private Player player;
 	private Transition transition;
-	private EntityManager entityHandler;
+//	private EntityManager entityHandler;
 	private ItemManager itemManager;
 	private boolean initialized;
 	private TransitionDirection direction;
@@ -36,7 +36,7 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 		this.chunkSystem = chunkSystem;
 		this.player = player;
 		this.transition = transition;
-		this.entityHandler = entityHandler;
+//		this.entityHandler = entityHandler;
 		this.itemManager = itemManager;
 		
 		transition.addTransitionListener(this);
@@ -48,9 +48,11 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 
 		// Die Entitäten werden nur deswegen in den EntityHandler eingefügt, um sie später durch den Y-SOrt zu sortieren.
 		// Kann das nicht direkt auch im ChunkSystem passieren?
-		entityHandler.clear();
-		entityHandler.addAll(chunkSystem.getEntityList());
-		entityHandler.add(player);
+		//entityHandler.clear();
+		//entityHandler.addAll(chunkSystem.getEntityList());
+		//entityHandler.add(player);
+		
+		chunkSystem.addEntity(chunkID, player);
 		
 		final List<TransitionTile> transitionList = chunkSystem.getTransitionTileList(chunkID);
 		
@@ -63,8 +65,9 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 	private void unsetChunkID(final int chunkID) {
 		final List<TransitionTile> transitionList = chunkSystem.getTransitionTileList(chunkID);
 		
-		entityHandler.clear();
+//		entityHandler.clear();
 		itemManager.clear();
+		chunkSystem.removeEntity(chunkID, player);
 		
 		if (transitionList != null && transitionList.size() > 0) {
 			unregisterTransitionTileListener(transitionList);

@@ -10,6 +10,16 @@ import de.kaffeeliebhaber.entitySystem.EntityComparator;
 
 public class EntityManager {
 
+	/**
+	 * 
+	 * Eine Idee für den EntityManager wäre, dass dieser für den jeweils aktuellen Chunk
+	 * alle zusätzlichen Entities abspeichert. Zum Beispiel Pfeile etc. Beim Wechsel eines CHunks wird
+	 * der EntityManager dann geleert.
+	 * 
+	 * DOch die Frage ist: Wie prüfen wir dann die Kollisionen?
+	 * Weitere Frage: Wie lösen wir das Problem bzgl. des Renderns?
+	 * 
+	 */
 	private final EntityComparator comperator; 
 	private final List<Entity> entities;
 	
