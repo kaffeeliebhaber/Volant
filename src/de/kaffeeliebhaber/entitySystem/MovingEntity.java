@@ -7,6 +7,8 @@ import java.util.List;
 import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
+import de.kaffeeliebhaber.collision.BoundingBox;
+import de.kaffeeliebhaber.collision.CollisionUtil;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -25,7 +27,7 @@ public abstract class MovingEntity extends Entity {
 	}
 
 	// TODO: Add List<Entit> as new parameter to check for collision.
-	public void update(float timeSinceLastFrame) {
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {
 			
 		translationVector = movingBehavior.move(timeSinceLastFrame);
 	
@@ -33,15 +35,7 @@ public abstract class MovingEntity extends Entity {
 		animationController.updateState(translationVector.x, translationVector.y);
 		animationController.update(timeSinceLastFrame);
 		
-//		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), translationVector.x, 0), entities)) {
-//			this.moveX();
-//		}
-//
-//		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), 0, translationVector.y), entities)) {
-//			this.moveY();
-//		}
-		
-//		adjustDistricBorder();
+		executeMove(entities);
 	}
 	
 	public boolean isCollidable() {
@@ -83,20 +77,33 @@ public abstract class MovingEntity extends Entity {
 		return movingBehavior;
 	}
 	
-	public boolean collides(final Entity entity) {
+	public boolean collides(final Entity entity, float dx, float dy) {
 		return boundingBox.intersects(entity.getBoundingBox());
 	}
 	
-	public boolean collides(final List<Entity> entities) {
+	public boolean collides(final List<Entity> entities, float dx, float dy) {
 		boolean collides = false;
 		
 		final int size = entities.size();
 		
 		for (int i = 0; i < size || !collides; i++) {
-			collides = boundingBox.intersects(entities.get(i).getBoundingBox());
+			if (entities != this) {
+				collides = boundingBox.intersects(entities.get(i).getBoundingBox());
+			}
 		}
 		
 		return collides;
+	}
+	
+	private void executeMove(final List<Entity> entities) {
+
+		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), translationVector.x, 0), entities)) {
+			moveX();
+		}
+
+		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), 0, translationVector.y), entities)) {
+			moveY();
+		}
 	}
 	
 	public void render(Graphics g, Camera camera) {

@@ -52,7 +52,7 @@ public abstract class Entity extends GameObject {
 		notifyEntityListenerEntityUpdated();
 	}
 	
-	public abstract void update(float timeSinceLastFrame);
+	public abstract void update(float timeSinceLastFrame, final List<Entity> entities);
 	
 	public abstract void render(Graphics g, Camera c);
 	

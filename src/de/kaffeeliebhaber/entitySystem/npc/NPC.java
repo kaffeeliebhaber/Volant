@@ -12,6 +12,7 @@ import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.core.KeyManager;
+import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.input.KeyManagerListener;
@@ -108,8 +109,8 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		return new BoundingBox((int) x, (int) (y + height), width, INTERACTIONBOX_HEIGHT);
 	}
 
-	public void update(float timeSinceLastFrame) {
-		super.update(timeSinceLastFrame);
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {
+		super.update(timeSinceLastFrame, entities);
 	}
 
 	protected void interact(Player player) {

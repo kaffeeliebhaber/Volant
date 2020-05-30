@@ -37,8 +37,9 @@ public class TransitionTile extends Entity implements IEntityListener {
 		this.direction = direction;
 	}
 
+	// TODO: Hier muss definitiv noch etwas geändert werden.
 	@Override
-	public void update(float timeSinceLastFrame) {
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {
 		
 	}
 	

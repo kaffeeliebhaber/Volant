@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.collision.CollisionController;
-import de.kaffeeliebhaber.collision.CollisionUtil;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.EntityComparator;
@@ -47,48 +45,17 @@ public class ChunkSystem {
 		
 		getChunk(currentChunkID).update(timeSinceLastFrame);
 		
-		getEntityList().forEach(e -> e.update(timeSinceLastFrame));
-		
-		
-		// update all chunk entities
 		final List<Entity> currentChunkEntities = getEntityList();
 		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(currentChunkEntities);
 		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, this, currentChunkEntities);
 		
-		final int size = movingEntities.size();
-
-		for (int i = 0; i < size; i++) {
-			final MovingEntity movingEntity = movingEntities.get(i);
-
-			if (!CollisionUtil.collides(movingEntity, BoundingBox.createTranslatedBoundingBox(movingEntity.getBoundingBox(), movingEntity.getDx(), 0), contextEntities)) {
-				movingEntity.moveX();
-			}
-
-			if (!CollisionUtil.collides(movingEntity, BoundingBox.createTranslatedBoundingBox(movingEntity.getBoundingBox(), 0, movingEntity.getDy()), contextEntities)) {
-				movingEntity.moveY();
-			}
-		}
-		
-
-		getEntityList().sort(entityComparator);
-		
-//		final List<Entity> entities = getEntityList();
-//		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(entities);
-//		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, this, entities);
-//		final int size = movingEntities.size();
-//
-//		for (int i = 0; i < size; i++) {
-//			movingEntities.get(i).update(timeSinceLastFrame, contextEntities);
-//		}
+		currentChunkEntities.forEach(e -> e.update(timeSinceLastFrame, contextEntities));
+		currentChunkEntities.sort(entityComparator);
 	}
 	
 	public void render(Graphics g, Camera camera) {
 		getChunk(currentChunkID).render(g, camera);
-		
-		
 		getEntityList().stream().forEach(e -> e.render(g, camera));
-		
-		// Draw transition tiles
 		getTransitionTileList(currentChunkID).forEach(e -> e.render(g, camera));
 	}
 	

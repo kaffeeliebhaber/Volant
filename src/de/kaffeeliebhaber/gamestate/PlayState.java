@@ -85,17 +85,8 @@ public class PlayState extends GameState {
 			return;
 		}
 		
-		// Hier werden auch die Entitäten im EntityManager aktualisiert (update)
 		chunkSystem.update(timeSinceLastFrame);
-		
-		//player.update(timeSinceLastFrame);
-		
-		
-		// update item manager
 		itemManager.update();
-		
-		// y-sort entity list 
-//		entityHandler.ySort();
 	}
 
 	private void updateGameStateModeInteraction(float timeSinceLastFrame) {
@@ -131,7 +122,6 @@ public class PlayState extends GameState {
 	public void render(Graphics g) {
 		chunkSystem.render(g, camera);
 		itemManager.render(g, camera);
-//		entityHandler.render(g, camera);
 		transition.render(g);
 		inventoryManager.render(g);
 		infoPane.render(g);

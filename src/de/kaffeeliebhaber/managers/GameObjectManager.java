@@ -80,7 +80,7 @@ public class GameObjectManager {
 		transition.setColor(Color.BLACK);
 
 		entityHandler = new EntityManager();
-		infoPane = new UIInfoPane();
+		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
 
 		createNPCs(chunkSystem);
 		createAndSetupInventory(player);
@@ -95,7 +95,7 @@ public class GameObjectManager {
 		chunkSystem.addEntity(0, createNPCVolantVillagePeopleOne());
 		chunkSystem.addEntity(0, createNPCVolandFemaleAnne());
 
-		final int countOfFox = 1;
+		final int countOfFox = 2;
 
 		final Random r = new Random();
 

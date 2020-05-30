@@ -3,6 +3,7 @@ package de.kaffeeliebhaber.tilesystem;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
@@ -39,8 +40,9 @@ public class Tile extends Entity {
 		this.blocked = blocked;
 	}
 	
+	// TODO: Hier muss definitiv noch etwas geändetr werden.
 	@Override
-	public void update(float timeSinceLastFrame) {
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {
 		
 	}
 	

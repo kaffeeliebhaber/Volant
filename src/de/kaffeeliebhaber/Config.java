@@ -4,8 +4,8 @@ public class Config {
 
 	public static final String IMG_PATH = "src/de/kaffeeliebhaber/assets/";
 	
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 480;
 	
 	// world 1
 //	public static final String TILE_MAP_PATH = IMG_PATH + "world.xml";
