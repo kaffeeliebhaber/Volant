@@ -1,0 +1,12 @@
+Was genau soll in diesem Package entwickelt werden?
+
+Es soll die Möglichkeit geschaffen werden, dass es verschiedene Tweens gibt, die GameObjecte über die Zeit von einer 
+Target-Position in die Ziel-Position verschiebt. Dabei soll angegeben werden können, wie lange der Tween sein darf.
+
+
+
+Was wird genau benötigt?
+Object; Das Objekt, dass von einer Start-Position in eine Ziel-Position transformiert wird.
+Start-Position:
+Ziel-Position: 
+Tween; Die Funktion, die angibt, wie die Position über die Zeit aktualisiert wird.
