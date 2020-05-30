@@ -24,6 +24,7 @@ public abstract class MovingEntity extends Entity {
 		this.movingBehavior.contextMovingEntity(this);
 	}
 
+	// TODO: Add List<Entit> as new parameter to check for collision.
 	public void update(float timeSinceLastFrame) {
 			
 		translationVector = movingBehavior.move(timeSinceLastFrame);
@@ -32,13 +33,21 @@ public abstract class MovingEntity extends Entity {
 		animationController.updateState(translationVector.x, translationVector.y);
 		animationController.update(timeSinceLastFrame);
 		
-		adjustDistricBorder();
+//		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), translationVector.x, 0), entities)) {
+//			this.moveX();
+//		}
+//
+//		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), 0, translationVector.y), entities)) {
+//			this.moveY();
+//		}
+		
+//		adjustDistricBorder();
 	}
 	
 	public boolean isCollidable() {
 		return true;
 	}
-	
+
 	public float getDx() {
 		return translationVector.x;
 	}
@@ -49,12 +58,12 @@ public abstract class MovingEntity extends Entity {
 	
 	public void moveX() {
 		translateX(translationVector.x);
-		boundingBox.translateX(translationVector.x);
+		adjustDistricBorder();
 	}
 	
 	public void moveY() {
 		translateY(translationVector.y);
-		boundingBox.translateY(translationVector.y);
+		adjustDistricBorder();
 	}
 	
 	public void move() {
@@ -97,16 +106,20 @@ public abstract class MovingEntity extends Entity {
 	protected void adjustDistricBorder() {
 		if (district != null) {
 			
-			if (x < district.x) {
-				setX(district.x);
-			} else if (x > district.width - width) {
-				setX(district.width - width);
+			if (boundingBox.getX() < district.x) {
+//				setX(district.x);
+				translateX(district.x - boundingBox.getX());
+			} else if (boundingBox.getX() > district.width - boundingBox.getWidth()) {
+//				setX(district.width - width);
+				translateX(district.width - boundingBox.getWidth()  - boundingBox.getX());
 			}
 			
-			if (y < district.y) { 
-				setY(district.y);
-			} else if (y > district.height - height) { 
-				setY(district.height - height);
+			if (boundingBox.getY() < district.y) { 
+//				setY(district.y);
+				translateY(district.y - boundingBox.getY());
+			} else if (boundingBox.getY() > district.height - boundingBox.getHeight()) { 
+//				setY(district.height - height);
+				translateY(district.height - boundingBox.getHeight() - boundingBox.getY());
 			}
 		}
 	}

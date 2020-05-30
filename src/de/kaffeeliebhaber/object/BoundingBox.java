@@ -30,11 +30,12 @@ public class BoundingBox extends GameObject {
 	}
 	
 	public boolean intersects(final BoundingBox boundingBox) {
-		return createRectangle().intersects(boundingBox.createRectangle());
+		return boundingBox != null ? createRectangle().intersects(boundingBox.createRectangle()) : false;
 	}
 	
 	public void render(final Graphics g, final Camera camera ) {
-		g.setColor(new Color(0, 255, 0, 128));
+		g.setColor(Color.BLACK);
+//		g.setColor(new Color(0, 255, 0, 128));
 		g.fillRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
 	}
 	

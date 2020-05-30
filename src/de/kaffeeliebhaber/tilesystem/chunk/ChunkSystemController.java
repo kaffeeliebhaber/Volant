@@ -154,11 +154,7 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 				break;
 		}
 		
-		player.setPosition(new Vector2f(newPosX, newPosY));
-		
-		// TODO: RESET BOUNDINGBOX - WICHTIG!!!!!!
-		player.getBoundingBox().setX(newPosX);
-		player.getBoundingBox().setY(newPosY);
+		player.updatePosition(newPosX, newPosY);
 	}
 	
 	

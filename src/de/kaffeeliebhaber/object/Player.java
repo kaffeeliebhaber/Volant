@@ -1,7 +1,6 @@
 package de.kaffeeliebhaber.object;
 
 import java.awt.Graphics;
-
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.inventory.stats.PlayerStats;
@@ -23,7 +22,17 @@ public class Player extends MovingEntity {
 	
 	@Override public void render(Graphics g, Camera camera) {
 		super.render(g, camera);
-		boundingBox.render(g, camera);
+		getBoundingBox().render(g, camera);
+	}
+	
+	public void updatePosition(float newPosX, float newPosY) {
+		int dx = (int) (newPosX - x);
+		int dy = (int) (newPosY - y);
+		
+		translateX(dx);
+		translateY(dy);
+		
+		adjustDistricBorder();
 	}
 	
 	public PlayerStats getStats() {

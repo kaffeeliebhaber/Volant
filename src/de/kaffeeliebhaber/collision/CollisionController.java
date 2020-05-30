@@ -14,8 +14,6 @@ public class CollisionController {
 	public static void collision(final ChunkSystem chunkSystem, final List<Entity> entities) {
 
 		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(entities);
-		// TODO: Ich bin der Meinung, dass die 'entities' an dieser Stelle nicht mehr benötigt werden.
-		// TODO: Bitte einmal testen.
 		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, chunkSystem, entities);
 		
 		CollisionController.checkCollisionAndUpdateMovingEntity(movingEntities, contextEntities);

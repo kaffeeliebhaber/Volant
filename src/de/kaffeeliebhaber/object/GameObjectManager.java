@@ -154,9 +154,7 @@ public class GameObjectManager {
 		animationController.updateState(0, 0);
 
 		// CREATE PLAYER
-		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 120, 32, 12));
-		// player.setPosition(100, 100);
-		// player.setBoundingBox(new BoundingBox(100, 120, 32, 12));
+		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 127, 32, 5));
 		player.setDistrict(new Rectangle(0, 0, chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 	}
 
@@ -169,7 +167,7 @@ public class GameObjectManager {
 
 		// CREATE AND CONFIGURE NPC - GORDOM
 		final NPC gordom = new VolantVillageElder(500, 400, 32, 32, Direction.DOWN, animationController,new NoneMovingBehavior());
-
+		
 		gordom.setPopupImage(AssetsLoader.spritesheetNPC.getImageByIndex(10));
 		gordom.setActionKeyID(KeyEvent.VK_E);
 		gordom.setPlayer(player);
@@ -186,7 +184,7 @@ public class GameObjectManager {
 
 		// CREATE AND CONFIGURE NPC - GORDOM
 		final NPC knight = new VolantMasterKnight(300, 550, 32, 32, Direction.DOWN, animationController,new NoneMovingBehavior());
-
+		
 		knight.setPopupImage(AssetsLoader.spritesheetNPC.getImageByIndex(55));
 		knight.setActionKeyID(KeyEvent.VK_E);
 		knight.setPlayer(player);
@@ -337,7 +335,7 @@ public class GameObjectManager {
 
 		// CHUNK 1
 		tile = new TransitionTile(0, 300, 2, 100, 0, TransitionDirection.LEFT);
-		tile.setBoundingBox(new BoundingBox(0, 300, 2, 100));
+		tile.setBoundingBox(new BoundingBox(0, 330, 2, 100));
 		chunkSystem.addTransitionTile(1, tile);
 
 		tile = new TransitionTile(150, 798, 100, 2, 3, TransitionDirection.DOWN);

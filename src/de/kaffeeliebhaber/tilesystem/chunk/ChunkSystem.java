@@ -8,37 +8,20 @@ import java.util.TreeMap;
 
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.object.Entity;
-import de.kaffeeliebhaber.object.EntityComparator;
 import de.kaffeeliebhaber.tilesystem.Tilemap;
 import de.kaffeeliebhaber.tilesystem.TilemapHandler;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
 
 public class ChunkSystem {
 	
-//	private final EntityComparator comperator; 
-	
 	private int tileWidth;
 	private int tileHeight;
-	
-	// Breite eines jeden Chunks
 	private int chunkWidth;
-	
-	// Hoehe eines jeden Chunks
 	private int chunkHeight;
-	
-	// Beinhaltet das komplette Chunk-System
 	private Map<Integer, TilemapHandler> chunkSystem;
-	
-	// In dieser Map werden zu jedem Chunk die entsprechenden Entities abgespeichert.
 	private Map<Integer, List<Entity>> chunkEntities;
-	
-	// In dieser Map werden alle TransitionTiles jedes Chunks abgespeichert.
 	private Map<Integer, List<TransitionTile>> transitionTiles;
-	
-	// Aktuelle ChunkId
 	private int currentChunkID;
-	
-	// Identifiziert die LayerID der Tilemap, auf der die Objekte liegen, mit denen der Spieler kollidieren kann
 	private int objectLayerID;
 	
 	public ChunkSystem(int chunkWidth, int chunkHeight) {
@@ -49,19 +32,24 @@ public class ChunkSystem {
 		chunkSystem = new TreeMap<Integer, TilemapHandler>();
 		chunkEntities = new TreeMap<Integer, List<Entity>>();
 		transitionTiles = new TreeMap<Integer, List<TransitionTile>>();
-		
-//		comperator = new EntityComparator(); 
 	}
 	
 	public void update(float timeSinceLastFrame) {
-		getChunk(currentChunkID).update(timeSinceLastFrame);
+		//getChunk(currentChunkID).update(timeSinceLastFrame);
 		
 		// update all chunk entities
+
+		
 		getEntityList().forEach(e -> e.update(timeSinceLastFrame));
 		
-		// Sortieren der EntityList.
-//		getEntityList().sort(comperator);
-		
+//		final List<Entity> entities = getEntityList();
+//		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(entities);
+//		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, this, entities);
+//		final int size = movingEntities.size();
+//
+//		for (int i = 0; i < size; i++) {
+//			movingEntities.get(i).update(timeSinceLastFrame, contextEntities);
+//		}
 	}
 	
 	public void render(Graphics g, Camera camera) {

@@ -92,6 +92,7 @@ public class PlayState extends GameState {
 		
 		CollisionController.collision(chunkSystem, entityHandler.getEntities());
 		
+		
 		// update item manager
 		itemManager.update();
 		

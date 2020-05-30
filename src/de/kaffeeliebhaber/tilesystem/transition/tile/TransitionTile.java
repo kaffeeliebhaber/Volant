@@ -46,8 +46,11 @@ public class TransitionTile extends Entity implements IEntityListener {
 	public void render(Graphics g, Camera camera) {
 		g.setColor(color);
 		g.fillRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
+		
+		getBoundingBox().render(g, camera);
 	}
 
+	// TODO: Hier einfach direkt der Player übergeben.
 	@Override
 	public void entityUpdated(Entity entity) {
 		

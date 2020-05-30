@@ -35,8 +35,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 	protected boolean showBoundingBox;
 	protected Direction interactionDirection;
 
-	public NPC(float x, float y, int width, int height, Direction interactionDirection,
-			final IAnimationController animationController, final IMovingBehavior movingBehavior) {
+	public NPC(float x, float y, int width, int height, Direction interactionDirection, final IAnimationController animationController, final IMovingBehavior movingBehavior) {
 		super(x, y, width, height, animationController, movingBehavior);
 
 		setInteractionDirection(interactionDirection);

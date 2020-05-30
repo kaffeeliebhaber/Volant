@@ -50,7 +50,7 @@ public class CollisionUtil {
 
 			Entity currentEntity = entities.get(i);
 			
-			if (currentEntity != entity && boundingBox.intersects(currentEntity.getBoundingBox())) {
+			if (currentEntity != entity && boundingBox != null && boundingBox.intersects(currentEntity.getBoundingBox())) {
 				collides = true;
 			}
 		}

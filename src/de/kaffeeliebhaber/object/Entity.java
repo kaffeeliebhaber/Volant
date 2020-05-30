@@ -28,18 +28,20 @@ public abstract class Entity extends GameObject {
 	
 	protected void translateX(final float dx) {
 		setX(this.x + dx);
+		boundingBox.translateX(dx);
 	}
 	
 	protected void translateY(final float dy) {
 		setY(this.y + dy);
+		boundingBox.translateY(dy);
 	}
 	
-	@Override public void setX(final float newX) {
+	public void setX(final float newX) {
 		super.setX(newX);
 		notifyEntityListenerEntityUpdated();
 	}
 	
-	@Override public void setY(final float newY) {
+	public void setY(final float newY) {
 		super.setY(newY);
 		notifyEntityListenerEntityUpdated();
 	}
@@ -49,9 +51,9 @@ public abstract class Entity extends GameObject {
 		notifyEntityListenerEntityUpdated();
 	}
 	
-	public abstract void update(float timeSinceLastFrame);
+	public void update(float timeSinceLastFrame) {}
 	
-	public abstract void render(Graphics g, Camera c);
+	public void render(Graphics g, Camera c) {}
 	
 	protected void notifyEntityListenerEntityUpdated() {
 		entityListeners.forEach(e -> e.entityUpdated(this));

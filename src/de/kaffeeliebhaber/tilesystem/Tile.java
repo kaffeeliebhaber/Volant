@@ -69,9 +69,11 @@ public class Tile extends Entity {
 	
 	@Override
 	public BoundingBox getBoundingBox() {
-		
 		BoundingBox localBoundingBox = null;
 		
+		/*
+		
+		TODO: Add this code again.
 		if (boundingBox != null) {
 			localBoundingBox = new BoundingBox(
 					(int) (this.x + boundingBox.getX()),
@@ -82,6 +84,9 @@ public class Tile extends Entity {
 		} else {
 			localBoundingBox = super.getBoundingBox();
 		}
+		*/
+		
+		
 		
 		return localBoundingBox;
 	}
