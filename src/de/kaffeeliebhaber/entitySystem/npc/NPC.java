@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.object.npc;
+package de.kaffeeliebhaber.entitySystem.npc;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,13 +8,13 @@ import java.util.List;
 
 import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
+import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.core.KeyManager;
+import de.kaffeeliebhaber.entitySystem.MovingEntity;
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.input.KeyManagerListener;
-import de.kaffeeliebhaber.object.BoundingBox;
-import de.kaffeeliebhaber.object.MovingEntity;
-import de.kaffeeliebhaber.object.Player;
-import de.kaffeeliebhaber.object.movingBehavior.IMovingBehavior;
 import de.kaffeeliebhaber.tweens.InfoPaneEvent;
 import de.kaffeeliebhaber.tweens.InfoPaneInformerListener;
 import de.kaffeeliebhaber.tweens.InfoPaneListener;
@@ -40,8 +40,8 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 
 		setInteractionDirection(interactionDirection);
 		setBoundingBox(new BoundingBox((int) x, (int) (y + height - BOUNDINGBOX_HEIGHT), width, BOUNDINGBOX_HEIGHT));
-		setShowBoundingBox		(true);
-		setShowInteractionBox	(true);
+		setShowBoundingBox(!true);
+		setShowInteractionBox(!true);
 
 		infoPaneInformerListeners = new ArrayList<InfoPaneInformerListener>();
 

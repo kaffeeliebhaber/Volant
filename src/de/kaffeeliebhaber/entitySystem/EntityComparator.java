@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.entitySystem;
 
 import java.util.Comparator;
 

@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.debug.Debug;
-import de.kaffeeliebhaber.object.BoundingBox;
-import de.kaffeeliebhaber.object.Entity;
+import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tile extends Entity {
 

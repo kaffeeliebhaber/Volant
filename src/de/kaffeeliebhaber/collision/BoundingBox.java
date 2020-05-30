@@ -1,10 +1,11 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.collision;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.entitySystem.GameObject;
 
 public class BoundingBox extends GameObject {
 
@@ -34,9 +35,8 @@ public class BoundingBox extends GameObject {
 	}
 	
 	public void render(final Graphics g, final Camera camera ) {
-		g.setColor(Color.BLACK);
-//		g.setColor(new Color(0, 255, 0, 128));
-		g.fillRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
+		g.setColor(new Color(0, 255, 0, 128));
+		g.drawRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
 	}
 	
 	public static BoundingBox createTranslatedBoundingBox(final BoundingBox boundingBox, final float dx, final float dy) {

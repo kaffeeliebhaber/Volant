@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.entitySystem;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
+import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.math.Vector2f;
-import de.kaffeeliebhaber.object.movingBehavior.IMovingBehavior;
 
 public abstract class MovingEntity extends Entity {
 

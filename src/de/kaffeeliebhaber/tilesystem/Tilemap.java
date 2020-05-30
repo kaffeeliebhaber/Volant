@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.kaffeeliebhaber.core.Camera;
-import de.kaffeeliebhaber.object.Entity;
+import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tilemap {
 

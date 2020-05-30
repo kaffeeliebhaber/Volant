@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.managers;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,7 +13,20 @@ import de.kaffeeliebhaber.animation.DefaultAnimationController;
 import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.assets.AssetsLoader;
+import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
+import de.kaffeeliebhaber.behavior.moving.LinearMovingBehavior;
+import de.kaffeeliebhaber.behavior.moving.NoneMovingBehavior;
+import de.kaffeeliebhaber.behavior.moving.PlayerMovingBehavior;
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.entitySystem.Player;
+import de.kaffeeliebhaber.entitySystem.npc.Fox;
+import de.kaffeeliebhaber.entitySystem.npc.NPC;
+import de.kaffeeliebhaber.entitySystem.npc.NPCAnimationController;
+import de.kaffeeliebhaber.entitySystem.npc.VolantFemaleAnne;
+import de.kaffeeliebhaber.entitySystem.npc.VolantMasterKnight;
+import de.kaffeeliebhaber.entitySystem.npc.VolantVillageElder;
+import de.kaffeeliebhaber.entitySystem.npc.VolantVillagePeopleOne;
 import de.kaffeeliebhaber.inventory.EquipmentManager;
 import de.kaffeeliebhaber.inventory.Inventory;
 import de.kaffeeliebhaber.inventory.ItemManager;
@@ -27,18 +40,6 @@ import de.kaffeeliebhaber.inventory.item.actions.IItemAction;
 import de.kaffeeliebhaber.inventory.stats.PlayerStats;
 import de.kaffeeliebhaber.inventory.stats.Stat;
 import de.kaffeeliebhaber.math.Vector2f;
-import de.kaffeeliebhaber.object.movingBehavior.IMovingBehavior;
-import de.kaffeeliebhaber.object.movingBehavior.LinearInterpolationToTargetPointMovingBehavior;
-import de.kaffeeliebhaber.object.movingBehavior.LinearMovingBehavior;
-import de.kaffeeliebhaber.object.movingBehavior.NoneMovingBehavior;
-import de.kaffeeliebhaber.object.movingBehavior.PlayerMovingBehavior;
-import de.kaffeeliebhaber.object.npc.NPC;
-import de.kaffeeliebhaber.object.npc.pets.fox.Fox;
-import de.kaffeeliebhaber.object.npc.pets.fox.NPCAnimationController;
-import de.kaffeeliebhaber.object.npc.volant.VolantFemaleAnne;
-import de.kaffeeliebhaber.object.npc.volant.VolantMasterKnight;
-import de.kaffeeliebhaber.object.npc.volant.VolantVillageElder;
-import de.kaffeeliebhaber.object.npc.volant.VolantVillagePeopleOne;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystemController;
 import de.kaffeeliebhaber.tilesystem.chunk.TiledXML;
@@ -54,7 +55,7 @@ public class GameObjectManager {
 	private Transition transition;
 	private Player player;
 	private Camera camera;
-	private EntityHandler entityHandler;
+	private EntityManager entityHandler;
 	private UIInventoryManager inventoryManager;
 	private ItemManager itemManager;
 	private UIInfoPane infoPane;
@@ -78,7 +79,7 @@ public class GameObjectManager {
 		transition = new Transition(new Rectangle(0, 0, Config.WIDTH, Config.HEIGHT), 20, 20, 20);
 		transition.setColor(Color.BLACK);
 
-		entityHandler = new EntityHandler();
+		entityHandler = new EntityManager();
 		infoPane = new UIInfoPane();
 
 		createNPCs(chunkSystem);
@@ -154,7 +155,7 @@ public class GameObjectManager {
 		animationController.updateState(0, 0);
 
 		// CREATE PLAYER
-		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 127, 32, 5));
+		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 115, 32, 17));
 		player.setDistrict(new Rectangle(0, 0, chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 	}
 
@@ -166,7 +167,7 @@ public class GameObjectManager {
 		animationController.updateState(0, 0);
 
 		// CREATE AND CONFIGURE NPC - GORDOM
-		final NPC gordom = new VolantVillageElder(500, 400, 32, 32, Direction.DOWN, animationController,new NoneMovingBehavior());
+		final NPC gordom = new VolantVillageElder(500, 400, 32, 32, Direction.DOWN, animationController, new NoneMovingBehavior());
 		
 		gordom.setPopupImage(AssetsLoader.spritesheetNPC.getImageByIndex(10));
 		gordom.setActionKeyID(KeyEvent.VK_E);
@@ -225,7 +226,7 @@ public class GameObjectManager {
 
 		animationController.updateState(0, 0);
 
-		final IMovingBehavior movingBehavior = new LinearInterpolationToTargetPointMovingBehavior(startPoint, areaX, areaY, areaWidth, areaHeight, movingSpeed);
+//		final IMovingBehavior movingBehavior = new LinearInterpolationToTargetPointMovingBehavior(startPoint, areaX, areaY, areaWidth, areaHeight, movingSpeed);
 		final IMovingBehavior linearMoving = new LinearMovingBehavior(areaX, areaY, areaWidth, areaHeight, movingSpeed, new Vector2f(startX, startY));
 		
 		
@@ -377,7 +378,7 @@ public class GameObjectManager {
 		return camera;
 	}
 
-	public EntityHandler getEntityHandler() {
+	public EntityManager getEntityHandler() {
 		return entityHandler;
 	}
 

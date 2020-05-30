@@ -1,10 +1,11 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.entitySystem;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -51,9 +52,9 @@ public abstract class Entity extends GameObject {
 		notifyEntityListenerEntityUpdated();
 	}
 	
-	public void update(float timeSinceLastFrame) {}
+	public abstract void update(float timeSinceLastFrame);
 	
-	public void render(Graphics g, Camera c) {}
+	public abstract void render(Graphics g, Camera c);
 	
 	protected void notifyEntityListenerEntityUpdated() {
 		entityListeners.forEach(e -> e.entityUpdated(this));

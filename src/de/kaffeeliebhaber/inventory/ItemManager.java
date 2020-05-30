@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.inventory.item.Item;
-import de.kaffeeliebhaber.object.BoundingBox;
-import de.kaffeeliebhaber.object.Player;
 import de.kaffeeliebhaber.tweens.InfoPaneEvent;
 import de.kaffeeliebhaber.tweens.InfoPaneInformerListener;
 import de.kaffeeliebhaber.ui.textbox.TextboxNodeInformation;

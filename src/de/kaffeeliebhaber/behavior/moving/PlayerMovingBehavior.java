@@ -1,10 +1,10 @@
-package de.kaffeeliebhaber.object.movingBehavior;
+package de.kaffeeliebhaber.behavior.moving;
 
 import java.awt.event.KeyEvent;
 
 import de.kaffeeliebhaber.core.Keyboard;
+import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.math.Vector2f;
-import de.kaffeeliebhaber.object.MovingEntity;
 
 public class PlayerMovingBehavior implements IMovingBehavior {
 

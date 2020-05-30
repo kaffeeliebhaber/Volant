@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.object.npc.pets.fox;
+package de.kaffeeliebhaber.entitySystem.npc;
 
 import de.kaffeeliebhaber.animation.AbstractAnimationHandler;
 import de.kaffeeliebhaber.animation.AnimationConstants;

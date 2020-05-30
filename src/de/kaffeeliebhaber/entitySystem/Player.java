@@ -1,10 +1,11 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.entitySystem;
 
 import java.awt.Graphics;
 import de.kaffeeliebhaber.animation.IAnimationController;
+import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.inventory.stats.PlayerStats;
-import de.kaffeeliebhaber.object.movingBehavior.IMovingBehavior;
 
 public class Player extends MovingEntity {
 

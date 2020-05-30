@@ -3,9 +3,9 @@ package de.kaffeeliebhaber.inventory.item;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.inventory.item.actions.IItemAction;
-import de.kaffeeliebhaber.object.BoundingBox;
 
 public abstract class Item {
 

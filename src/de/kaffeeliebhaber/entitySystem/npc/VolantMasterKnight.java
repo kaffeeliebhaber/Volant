@@ -1,10 +1,9 @@
-package de.kaffeeliebhaber.object.npc.volant;
+package de.kaffeeliebhaber.entitySystem.npc;
 
 import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
-import de.kaffeeliebhaber.object.Player;
-import de.kaffeeliebhaber.object.movingBehavior.IMovingBehavior;
-import de.kaffeeliebhaber.object.npc.NPC;
+import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.switchsystem.SwitchSystem;
 import de.kaffeeliebhaber.ui.textbox.TextboxNode;
 import de.kaffeeliebhaber.ui.textbox.TextboxNodeDecision;

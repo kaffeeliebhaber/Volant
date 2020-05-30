@@ -13,10 +13,8 @@ public class UIInventorySlot implements MouseManagerListener {
 
 	// constants
 	private final int padding = 2;
-	
 	private Item item;
 	private Rectangle area;
-	
 	private boolean hover;
 	
 	public UIInventorySlot(final Rectangle area) {
@@ -40,7 +38,6 @@ public class UIInventorySlot implements MouseManagerListener {
 	}
 	
 	public void clicked() {
-		
 		if (item != null) {
 			item.use();
 		}

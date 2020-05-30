@@ -5,15 +5,15 @@ import java.awt.Graphics;
 import de.kaffeeliebhaber.assets.AssetsLoader;
 import de.kaffeeliebhaber.collision.CollisionController;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.gamestate.mode.GameStateMode;
 import de.kaffeeliebhaber.inventory.ItemManager;
-import de.kaffeeliebhaber.object.EntityHandler;
-import de.kaffeeliebhaber.object.GameObjectManager;
-import de.kaffeeliebhaber.object.Player;
+import de.kaffeeliebhaber.managers.EntityManager;
+import de.kaffeeliebhaber.managers.GameObjectManager;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
+import de.kaffeeliebhaber.ui.UIHud;
 import de.kaffeeliebhaber.ui.UIInfoPane;
-import de.kaffeeliebhaber.ui.inventory.UIHud;
 import de.kaffeeliebhaber.ui.inventory.UIInventoryManager;
 
 public class PlayState extends GameState {
@@ -23,7 +23,7 @@ public class PlayState extends GameState {
 	private Player player;
 	private Camera camera;
 	private GameStateMode gameStateMode;
-	private EntityHandler entityHandler;
+	private EntityManager entityHandler;
 	private ItemManager itemManager;
 	
 	// USER INTERFACE

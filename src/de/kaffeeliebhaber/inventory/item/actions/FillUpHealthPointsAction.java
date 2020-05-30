@@ -1,6 +1,6 @@
 package de.kaffeeliebhaber.inventory.item.actions;
 
-import de.kaffeeliebhaber.object.Player;
+import de.kaffeeliebhaber.entitySystem.Player;
 
 public class FillUpHealthPointsAction implements IItemAction {
 

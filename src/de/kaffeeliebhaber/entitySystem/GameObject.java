@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.entitySystem;
 
 import de.kaffeeliebhaber.math.Vector2f;
 

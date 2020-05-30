@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.kaffeeliebhaber.core.Camera;
-import de.kaffeeliebhaber.object.Entity;
+import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.tilesystem.Tilemap;
 import de.kaffeeliebhaber.tilesystem.TilemapHandler;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;

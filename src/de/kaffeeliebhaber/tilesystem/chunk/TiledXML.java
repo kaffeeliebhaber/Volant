@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.kaffeeliebhaber.assets.AssetsLoader;
-import de.kaffeeliebhaber.object.BoundingBox;
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.tilesystem.Tile;
 import de.kaffeeliebhaber.tilesystem.Tilemap;
 import de.kaffeeliebhaber.tilesystem.TilemapHandler;

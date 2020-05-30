@@ -1,6 +1,6 @@
 package de.kaffeeliebhaber.eventSystem;
 
-import de.kaffeeliebhaber.object.Entity;
+import de.kaffeeliebhaber.entitySystem.Entity;
 
 public abstract class Event {
 

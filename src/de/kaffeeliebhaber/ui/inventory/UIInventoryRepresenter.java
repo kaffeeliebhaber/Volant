@@ -110,6 +110,9 @@ public class UIInventoryRepresenter extends UIElement implements InventoryListen
 		
 		if (visible && buttonID == MouseEvent.BUTTON1) {
 			for (UIInventorySlot slot : slots) {
+				
+				// TODO: Das könnte man auch in eine Funktion auslagern
+				// Vielleicht
 				if (slot.contains(p)) {
 					slot.clicked();
 					break;

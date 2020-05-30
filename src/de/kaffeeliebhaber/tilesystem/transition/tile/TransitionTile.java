@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
-import de.kaffeeliebhaber.object.BoundingBox;
-import de.kaffeeliebhaber.object.Entity;
-import de.kaffeeliebhaber.object.IEntityListener;
-import de.kaffeeliebhaber.object.Player;
+import de.kaffeeliebhaber.entitySystem.Entity;
+import de.kaffeeliebhaber.entitySystem.IEntityListener;
+import de.kaffeeliebhaber.entitySystem.Player;
 
 public class TransitionTile extends Entity implements IEntityListener {
 

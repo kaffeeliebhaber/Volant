@@ -2,11 +2,11 @@ package de.kaffeeliebhaber.core;
 
 import java.awt.Dimension;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
+import de.kaffeeliebhaber.entitySystem.Entity;
+import de.kaffeeliebhaber.entitySystem.GameObject;
+import de.kaffeeliebhaber.entitySystem.IEntityListener;
 import de.kaffeeliebhaber.math.Vector2f;
-import de.kaffeeliebhaber.object.BoundingBox;
-import de.kaffeeliebhaber.object.Entity;
-import de.kaffeeliebhaber.object.GameObject;
-import de.kaffeeliebhaber.object.IEntityListener;
 
 public class Camera extends GameObject implements IEntityListener {
 

@@ -1,17 +1,19 @@
-package de.kaffeeliebhaber.object;
+package de.kaffeeliebhaber.managers;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.entitySystem.Entity;
+import de.kaffeeliebhaber.entitySystem.EntityComparator;
 
-public class EntityHandler {
+public class EntityManager {
 
 	private final EntityComparator comperator; 
 	private final List<Entity> entities;
 	
-	public EntityHandler() {
+	public EntityManager() {
 		entities = new ArrayList<Entity>();
 		comperator = new EntityComparator(); 
 	}

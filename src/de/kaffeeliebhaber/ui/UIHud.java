@@ -1,11 +1,11 @@
-package de.kaffeeliebhaber.ui.inventory;
+package de.kaffeeliebhaber.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import de.kaffeeliebhaber.assets.AssetsLoader;
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.inventory.stats.PlayerStats;
-import de.kaffeeliebhaber.object.Player;
 
 
 public class UIHud {

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.kaffeeliebhaber.object.BoundingBox;
-import de.kaffeeliebhaber.object.Entity;
-import de.kaffeeliebhaber.object.MovingEntity;
+import de.kaffeeliebhaber.entitySystem.Entity;
+import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 
 public class CollisionController {

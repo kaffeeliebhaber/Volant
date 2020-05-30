@@ -2,10 +2,10 @@ package de.kaffeeliebhaber.tilesystem.chunk;
 
 import java.util.List;
 
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.inventory.ItemManager;
+import de.kaffeeliebhaber.managers.EntityManager;
 import de.kaffeeliebhaber.math.Vector2f;
-import de.kaffeeliebhaber.object.EntityHandler;
-import de.kaffeeliebhaber.object.Player;
 import de.kaffeeliebhaber.tilesystem.transition.ITransitionListener;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.tilesystem.transition.TransitionEvent;
@@ -26,13 +26,13 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 	private ChunkSystem chunkSystem;
 	private Player player;
 	private Transition transition;
-	private EntityHandler entityHandler;
+	private EntityManager entityHandler;
 	private ItemManager itemManager;
 	private boolean initialized;
 	private TransitionDirection direction;
 	private int toChunkID;
 	
-	public ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final EntityHandler entityHandler, final ItemManager itemManager) {
+	public ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final EntityManager entityHandler, final ItemManager itemManager) {
 		this.chunkSystem = chunkSystem;
 		this.player = player;
 		this.transition = transition;
