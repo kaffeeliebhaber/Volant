@@ -42,14 +42,14 @@ public class CollisionUtil {
 		return false;
 	}
 	
-	public static boolean collides(final Entity entity, final BoundingBox boundingBox, final List<Entity> entities) {
+	public static boolean collides(final Entity entity, final BoundingBox translatedBoundingBox, final List<Entity> entities) {
 		boolean collides = false;
 		
 		for (int i = 0; i < entities.size() && !collides; i++) {
 
 			Entity currentEntity = entities.get(i);
 			
-			if (currentEntity != entity && boundingBox != null && boundingBox.intersects(currentEntity.getBoundingBox())) {
+			if (currentEntity != entity && translatedBoundingBox != null && translatedBoundingBox.intersects(currentEntity.getBoundingBox())) {
 				collides = true;
 			}
 		}

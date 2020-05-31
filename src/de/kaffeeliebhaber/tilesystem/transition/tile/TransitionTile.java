@@ -39,16 +39,15 @@ public class TransitionTile extends Entity implements IEntityListener {
 
 	// TODO: Hier muss definitiv noch etwas geändert werden.
 	@Override
-	public void update(float timeSinceLastFrame, final List<Entity> entities) {
-		
-	}
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {}
 	
 	@Override
 	public void render(Graphics g, Camera camera) {
-		g.setColor(color);
-		g.fillRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
-		
-		getBoundingBox().render(g, camera);
+		renderBoundingBox(g, camera);
+	}
+	
+	private void renderBoundingBox(Graphics g, Camera camera) {
+		boundingBox.render(g, camera);
 	}
 
 	// TODO: Hier einfach direkt der Player übergeben.
@@ -59,13 +58,12 @@ public class TransitionTile extends Entity implements IEntityListener {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 
+			// TODO: Wofür brauche ich hier das 'true'???
 			boolean executeTransition = true;
 			
 			if (executeTransition) {
 				
-				final BoundingBox boundingBox = player.getBoundingBox();
-				
-				if (this.getBoundingBox().intersects(boundingBox)) {
+				if (this.intersects(player)) {
 					this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
 				}
 			}

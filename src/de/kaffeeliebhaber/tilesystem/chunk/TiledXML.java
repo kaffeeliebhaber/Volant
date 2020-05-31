@@ -1,7 +1,9 @@
 package de.kaffeeliebhaber.tilesystem.chunk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,7 +33,7 @@ public class TiledXML {
 	private int chunkHeight;
 	private int chunks;
 	private String path;
-	private Map<Integer, BoundingBox> boundingBoxesMap;
+	private Map<Integer, List<BoundingBox>> boundingBoxesMap;
 	
 	public TiledXML(String path) {
 		this.path = path;
@@ -90,7 +92,7 @@ public class TiledXML {
 		}
 	}
 	
-	private void setBoundingBoxesMap(Map<Integer, BoundingBox> boundingBoxesMap) {
+	private void setBoundingBoxesMap(Map<Integer, List<BoundingBox>> boundingBoxesMap) {
 		this.boundingBoxesMap = boundingBoxesMap;
 	}
 	
@@ -146,20 +148,20 @@ public class TiledXML {
 		}
 	}
 	
-	private Map<Integer, BoundingBox> loadBoundingBoxes(Document document) {
+	private Map<Integer, List<BoundingBox>> loadBoundingBoxes(Document document) {
 		
 		NodeList nodeList = document.getElementsByTagName("tile");
 		
 		final int tiles = nodeList.getLength();
 		
-		Map<Integer, BoundingBox> boundingBoxes = new HashMap<Integer, BoundingBox>();
+		Map<Integer, List<BoundingBox>> boundingBoxes = new HashMap<Integer, List<BoundingBox>>();
 		
 		for (int i = 0; i < tiles; i++) {
 			Element node = (Element) nodeList.item(i);
 		
 			Element boundingBox = (Element) node.getElementsByTagName("object").item(0);
 			
-			final int tileId = Integer.parseInt(node.getAttribute("id"));
+			final int tileID = Integer.parseInt(node.getAttribute("id"));
 			
 			final BoundingBox b = new BoundingBox(
 					(int) Float.parseFloat(boundingBox.getAttribute("x")), 
@@ -167,10 +169,19 @@ public class TiledXML {
 					(int) Float.parseFloat(boundingBox.getAttribute("width")), 
 					(int) Float.parseFloat(boundingBox.getAttribute("height")));
 
-			boundingBoxes.put(tileId, b);
+			addBoundingBox(tileID, boundingBoxes, b);
 		}
 		
 		return boundingBoxes;
+	}
+	
+	private void addBoundingBox(final int tileID, final Map<Integer, List<BoundingBox>> boundingBoxes, final BoundingBox boundingBox) {
+		
+		if (!boundingBoxes.containsKey(tileID)) {
+			boundingBoxes.put(tileID, new ArrayList<BoundingBox>());
+		}
+		
+		boundingBoxes.get(tileID).add(boundingBox);
 	}
 	
 	public ChunkSystem createChunkSystem() {
@@ -236,13 +247,12 @@ public class TiledXML {
 					if (tileID != -1) {
 						
 						//System.out.print(tileID + ", ");
-						Tile tile = new Tile(x * tileHeight, y * tileWidth, tileWidth, tileHeight);
-						tile.setImage(AssetsLoader.spritesheet.getImageByIndex(tileID));
-						tile.setId(tileID);
+						Tile tile = new Tile(tileID, x * tileHeight, y * tileWidth, tileWidth, tileHeight, AssetsLoader.spritesheet.getImageByIndex(tileID));
 						
 						// Abspeichern der BoundingBoxes 
 						if (boundingBoxesMap != null && boundingBoxesMap.containsKey(tileID)) {
-							tile.setBoundingBox(boundingBoxesMap.get(tileID));
+							tile.setBoundingBoxes(boundingBoxesMap.get(tileID));
+							tile.adjustBoundingBoxes();
 						}
 						
 						tiles[x][y] = tile;

@@ -77,6 +77,9 @@ public abstract class MovingEntity extends Entity {
 		return movingBehavior;
 	}
 	
+	/*
+	 *  VIELLEICHT KANN MAN DIESE METHODEN BENUTZEN, STATT DER executeMove. 
+	 * 
 	public boolean collides(final Entity entity, float dx, float dy) {
 		return boundingBox.intersects(entity.getBoundingBox());
 	}
@@ -94,14 +97,15 @@ public abstract class MovingEntity extends Entity {
 		
 		return collides;
 	}
+	*/
 	
 	private void executeMove(final List<Entity> entities) {
 
-		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), translationVector.x, 0), entities)) {
+		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(boundingBox, translationVector.x, 0), entities)) {
 			moveX();
 		}
 
-		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(this.getBoundingBox(), 0, translationVector.y), entities)) {
+		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(boundingBox, 0, translationVector.y), entities)) {
 			moveY();
 		}
 	}
@@ -114,18 +118,14 @@ public abstract class MovingEntity extends Entity {
 		if (district != null) {
 			
 			if (boundingBox.getX() < district.x) {
-//				setX(district.x);
 				translateX(district.x - boundingBox.getX());
 			} else if (boundingBox.getX() > district.width - boundingBox.getWidth()) {
-//				setX(district.width - width);
 				translateX(district.width - boundingBox.getWidth()  - boundingBox.getX());
 			}
 			
 			if (boundingBox.getY() < district.y) { 
-//				setY(district.y);
 				translateY(district.y - boundingBox.getY());
 			} else if (boundingBox.getY() > district.height - boundingBox.getHeight()) { 
-//				setY(district.height - height);
 				translateY(district.height - boundingBox.getHeight() - boundingBox.getY());
 			}
 		}

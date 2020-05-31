@@ -10,12 +10,13 @@ import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 
 public class CollisionController {
 
+	
 	public static void collision(final ChunkSystem chunkSystem, final List<Entity> entities) {
 
 		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(entities);
 		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, chunkSystem, entities);
 		
-		CollisionController.checkCollisionAndUpdateMovingEntity(movingEntities, contextEntities);
+//		CollisionController.checkCollisionAndUpdateMovingEntity(movingEntities, contextEntities);
 	}
 
 	public static List<MovingEntity> filterListForMovingEntities(final List<Entity> entities) {
@@ -32,7 +33,7 @@ public class CollisionController {
 		
 		return contextEntities;
 	}
-	
+	/*
 	public static void checkCollisionAndUpdateMovingEntity(final List<MovingEntity> movingEntities, final List<Entity> contextEntities) {
 		final int size = movingEntities.size();
 
@@ -48,4 +49,5 @@ public class CollisionController {
 			}
 		}
 	}
+	*/
 }

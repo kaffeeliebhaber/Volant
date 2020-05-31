@@ -2,7 +2,7 @@
 <map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="3">
  <editorsettings>
   <chunksize width="25" height="25"/>
-  <export format="tmx"/>
+  <export target="." format="tmx"/>
  </editorsettings>
  <properties>
   <property name="ObjectLayerId" type="int" value="5"/>
@@ -42,7 +42,6 @@
   <tile id="178">
    <objectgroup draworder="index" id="2">
     <object id="1" x="11.6526" y="3.88419" width="8.15043" height="28.0171"/>
-    <object id="2" x="19.0389" y="16.6829" height="0.0636753"/>
     <object id="3" x="19.994" y="13.8812" width="11.9709" height="6.1765"/>
    </objectgroup>
   </tile>

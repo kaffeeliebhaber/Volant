@@ -118,7 +118,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 	}
 
 	private boolean isOnInteractionLayer(Player player) {
-		return player.getBoundingBox().intersects(getInteractionBox());
+		return this.intersects(player);
 	}
 
 	private void fireInformationPaneEvent() {

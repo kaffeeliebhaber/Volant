@@ -27,6 +27,10 @@ public abstract class Entity extends GameObject {
 		this.boundingBox = boundingBox;
 	}
 	
+	public boolean intersects(final Entity entity) {
+		return boundingBox.intersects(entity.getBoundingBox());
+	}
+	
 	protected void translateX(final float dx) {
 		setX(this.x + dx);
 		boundingBox.translateX(dx);

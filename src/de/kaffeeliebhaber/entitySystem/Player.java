@@ -7,6 +7,7 @@ import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.inventory.stats.PlayerStats;
 
 public class Player extends MovingEntity {
@@ -27,7 +28,14 @@ public class Player extends MovingEntity {
 	
 	public void render(Graphics g, Camera camera) {
 		super.render(g, camera);
-		getBoundingBox().render(g, camera);
+		
+		renderBoundingBox(g, camera);
+	}
+	
+	private void renderBoundingBox(Graphics g, Camera camera) {
+		if (Debug.PLAYER_RENDER_SHOW_BOUNDINGBOX) {
+			boundingBox.render(g, camera);
+		}
 	}
 	
 	public void updatePosition(float newPosX, float newPosY) {
