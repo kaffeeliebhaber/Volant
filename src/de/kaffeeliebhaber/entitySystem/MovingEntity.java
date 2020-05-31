@@ -26,7 +26,6 @@ public abstract class MovingEntity extends Entity {
 		this.movingBehavior.contextMovingEntity(this);
 	}
 
-	// TODO: Add List<Entit> as new parameter to check for collision.
 	public void update(float timeSinceLastFrame, final List<Entity> entities) {
 			
 		translationVector = movingBehavior.move(timeSinceLastFrame);
@@ -75,6 +74,14 @@ public abstract class MovingEntity extends Entity {
 	
 	public IMovingBehavior getMovingBahavior() {
 		return movingBehavior;
+	}
+	
+ 	public boolean intersects(final Entity entity) {
+ 		return intersects(entity.getBoundingBox());
+	}
+	
+	public boolean intersects(final BoundingBox boundingBox) {
+		return this.boundingBox != null ? this.boundingBox.intersects(boundingBox) : false;
 	}
 	
 	/*

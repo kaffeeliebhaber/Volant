@@ -51,7 +51,7 @@ public class CollisionUtil {
 			
 			// TODO: HIER IST DER FEHLER BEI DER DEFINITION VON MEHR ALS EINER BOUNDINGBOX!!!!!
 			
-			if (currentEntity != entity && translatedBoundingBox != null && translatedBoundingBox.intersects(currentEntity.getBoundingBox())) {
+			if (currentEntity != entity && translatedBoundingBox != null && currentEntity.intersects(translatedBoundingBox)) {
 				collides = true;
 			}
 		}

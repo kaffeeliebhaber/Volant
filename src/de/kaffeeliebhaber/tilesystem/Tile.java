@@ -13,6 +13,7 @@ import de.kaffeeliebhaber.entitySystem.Entity;
 public class Tile extends Entity {
 
 	private List<BoundingBox> boundingBoxes;
+	private int boundingBoxesSize;
 	private BufferedImage image;
 	private boolean blocked;
 	private final int ID;
@@ -59,32 +60,43 @@ public class Tile extends Entity {
 	
 	public void setBoundingBoxes(final List<BoundingBox> boundingBoxesList) {
 		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
+		
+		boundingBoxesSize = boundingBoxes.size();
+	}
+	
+	private boolean areBoundingBoxesAvailable() {
+		return boundingBoxesSize > 0;
 	}
 	
 	public void adjustBoundingBoxes() {
 		boundingBoxes.stream().forEach(b -> b.translate(x, y));
 	}
-	
-	/*
-	public BoundingBox getBoundingBox() {
-		BoundingBox localBoundingBox = null;
-		
 
-		//TODO: Add this code again.
-		if (boundingBox != null) {
-			localBoundingBox = new BoundingBox(
-					(int) (this.x + boundingBox.getX()),
-					(int) (this.y + boundingBox.getY()),
-					(int) (boundingBox.getWidth()),
-					(int) (boundingBox.getHeight())
-					);
-		} else {
-			localBoundingBox = super.getBoundingBox();
+	@Override
+	public boolean intersects(Entity entity) {
+		
+		boolean intersects = false;
+
+		if (areBoundingBoxesAvailable()) {
+			for (int i = 0; i < boundingBoxesSize && !intersects; i++) {
+				intersects = entity.intersects(boundingBoxes.get(i));
+			}
 		}
 		
-		
-		return localBoundingBox;
+		return intersects;
 	}
-	*/
 
+	@Override
+	public boolean intersects(BoundingBox boundingBox) {
+		
+		boolean intersects = false;
+		
+		if (areBoundingBoxesAvailable()) {
+			for (int i = 0; i < boundingBoxesSize && !intersects; i++) {
+				intersects = boundingBox.intersects(boundingBoxes.get(i));
+			}
+		}
+		
+		return intersects;
+	}
 }

@@ -85,4 +85,14 @@ public class TransitionTile extends Entity implements IEntityListener {
 		}
 	}
 
+	@Override
+	public boolean intersects(Entity entity) {
+		return entity.intersects(boundingBox);
+	}
+
+	@Override
+	public boolean intersects(BoundingBox boundingBox) {
+		return boundingBox.intersects(this.boundingBox);
+	}
+
 }
