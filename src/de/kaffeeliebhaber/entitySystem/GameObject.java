@@ -1,5 +1,6 @@
 package de.kaffeeliebhaber.entitySystem;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.math.Vector2f;
 
 public abstract class GameObject {
@@ -63,4 +64,5 @@ public abstract class GameObject {
 	public String toString() {
 		return "GameObject [x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
 	}
+
 }

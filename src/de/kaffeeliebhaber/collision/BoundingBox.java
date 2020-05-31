@@ -40,8 +40,6 @@ public class BoundingBox extends GameObject {
 	public void render(final Graphics g, final Camera camera ) {
 		g.setColor(new Color(255, 0, 0, 255));
 		g.drawRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
-		
-//		System.out.println(this);
 	}
 	
 	public static BoundingBox createTranslatedBoundingBox(final BoundingBox boundingBox, final float dx, final float dy) {
@@ -51,5 +49,10 @@ public class BoundingBox extends GameObject {
 	@Override
 	public String toString() {
 		return "x: " + x + ", y: " + y + ", width: " + width + ", height: " + height;
+	}
+	
+	public BoundingBox createNew() {
+		return new BoundingBox(x, y, width, height);
+		
 	}
 }

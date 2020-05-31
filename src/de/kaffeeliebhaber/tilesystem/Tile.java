@@ -46,21 +46,19 @@ public class Tile extends Entity {
 		if (image != null) {
 			g.drawImage(image, (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
 		} 
-		
 		renderingBoundingBoxes(g, camera);
 	}
 	
 	private void renderingBoundingBoxes(Graphics g, Camera camera) {
 		if (Debug.TILE_RENDER_SHOW_BOUNDINGBOX) {
 			if (boundingBoxes.size() > 0) {
-				System.out.println("(ID " + ID + ") ES WERDEN " + boundingBoxes.size() + " BoundingBoxen hierfür geladen und gezeichnet.");
 				boundingBoxes.stream().forEach(b -> b.render(g, camera));
 			}
 		}
 	}
 	
-	public void setBoundingBoxes(final List<BoundingBox> boundingBoxes) {
-		this.boundingBoxes = boundingBoxes;
+	public void setBoundingBoxes(final List<BoundingBox> boundingBoxesList) {
+		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
 	}
 	
 	public void adjustBoundingBoxes() {
