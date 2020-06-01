@@ -14,7 +14,7 @@ public class Config {
 //	public static final int TILE_MAP_OBJECT_LAYER_ID = 2;
 //	
 	// WORLD 2
-	public static final int TILE_SIZE = 32;
+//	public static final int TILE_SIZE = 32;
 	public static final String TILE_MAP_PATH = IMG_PATH + "scene2.xml";
 	public static final String TILE_MAP_TILESET_PATH = IMG_PATH + "BaseChip_pipo.png";
 	public static final int TILE_MAP_OBJECT_LAYER_ID = 5;

@@ -12,6 +12,7 @@ import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.core.KeyManager;
+import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.entitySystem.Player;
@@ -32,8 +33,6 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 	protected Player player;
 	protected boolean active;
 	protected List<InfoPaneInformerListener> infoPaneInformerListeners;
-	protected boolean showInteractionBox;
-	protected boolean showBoundingBox;
 	protected Direction interactionDirection;
 
 	public NPC(float x, float y, int width, int height, Direction interactionDirection, final IAnimationController animationController, final IMovingBehavior movingBehavior) {
@@ -41,8 +40,6 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 
 		setInteractionDirection(interactionDirection);
 		setBoundingBox(new BoundingBox((int) x, (int) (y + height - BOUNDINGBOX_HEIGHT), width, BOUNDINGBOX_HEIGHT));
-		setShowBoundingBox(!true);
-		setShowInteractionBox(true);
 
 		infoPaneInformerListeners = new ArrayList<InfoPaneInformerListener>();
 
@@ -60,11 +57,11 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 
 		g.drawImage(animationController.getImage(), (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
 
-		if (showBoundingBox) {
+		if (Debug.NPC_RENDER_SHOW_BOUNDINGBOX) {
 			boundingBox.render(g, camera);
 		}
 
-		if (showInteractionBox) {
+		if (Debug.NPC_RENDER_SHOW_INTERACTIONOX) {
 			g.setColor(Color.red);
 			BoundingBox interactionBoundingBox = getInteractionBox();
 			g.drawRect((int) (interactionBoundingBox.getX() - camera.getX()), (int) (interactionBoundingBox.getY() - camera.getY()), interactionBoundingBox.getWidth(), interactionBoundingBox.getHeight());
@@ -95,14 +92,6 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 
 	public void setPlayer(Player player) {
 		this.player = player;
-	}
-
-	public void setShowInteractionBox(boolean visible) {
-		this.showInteractionBox = visible;
-	}
-
-	public void setShowBoundingBox(boolean visible) {
-		this.showBoundingBox = visible;
 	}
 
 	private BoundingBox getInteractionBox() {

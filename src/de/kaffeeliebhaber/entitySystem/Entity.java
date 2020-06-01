@@ -29,6 +29,9 @@ public abstract class Entity extends GameObject {
 	
 	// TODO: Macht es überhaupt Sinn, diese beiden Methoden als abstrak zu definieren und trotzdem schon eine Instanz-Variable hierfür bereitstellen?
 	// Ich denke, dass hier eher ein CollisionSystem das richtige wäre, dass als Instanz-Variable in der Entity bereitsteht.
+	
+	// TODO: Ich finde es sehr komisch, weshalb es hier eine weiere 'intersects' Methode gibt. Dient sie wirklich nur für den Zweck von mehr als einer
+	// BoundingBox im Fall einer 'Tile'? (Tile.intersects(Entity)). Bitte einmal prüfen. 
 	public abstract boolean intersects(final Entity entity);
 	
 	public abstract boolean intersects(final BoundingBox boundingBox);

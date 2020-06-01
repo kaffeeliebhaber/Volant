@@ -68,7 +68,7 @@ public class AssetsLoader {
 	public static void load() {
 		
 		// load world sprite sheet
-		spritesheet = new Spritesheet(Config.TILE_MAP_TILESET_PATH, Config.TILE_SIZE, Config.TILE_SIZE);
+		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/BaseChip_pipo.png", 32, 32);
 		spritesheet.load();
 		
 		// load player
@@ -76,7 +76,6 @@ public class AssetsLoader {
 		
 		// load crate
 		AssetsLoader.loadCrates();
-		
 		
 		// load item spritesheet 
 		spritesheetInventory = new Spritesheet(Config.ITEM_SPRITESHEET, Config.ITEM_SIZE, Config.ITEM_SIZE);

@@ -69,15 +69,16 @@ public abstract class MovingEntity extends Entity {
 	private boolean collides(final BoundingBox translatedBoundingBox, final List<Entity> entities) {
 		boolean collides = false;
 		
-		for (int i = 0; i < entities.size() && !collides; i++) {
-
-			Entity currentEntity = entities.get(i);
-			
-			if (currentEntity != this && translatedBoundingBox != null && currentEntity.intersects(translatedBoundingBox)) {
-				collides = true;
+		if (translatedBoundingBox != null) {
+			for (int i = 0; i < entities.size() && !collides; i++) {
+	
+				Entity currentEntity = entities.get(i);
+				
+				if (currentEntity != this && currentEntity.intersects(translatedBoundingBox)) {
+					collides = true;
+				}
 			}
 		}
-		
 		return collides;
 	}
 	
