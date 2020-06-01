@@ -60,7 +60,6 @@ public class Tile extends Entity {
 	
 	public void setBoundingBoxes(final List<BoundingBox> boundingBoxesList) {
 		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
-		
 		boundingBoxesSize = boundingBoxes.size();
 	}
 	

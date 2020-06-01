@@ -1,10 +1,12 @@
 package de.kaffeeliebhaber.tilesystem.chunk;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -34,6 +37,8 @@ public class TiledXML {
 	private int chunks;
 	private String path;
 	private Map<Integer, List<BoundingBox>> boundingBoxesMap;
+	private Map<Integer, String> tileTypeRelation;
+	private Map<Integer, Point> tileObjectPositionRelation;
 	
 	public TiledXML(String path) {
 		this.path = path;
@@ -116,6 +121,9 @@ public class TiledXML {
 			// load tilemap data
 			this.loadTilemapFromDocument(document);
 			
+			// load objects
+			this.loadObjects(document);
+			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -132,6 +140,8 @@ public class TiledXML {
 		Element layerNode;
 		
 		this.setBoundingBoxesMap(loadBoundingBoxes(document));
+		
+		this.loadTileTypes(document);
 
 		for (int layer = 0; layer < layers; layer++) {
 			
@@ -146,6 +156,24 @@ public class TiledXML {
 			this.loadTilemaps(currentLayerData, layerId);
 			this.createTilemapHandlersFromTilemaps(layerId);
 		}
+	}
+	
+	private void loadTileTypes(final Document document) {
+		tileTypeRelation = new HashMap<Integer, String>();
+		
+		final NodeList nodeList = document.getElementsByTagName("tile");
+		final int definiedTiles = nodeList.getLength();
+		
+		for (int t = 0; t < definiedTiles; t++) {
+			Element node = (Element) nodeList.item(t);
+			final int tileID = Integer.parseInt(node.getAttribute("id"));
+			
+			if (node.hasAttribute("type")) {
+				final String type = node.getAttribute("type");
+				tileTypeRelation.put(tileID, type);
+			}
+		}
+		
 	}
 	
 	private Map<Integer, List<BoundingBox>> loadBoundingBoxes(Document document) {
@@ -191,12 +219,15 @@ public class TiledXML {
 	
 	public ChunkSystem createChunkSystem() {
 		ChunkSystem chunkSystem = new ChunkSystem(chunkWidth, chunkHeight);
+		
 		chunkSystem.setTileWidth(tileWidth);
 		chunkSystem.setTileHeight(tileHeight);
 		
 		for (int chunkID : tilemapHandlers.keySet()) {
 			chunkSystem.addChunk(chunkID, tilemapHandlers.get(chunkID));
 		}
+		
+		createEntityHandlerForEachChunk(chunkSystem);
 
 		return chunkSystem;
 	}
@@ -237,24 +268,19 @@ public class TiledXML {
 	private void createTilemapHandlersFromTilemaps(final int layerId) {
 		
 		for (int chunk = 0; chunk < chunks; chunk++) {
-			int[][] map = layerData.get(chunk);
 			
+			int[][] map = layerData.get(chunk);
 			Tile[][] tiles = new Tile[chunkHeight][chunkWidth];
 			
-			//System.out.println(" ---------------------------- " + chunk + " ----------------------");
 			for (int x = 0; x < map.length; x++) {
 				for (int y = 0; y < map[x].length; y++) {
-				
+					
 					final int tileID = map[x][y];
 					
-					
-					//System.out.print(tileID + ", ");
 					if (tileID != -1) {
 						
-						//System.out.print(tileID + ", ");
 						Tile tile = new Tile(tileID, x * tileHeight, y * tileWidth, tileWidth, tileHeight, AssetsLoader.spritesheet.getImageByIndex(tileID));
 						
-						// Abspeichern der BoundingBoxes 
 						if (boundingBoxesMap.containsKey(tileID)) {
 							tile.setBoundingBoxes(boundingBoxesMap.get(tileID));
 							tile.adjustBoundingBoxes();
@@ -263,17 +289,46 @@ public class TiledXML {
 						tiles[x][y] = tile;
 					}
 				}
-				
-				//System.out.println("");
 			}
-			
-			//System.out.println("----------------");
 			
 			Tilemap tilemap = new Tilemap(chunkHeight, chunkWidth, tileHeight, tileWidth);
 			tilemap.setTiles(tiles);
 			
 			tilemapHandlers.get(chunk).addTilemap(layerId, tilemap);
 			layerData.remove(chunk);
+			
+			System.out.println("(TiledXML.createTilemapHandlersFromTilemaps) | LayerID " + layerId + " added.");
+		}
+	}
+	
+	private void loadObjects(Document document) {
+		
+		tileObjectPositionRelation = new HashMap<Integer, Point>();
+		
+		final Element elementTagMap = document.getDocumentElement();
+		final NodeList nodeListObjects = elementTagMap.getElementsByTagName("object");
+		final int nodes = nodeListObjects.getLength();
+		
+		for (int i = 0; i < nodes; i++) {
+			Element currentElement = (Element) nodeListObjects.item(i);
+			
+			if (currentElement.hasAttribute("gid")) {
+				int gid = Integer.parseInt(currentElement.getAttribute("gid")) - 1;
+				int x = Integer.parseInt(currentElement.getAttribute("x"));
+				int y = Integer.parseInt(currentElement.getAttribute("y"));
+				
+				tileObjectPositionRelation.put(gid, new Point(x, y));
+			}
+		}
+	}
+	
+	private void createEntityHandlerForEachChunk(final ChunkSystem chunkSystem) {
+		
+		Set<Integer> keySet = tileTypeRelation.keySet();
+		
+		for (int key : keySet) {
+			final String value = tileTypeRelation.get(key);
+			System.out.println("key: " + key + ", value: " + value);
 		}
 	}
 

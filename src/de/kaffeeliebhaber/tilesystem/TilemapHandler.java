@@ -3,6 +3,7 @@ package de.kaffeeliebhaber.tilesystem;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import de.kaffeeliebhaber.core.Camera;
 
@@ -48,6 +49,8 @@ public class TilemapHandler {
 	}
 	
 	public void render(Graphics g, Camera c) {
+		
+		// TODO: Es wird die falsche Reihenfolge gerendert.
 		for (final Tilemap tilemap : tilemaps.values()) {
 			tilemap.render(g, c);
 		}

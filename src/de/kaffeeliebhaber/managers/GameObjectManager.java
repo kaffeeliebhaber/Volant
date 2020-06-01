@@ -95,12 +95,27 @@ public class GameObjectManager {
 		
 		chunkSystem.addEntity(0, new SimpleBush(70, 70, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		chunkSystem.addEntity(0, new SimpleBush(140, 30, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
+		
+		/*
 		chunkSystem.addEntity(0, new SimpleBush(400, 230, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		chunkSystem.addEntity(0, new SimpleBush(263, 343, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		chunkSystem.addEntity(0, new SimpleBush(120, 536, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		
 		chunkSystem.addEntity(0, new SimpleBush(15*32, 4*32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		chunkSystem.addEntity(0, new SimpleBush(15*32, 5*32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
+		
+		
+		*/
+		
+		for (int x = 0; x < 16; x++) {
+			chunkSystem.addEntity(0, new SimpleBush(x * 32,       0, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
+			chunkSystem.addEntity(0, new SimpleBush(x * 32, 17 * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
+		}
+		
+		for (int y = 0; y < 18; y++) {
+			chunkSystem.addEntity(0, new SimpleBush(      0, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
+			chunkSystem.addEntity(0, new SimpleBush(15 * 32, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
+		}
 	}
 
 	private void createNPCs(final ChunkSystem chunkSystem) {
@@ -169,7 +184,7 @@ public class GameObjectManager {
 		animationController.updateState(0, 0);
 
 		// CREATE PLAYER
-		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 115, 32, 17));
+		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 125, 32, 7));
 		player.setDistrict(new Rectangle(0, 0, chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 	}
 
