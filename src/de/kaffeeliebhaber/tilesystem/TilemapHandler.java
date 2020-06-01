@@ -3,7 +3,6 @@ package de.kaffeeliebhaber.tilesystem;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import de.kaffeeliebhaber.core.Camera;
 

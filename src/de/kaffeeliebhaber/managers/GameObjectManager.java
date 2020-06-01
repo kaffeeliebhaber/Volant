@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import de.kaffeeliebhaber.Config;
@@ -28,6 +29,7 @@ import de.kaffeeliebhaber.entitySystem.npc.VolantMasterKnight;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillageElder;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillagePeopleOne;
 import de.kaffeeliebhaber.entitySystem.worldObjects.SimpleBush;
+import de.kaffeeliebhaber.entitySystem.worldObjects.SimpleWorldObject;
 import de.kaffeeliebhaber.inventory.EquipmentManager;
 import de.kaffeeliebhaber.inventory.Inventory;
 import de.kaffeeliebhaber.inventory.ItemManager;
@@ -116,6 +118,12 @@ public class GameObjectManager {
 			chunkSystem.addEntity(0, new SimpleBush(      0, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
 			chunkSystem.addEntity(0, new SimpleBush(15 * 32, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
 		}
+		
+		BufferedImage[] crow = new BufferedImage[] {
+				AssetsLoader.spritesheet.getImageByIndex(155),
+				AssetsLoader.spritesheet.getImageByIndex(163)};
+		
+		chunkSystem.addEntity(0, new SimpleWorldObject(400, 400, 32, 64, crow, new BoundingBox(410, 440, 12, 4)));
 	}
 
 	private void createNPCs(final ChunkSystem chunkSystem) {
