@@ -42,7 +42,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		setInteractionDirection(interactionDirection);
 		setBoundingBox(new BoundingBox((int) x, (int) (y + height - BOUNDINGBOX_HEIGHT), width, BOUNDINGBOX_HEIGHT));
 		setShowBoundingBox(!true);
-		setShowInteractionBox(!true);
+		setShowInteractionBox(true);
 
 		infoPaneInformerListeners = new ArrayList<InfoPaneInformerListener>();
 
@@ -105,7 +105,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		this.showBoundingBox = visible;
 	}
 
-	protected BoundingBox getInteractionBox() {
+	private BoundingBox getInteractionBox() {
 		return new BoundingBox((int) x, (int) (y + height), width, INTERACTIONBOX_HEIGHT);
 	}
 
@@ -118,7 +118,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 	}
 
 	private boolean isOnInteractionLayer(Player player) {
-		return this.intersects(player);
+		return player.intersects(getInteractionBox());
 	}
 
 	private void fireInformationPaneEvent() {

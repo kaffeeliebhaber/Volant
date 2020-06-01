@@ -12,8 +12,6 @@ import de.kaffeeliebhaber.math.Vector2f;
 public abstract class Entity extends GameObject {
 
 	private Collection<IEntityListener> entityListeners;
-//	private List<BoundingBox> boundingBoxes;
-	
 	protected BoundingBox boundingBox;
 	
 	public Entity(float x, float y, int width, int height) {
@@ -29,56 +27,11 @@ public abstract class Entity extends GameObject {
 		this.boundingBox = boundingBox;
 	}
 	
-	/*
-	public List<BoundingBox> getBoundingBoxes() {
-		return boundingBoxes;
-	}
-	
-	public boolean intersects(final Entity entity) {
-		
-		final int size = boundingBoxes.size();
-		final List<BoundingBox> entityBoundingBoxes = entity.getBoundingBoxes();
-		final int boundingBoxSize = entityBoundingBoxes.size();
-		
-		boolean intersects = false;
-		
-		for (int i = 0; i < size && !intersects; i++) {
-			for (int j = 0; j < boundingBoxSize && !intersects; j++) {
-				intersects = boundingBoxes.get(i).intersects(entityBoundingBoxes.get(j));
-			}
-		}
-		
-		return intersects;
-//		return boundingBox.intersects(entity.getBoundingBox());
-	}
-	*/
-	
-	/*
-	 
-	 	public boolean intersects(final Entity entity) {
-		return intersects(entity.getBoundingBox());
-	}
-	
-	public boolean intersects(final BoundingBox boundingBox) {
-		return this.boundingBox != null ? this.boundingBox.intersects(boundingBox) : false;
-	}
-	 
-	 
-	 */
-	
+	// TODO: Macht es überhaupt Sinn, diese beiden Methoden als abstrak zu definieren und trotzdem schon eine Instanz-Variable hierfür bereitstellen?
+	// Ich denke, dass hier eher ein CollisionSystem das richtige wäre, dass als Instanz-Variable in der Entity bereitsteht.
 	public abstract boolean intersects(final Entity entity);
 	
 	public abstract boolean intersects(final BoundingBox boundingBox);
-	
-	protected void translateX(final float dx) {
-		setX(this.x + dx);
-		boundingBox.translateX(dx);
-	}
-	
-	protected void translateY(final float dy) {
-		setY(this.y + dy);
-		boundingBox.translateY(dy);
-	}
 	
 	protected void translate(final float dx, final float dy) {
 		setX(x + dx);
@@ -86,10 +39,6 @@ public abstract class Entity extends GameObject {
 		
 		boundingBox.translate(dx, dy);
 	}
-	
-//	private void translateBoundingBoxes(final float dx, final float dy) {
-//		boundingBoxes.stream().forEach(b -> b.translate(dx, dy));
-//	}
 	
 	public void setX(final float newX) {
 		super.setX(newX);

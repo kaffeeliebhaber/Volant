@@ -8,7 +8,6 @@ import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.collision.BoundingBox;
-import de.kaffeeliebhaber.collision.CollisionUtil;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -34,34 +33,17 @@ public abstract class MovingEntity extends Entity {
 		animationController.updateState(translationVector.x, translationVector.y);
 		animationController.update(timeSinceLastFrame);
 		
-		executeMove(entities);
-	}
-	
-	public boolean isCollidable() {
-		return true;
-	}
-
-	public float getDx() {
-		return translationVector.x;
-	}
-
-	public float getDy() {
-		return translationVector.y;
+		move(entities);
 	}
 	
 	public void moveX() {
-		translateX(translationVector.x);
+		translate(translationVector.x, 0);
 		adjustDistricBorder();
 	}
 	
 	public void moveY() {
-		translateY(translationVector.y);
+		translate(0, translationVector.y);
 		adjustDistricBorder();
-	}
-	
-	public void move() {
-		moveX();
-		moveY();
 	}
 	
 	public void setDistrict(final Rectangle district) {
@@ -80,41 +62,41 @@ public abstract class MovingEntity extends Entity {
  		return intersects(entity.getBoundingBox());
 	}
 	
-	public boolean intersects(final BoundingBox boundingBox) {
-		return this.boundingBox != null ? this.boundingBox.intersects(boundingBox) : false;
+	public boolean intersects(final BoundingBox entityBoundingBox) {
+		return boundingBox != null ? boundingBox.intersects(entityBoundingBox) : false;
 	}
 	
-	/*
-	 *  VIELLEICHT KANN MAN DIESE METHODEN BENUTZEN, STATT DER executeMove. 
-	 * 
-	public boolean collides(final Entity entity, float dx, float dy) {
-		return boundingBox.intersects(entity.getBoundingBox());
-	}
-	
-	public boolean collides(final List<Entity> entities, float dx, float dy) {
+	private boolean collides(final BoundingBox translatedBoundingBox, final List<Entity> entities) {
 		boolean collides = false;
 		
-		final int size = entities.size();
-		
-		for (int i = 0; i < size || !collides; i++) {
-			if (entities != this) {
-				collides = boundingBox.intersects(entities.get(i).getBoundingBox());
+		for (int i = 0; i < entities.size() && !collides; i++) {
+
+			Entity currentEntity = entities.get(i);
+			
+			if (currentEntity != this && translatedBoundingBox != null && currentEntity.intersects(translatedBoundingBox)) {
+				collides = true;
 			}
 		}
 		
 		return collides;
 	}
-	*/
 	
-	private void executeMove(final List<Entity> entities) {
-
-		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(boundingBox, translationVector.x, 0), entities)) {
+	protected void move(final List<Entity> entities) {
+		if (!isCollisionXDir(entities)) {
 			moveX();
 		}
-
-		if (!CollisionUtil.collides(this, BoundingBox.createTranslatedBoundingBox(boundingBox, 0, translationVector.y), entities)) {
+		
+		if (!isCollisionYDir(entities)) {
 			moveY();
 		}
+	}
+	
+	private boolean isCollisionXDir(final List<Entity> entities) {
+		return collides(BoundingBox.createTranslatedBoundingBox(boundingBox, translationVector.x, 0), entities);
+	}
+	
+	private boolean isCollisionYDir(final List<Entity> entities) {
+		return collides(BoundingBox.createTranslatedBoundingBox(boundingBox, 0, translationVector.y), entities);
 	}
 	
 	public void render(Graphics g, Camera camera) {
@@ -125,15 +107,15 @@ public abstract class MovingEntity extends Entity {
 		if (district != null) {
 			
 			if (boundingBox.getX() < district.x) {
-				translateX(district.x - boundingBox.getX());
+				translate(district.x - boundingBox.getX(), 0);
 			} else if (boundingBox.getX() > district.width - boundingBox.getWidth()) {
-				translateX(district.width - boundingBox.getWidth()  - boundingBox.getX());
+				translate(district.width - boundingBox.getWidth()  - boundingBox.getX(), 0);
 			}
 			
 			if (boundingBox.getY() < district.y) { 
-				translateY(district.y - boundingBox.getY());
+				translate(0, district.y - boundingBox.getY());
 			} else if (boundingBox.getY() > district.height - boundingBox.getHeight()) { 
-				translateY(district.height - boundingBox.getHeight() - boundingBox.getY());
+				translate(0, district.height - boundingBox.getHeight() - boundingBox.getY());
 			}
 		}
 	}

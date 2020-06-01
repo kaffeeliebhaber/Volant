@@ -158,18 +158,23 @@ public class TiledXML {
 		
 		for (int i = 0; i < tiles; i++) {
 			Element node = (Element) nodeList.item(i);
-		
-			Element boundingBox = (Element) node.getElementsByTagName("object").item(0);
-			
 			final int tileID = Integer.parseInt(node.getAttribute("id"));
 			
-			final BoundingBox b = new BoundingBox(
-					(int) Float.parseFloat(boundingBox.getAttribute("x")), 
-					(int) Float.parseFloat(boundingBox.getAttribute("y")), 
-					(int) Float.parseFloat(boundingBox.getAttribute("width")), 
-					(int) Float.parseFloat(boundingBox.getAttribute("height")));
-
-			addBoundingBox(tileID, boundingBoxes, b);
+			NodeList nodeListBoundingBoxes = node.getElementsByTagName("object");
+			
+			final int numberOfBoundingBoxes = nodeListBoundingBoxes.getLength();
+			
+			for (int b = 0; b < numberOfBoundingBoxes; b++) {
+				Element elementBoundingBox = (Element) nodeListBoundingBoxes.item(b);
+				
+				final BoundingBox newBoundingBox = new BoundingBox(
+						(int) Float.parseFloat(elementBoundingBox.getAttribute("x")), 
+						(int) Float.parseFloat(elementBoundingBox.getAttribute("y")), 
+						(int) Float.parseFloat(elementBoundingBox.getAttribute("width")), 
+						(int) Float.parseFloat(elementBoundingBox.getAttribute("height")));
+				
+				addBoundingBox(tileID, boundingBoxes, newBoundingBox);
+			}
 		}
 		
 		return boundingBoxes;

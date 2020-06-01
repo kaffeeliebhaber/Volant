@@ -6,10 +6,11 @@ import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class CollisionUtil {
 
+	/*
 	private CollisionUtil() {}
 	
 	public static boolean gameObjectIntersectsGameObject(final Entity entityOne, final Entity entityTwo) {
-		/*
+		
 		boolean collision = false;
 		
 		if(
@@ -22,7 +23,7 @@ public class CollisionUtil {
 		}
 		
 		return collision;
-		*/
+		
 
 		return entityOne.getBoundingBox().intersects(entityTwo.getBoundingBox());
 	}
@@ -58,4 +59,5 @@ public class CollisionUtil {
 		
 		return collides;
 	}
+	*/
 }

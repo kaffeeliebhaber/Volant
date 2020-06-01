@@ -50,9 +50,4 @@ public class Fox extends NPC {
 		return this.interactionDirection == Direction.DOWN  &&  player.getViewDirection() == Direction.UP;
 	}
 	
-	@Override
-	public boolean isCollidable() {
-		return false;
-	}
-
 }

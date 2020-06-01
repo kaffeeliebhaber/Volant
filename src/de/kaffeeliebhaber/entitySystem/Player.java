@@ -28,7 +28,6 @@ public class Player extends MovingEntity {
 	
 	public void render(Graphics g, Camera camera) {
 		super.render(g, camera);
-		
 		renderBoundingBox(g, camera);
 	}
 	
@@ -39,23 +38,15 @@ public class Player extends MovingEntity {
 	}
 	
 	public void updatePosition(float newPosX, float newPosY) {
-		int dx = (int) (newPosX - x);
-		int dy = (int) (newPosY - y);
+		final int dx = (int) (newPosX - x);
+		final int dy = (int) (newPosY - y);
 		
-		translateX(dx);
-		translateY(dy);
-		
+		translate(dx, dy);
 		adjustDistricBorder();
 	}
 	
 	public PlayerStats getStats() {
 		return playerStats;
 	}
-
-	@Override
-	public boolean isCollidable() {
-		return true;
-	}
-
 }
 
