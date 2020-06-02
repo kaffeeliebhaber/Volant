@@ -68,7 +68,7 @@ public class GameObjectManager {
 		// LOAD AND CREATE CHUNKSYSTEM
 		chunkSystem = createChunkSystem(Config.TILE_MAP_PATH);
 
-		addTransitionTilesToChunkSystem(chunkSystem);
+//		addTransitionTilesToChunkSystem(chunkSystem);
 
 		createPlayer();
 
@@ -87,7 +87,7 @@ public class GameObjectManager {
 
 		createNPCs(chunkSystem);
 		createAndSetupInventory(player);
-		createWorldObjects();
+//		createWorldObjects();
 
 		ChunkSystemController chunkSystemController = new ChunkSystemController(chunkSystem, player, transition, entityHandler, itemManager);
 		chunkSystemController.setChunkID(0);
@@ -95,8 +95,10 @@ public class GameObjectManager {
 
 	private void createWorldObjects() {
 		
+		
 		chunkSystem.addEntity(0, new SimpleBush(70, 70, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		chunkSystem.addEntity(0, new SimpleBush(140, 30, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
+		
 		
 		/*
 		chunkSystem.addEntity(0, new SimpleBush(400, 230, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
@@ -109,6 +111,7 @@ public class GameObjectManager {
 		
 		*/
 		
+		
 		for (int x = 0; x < 16; x++) {
 			chunkSystem.addEntity(0, new SimpleBush(x * 32,       0, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
 			chunkSystem.addEntity(0, new SimpleBush(x * 32, 17 * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
@@ -118,6 +121,7 @@ public class GameObjectManager {
 			chunkSystem.addEntity(0, new SimpleBush(      0, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
 			chunkSystem.addEntity(0, new SimpleBush(15 * 32, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
 		}
+		
 		
 		BufferedImage[] crow = new BufferedImage[] {
 				AssetsLoader.spritesheet.getImageByIndex(155),
@@ -132,13 +136,13 @@ public class GameObjectManager {
 		chunkSystem.addEntity(0, createNPCVolantVillagePeopleOne());
 		chunkSystem.addEntity(0, createNPCVolandFemaleAnne());
 
-		final int countOfFox = 2;
+		final int countOfFox = 1;
 
 		final Random r = new Random();
 
 		for (int i = 0; i < countOfFox; i++) {
-			float startX = r.nextInt(300);
-			float startY = r.nextInt(300);
+			float startX = r.nextInt(800);
+			float startY = r.nextInt(800);
 			
 			chunkSystem.addEntity(0, createFOX(startX, startY, 32, new Vector2f(startX, startY), 200, 200, 200, 200, 1f));
 //			chunkSystem.addEntity(0, createFOX(233, 316, 32, new Vector2f(233, 316), 200, 200, 200, 200, 0.01f));
@@ -336,6 +340,7 @@ public class GameObjectManager {
 
 		// create item manager
 		itemManager = new ItemManager(player);
+		
 		itemManager.addItem(sword);
 		itemManager.addItem(chest);
 		itemManager.addItem(potion);
@@ -345,6 +350,7 @@ public class GameObjectManager {
 		itemManager.addItem(feets);
 		itemManager.addItem(head);
 		itemManager.addItem(shield);
+		
 	}
 
 	private ChunkSystem createChunkSystem(final String mapPath) {

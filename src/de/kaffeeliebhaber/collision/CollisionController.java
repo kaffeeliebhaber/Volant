@@ -10,15 +10,6 @@ import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 
 public class CollisionController {
 
-	
-	public static void collision(final ChunkSystem chunkSystem, final List<Entity> entities) {
-
-		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(entities);
-		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, chunkSystem, entities);
-		
-//		CollisionController.checkCollisionAndUpdateMovingEntity(movingEntities, contextEntities);
-	}
-
 	public static List<MovingEntity> filterListForMovingEntities(final List<Entity> entities) {
 		return entities.stream()
 				.filter(e -> e instanceof MovingEntity)
@@ -33,21 +24,5 @@ public class CollisionController {
 		
 		return contextEntities;
 	}
-	/*
-	public static void checkCollisionAndUpdateMovingEntity(final List<MovingEntity> movingEntities, final List<Entity> contextEntities) {
-		final int size = movingEntities.size();
 
-		for (int i = 0; i < size; i++) {
-			final MovingEntity movingEntity = movingEntities.get(i);
-
-			if (!CollisionUtil.collides(movingEntity, BoundingBox.createTranslatedBoundingBox(movingEntity.getBoundingBox(), movingEntity.getDx(), 0), contextEntities)) {
-				movingEntity.moveX();
-			}
-
-			if (!CollisionUtil.collides(movingEntity, BoundingBox.createTranslatedBoundingBox(movingEntity.getBoundingBox(), 0, movingEntity.getDy()), contextEntities)) {
-				movingEntity.moveY();
-			}
-		}
-	}
-	*/
 }

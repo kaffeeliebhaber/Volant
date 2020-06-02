@@ -68,7 +68,9 @@ public class AssetsLoader {
 	public static void load() {
 		
 		// load world sprite sheet
-		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/BaseChip_pipo.png", 32, 32);
+		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/pyxel/voland_spritesheet.png", 32, 32);
+//		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/BaseChip_pipo.png", 32, 32);
+//		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/tilesets/TilesetGraveyard.png", 16, 16);
 		spritesheet.load();
 		
 		// load player
@@ -87,7 +89,7 @@ public class AssetsLoader {
 		// ui
 		imageUI = ImageLoader.loadImage("src/de/kaffeeliebhaber/assets/ui/ui.png");
 		
-		AssetsLoader.loadVisualizationPaneAssets();
+		AssetsLoader.loadInfoPaneAssets();
 		
 		// npc
 		spritesheetNPC = new Spritesheet("src/de/kaffeeliebhaber/assets/AH_SpriteSheet_People1.png", 16, 16);
@@ -106,7 +108,7 @@ public class AssetsLoader {
 		spritesheetFemale.load();
 	}
 	
-	private static void loadVisualizationPaneAssets() {
+	private static void loadInfoPaneAssets() {
 		final BufferedImage image = ImageLoader.loadImage("src/de/kaffeeliebhaber/assets/ui/selectionArrow2.png");
 		
 		selectionArrowVisualizationPane = new BufferedImage[6];

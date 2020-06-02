@@ -297,7 +297,7 @@ public class TiledXML {
 			tilemapHandlers.get(chunk).addTilemap(layerId, tilemap);
 			layerData.remove(chunk);
 			
-			System.out.println("(TiledXML.createTilemapHandlersFromTilemaps) | LayerID " + layerId + " added.");
+//			System.out.println("(TiledXML.createTilemapHandlersFromTilemaps) | LayerID " + layerId + " added.");
 		}
 	}
 	
@@ -328,7 +328,7 @@ public class TiledXML {
 		
 		for (int key : keySet) {
 			final String value = tileTypeRelation.get(key);
-			System.out.println("key: " + key + ", value: " + value);
+			System.out.println("(TiledXML.createEntityHandlerForEachChunk) | key: " + key + ", value: " + value);
 		}
 	}
 

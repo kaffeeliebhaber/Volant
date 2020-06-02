@@ -18,6 +18,8 @@ public class Tile extends Entity {
 	private boolean blocked;
 	private final int ID;
 	
+	private static final int SCALE = 2;
+	
 	public Tile(final int ID, float x, float y, int width, int height, BufferedImage image) {
 		super(x, y , width, height);
 		this.ID = ID;
