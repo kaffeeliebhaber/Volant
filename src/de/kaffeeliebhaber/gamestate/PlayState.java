@@ -3,12 +3,10 @@ package de.kaffeeliebhaber.gamestate;
 import java.awt.Graphics;
 
 import de.kaffeeliebhaber.assets.AssetsLoader;
-import de.kaffeeliebhaber.collision.CollisionController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.gamestate.mode.GameStateMode;
 import de.kaffeeliebhaber.inventory.ItemManager;
-import de.kaffeeliebhaber.managers.EntityManager;
 import de.kaffeeliebhaber.managers.GameObjectManager;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;

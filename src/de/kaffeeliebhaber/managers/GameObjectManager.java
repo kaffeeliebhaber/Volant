@@ -87,7 +87,7 @@ public class GameObjectManager {
 
 		createNPCs(chunkSystem);
 		createAndSetupInventory(player);
-//		createWorldObjects();
+		createWorldObjects();
 
 		ChunkSystemController chunkSystemController = new ChunkSystemController(chunkSystem, player, transition, entityHandler, itemManager);
 		chunkSystemController.setChunkID(0);
@@ -98,19 +98,6 @@ public class GameObjectManager {
 		
 		chunkSystem.addEntity(0, new SimpleBush(70, 70, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
 		chunkSystem.addEntity(0, new SimpleBush(140, 30, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		
-		
-		/*
-		chunkSystem.addEntity(0, new SimpleBush(400, 230, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		chunkSystem.addEntity(0, new SimpleBush(263, 343, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		chunkSystem.addEntity(0, new SimpleBush(120, 536, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		
-		chunkSystem.addEntity(0, new SimpleBush(15*32, 4*32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		chunkSystem.addEntity(0, new SimpleBush(15*32, 5*32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		
-		
-		*/
-		
 		
 		for (int x = 0; x < 16; x++) {
 			chunkSystem.addEntity(0, new SimpleBush(x * 32,       0, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
