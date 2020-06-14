@@ -19,7 +19,7 @@ import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTileEvent;
  * @author User
  *
  */
-public class ChunkSystemController implements ITransitionTileListener, ITransitionListener {
+public class DEL_ChunkSystemController implements ITransitionTileListener, ITransitionListener {
 
 	private ChunkSystem chunkSystem;
 	private Player player;
@@ -30,7 +30,7 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 	private TransitionDirection direction;
 	private int toChunkID;
 	
-	public ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final ItemManager itemManager) {
+	public DEL_ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final ItemManager itemManager) {
 		this.chunkSystem = chunkSystem;
 		this.player = player;
 		this.transition = transition;

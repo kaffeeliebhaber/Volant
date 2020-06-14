@@ -46,14 +46,16 @@ import de.kaffeeliebhaber.inventory.stats.PlayerStats;
 import de.kaffeeliebhaber.inventory.stats.Stat;
 import de.kaffeeliebhaber.math.Vector2f;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
+import de.kaffeeliebhaber.tilesystem.chunk.GameWorld;
 import de.kaffeeliebhaber.tilesystem.chunk.TiledXML;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionDirection;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
+import de.kaffeeliebhaber.ui.UIHud;
 import de.kaffeeliebhaber.ui.UIInfoPane;
 import de.kaffeeliebhaber.ui.inventory.UIInventoryManager;
 
-public class GameObjectManager {
+public class GameObjectManager extends GameObjectLoader {
 
 	private ChunkSystem chunkSystem;
 	private Transition transition;
@@ -61,20 +63,20 @@ public class GameObjectManager {
 	private Camera camera;
 //	private EntityManager entityHandler;
 	private UIInventoryManager inventoryManager;
+	private UIHud hud;
 	private ItemManager itemManager;
 	private UIInfoPane infoPane;
 	private EntitySystem entitySystem;
+	private GameWorld gameWorld;
 
 	public GameObjectManager() {
 
 		// LOAD AND CREATE CHUNKSYSTEM
-		chunkSystem = createChunkSystem(Config.TILE_MAP_PATH);
+		createChunkSystem(Config.TILE_MAP_PATH);
+		createPlayer();
 
 //		addTransitionTilesToChunkSystem(chunkSystem);
 
-		createPlayer();
-
-		// create camera
 		camera = new Camera(0, 0, Config.WIDTH, Config.HEIGHT, new Dimension(chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 		camera.focusOn(player);
 
@@ -86,15 +88,19 @@ public class GameObjectManager {
 
 		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
 
-		createAndSetupInventory(player);
+		createAndSetupInventory();
+		
+		itemManager.addInfoPaneInformerListener(infoPane);
 		
 		entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
+		
 		createEntities();
 		createNPCs();
 		createWorldObjects();
+		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
+		hud = new UIHud(player);
 	}
-
 	
 	private void createWorldObjects() {
 		
@@ -275,7 +281,7 @@ public class GameObjectManager {
 		return fox;
 	}
 
-	private void createAndSetupInventory(Player player) {
+	private void createAndSetupInventory() {
 
 		// create items
 		inventoryManager = new UIInventoryManager(Inventory.instance, EquipmentManager.instance, 100, 100);
@@ -318,20 +324,17 @@ public class GameObjectManager {
 		shield.setArmorValue(5);
 		shield.setDamageValue(2);
 
-		Item potion = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0));
+		Item potion = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0), increaseHP10);
 		potion.setBoundingBox(new BoundingBox(190, 60, 16, 16));
 		potion.setStackable(true);
-		potion.setItemAction(increaseHP10);
 
-		Item potion2 = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0));
+		Item potion2 = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0), increaseHP10);
 		potion2.setBoundingBox(new BoundingBox(290, 160, 16, 16));
 		potion2.setStackable(true);
-		potion2.setItemAction(increaseHP10);
 
-		Item poisson = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "GIFT (1)", AssetsLoader.spritesheetInventory.getImageByIndex(1));
+		Item poisson = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "GIFT (1)", AssetsLoader.spritesheetInventory.getImageByIndex(1), new FillUpHealthPointsAction(player, -30));
 		poisson.setBoundingBox(new BoundingBox(340, 260, 16, 16));
 		poisson.setStackable(true);
-		poisson.setItemAction(new FillUpHealthPointsAction(player, -30));
 
 		// create item manager
 		itemManager = new ItemManager(player);
@@ -348,17 +351,14 @@ public class GameObjectManager {
 		
 	}
 
-	private ChunkSystem createChunkSystem(final String mapPath) {
+	private void createChunkSystem(final String mapPath) {
 		TiledXML tiled = new TiledXML(Config.TILE_MAP_PATH);
 		tiled.load();
 
-		ChunkSystem chunkSystem = tiled.createChunkSystem();
-		chunkSystem.setObjectLayerID(Config.TILE_MAP_OBJECT_LAYER_ID); // TODO: Später aus dem Tiled-XML ziehen -> Muss
-																		// dort noch als eigener Parameter definiert
-																		// werden.
+		chunkSystem = tiled.createChunkSystem();
+		chunkSystem.setObjectLayerID(Config.TILE_MAP_OBJECT_LAYER_ID);
+		
 		tiled.clear();
-
-		return chunkSystem;
 	}
 
 	public void addTransitionTilesToChunkSystem(final ChunkSystem chunkSystem) {
@@ -416,11 +416,7 @@ public class GameObjectManager {
 		return camera;
 	}
 
-//	public EntityManager getEntityHandler() {
-//		return entityHandler;
-//	}
-
-	public UIInventoryManager getInventoryManager() {
+	public UIInventoryManager getUIInventoryManager() {
 		return inventoryManager;
 	}
 
@@ -434,6 +430,14 @@ public class GameObjectManager {
 	
 	public EntitySystem getEntitySystem() {
 		return entitySystem;
+	}
+	
+	public GameWorld getGameWorld() {
+		return gameWorld;
+	}
+
+	public UIHud getUIHud() {
+		return hud;
 	}
 
 }
