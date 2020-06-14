@@ -107,6 +107,7 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 	}
 	
 	public void render(Graphics g) {
+		
 		if (active) {
 			stripContainer.render(g);
 			imageContainer.render(g);

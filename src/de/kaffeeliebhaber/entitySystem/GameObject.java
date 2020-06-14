@@ -1,12 +1,12 @@
 package de.kaffeeliebhaber.entitySystem;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.math.Vector2f;
 
 public abstract class GameObject {
 
 	protected float x, y;
 	protected int width, height;
+	protected boolean active;
 	
 	public GameObject(float x, float y, int width, int height) {
 		this.x = x;
@@ -58,6 +58,18 @@ public abstract class GameObject {
 	
 	public Vector2f getCenterPosition() {
 		return new Vector2f(x + width * 0.5f, y + height * 0.5f);
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+	
+	protected void active() {
+		active = true;
+	}
+	
+	protected void deactive() {
+		active = false;
 	}
 
 	@Override

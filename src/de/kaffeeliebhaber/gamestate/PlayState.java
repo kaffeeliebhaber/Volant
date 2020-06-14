@@ -9,6 +9,7 @@ import de.kaffeeliebhaber.gamestate.mode.GameStateMode;
 import de.kaffeeliebhaber.inventory.ItemManager;
 import de.kaffeeliebhaber.managers.GameObjectManager;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
+import de.kaffeeliebhaber.tilesystem.chunk.GameWorld;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.ui.UIHud;
 import de.kaffeeliebhaber.ui.UIInfoPane;
@@ -21,13 +22,13 @@ public class PlayState extends GameState {
 	private Player player;
 	private Camera camera;
 	private GameStateMode gameStateMode;
-//	private EntityManager entityHandler;
 	private ItemManager itemManager;
 	
 	// USER INTERFACE
 	private UIInventoryManager inventoryManager;
 	private UIHud hud;
 	private UIInfoPane infoPane;
+	private final GameWorld gameWorld;
 	
 	public PlayState(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -42,10 +43,11 @@ public class PlayState extends GameState {
 		chunkSystem 		= gameObjectManager.getChunkSystem();
 		player 				= gameObjectManager.getPlayer();
 		transition 			= gameObjectManager.getTransition();
-//		entityHandler 		= gameObjectManager.getEntityHandler();
 		itemManager			= gameObjectManager.getItemManager();
 		inventoryManager 	= gameObjectManager.getInventoryManager();
 		infoPane 			= gameObjectManager.getUIInfoPane();
+		
+		gameWorld = new GameWorld(player, chunkSystem, itemManager, gameObjectManager.getEntitySystem(), transition);
 		
 		hud = new UIHud(player);
 		itemManager.addInfoPaneInformerListener(infoPane);
@@ -83,8 +85,11 @@ public class PlayState extends GameState {
 			return;
 		}
 		
+		gameWorld.update(timeSinceLastFrame);
+		/*
 		chunkSystem.update(timeSinceLastFrame);
 		itemManager.update();
+		*/
 	}
 
 	private void updateGameStateModeInteraction(float timeSinceLastFrame) {
@@ -104,6 +109,7 @@ public class PlayState extends GameState {
 		} else {
 			gameStateMode = GameStateMode.PLAY;
 		}
+		
 	}
 	
 	// TODO: Macht es vielleicht Sinn, dass man den PlayState als Variable an die entsprechenden Stellen mitgibt, sodaﬂ diese den
@@ -118,12 +124,20 @@ public class PlayState extends GameState {
 
 	@Override
 	public void render(Graphics g) {
+		
+		gameWorld.render(g, camera);
+		inventoryManager.render(g);
+		infoPane.render(g);
+		hud.render(g);
+		
+		/*
 		chunkSystem.render(g, camera);
 		itemManager.render(g, camera);
 		transition.render(g);
 		inventoryManager.render(g);
 		infoPane.render(g);
 		hud.render(g);
+		*/
 	}
 
 	@Override

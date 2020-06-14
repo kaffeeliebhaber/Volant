@@ -28,7 +28,7 @@ public abstract class MovingEntity extends Entity {
 	public void update(float timeSinceLastFrame, final List<Entity> entities) {
 			
 		translationVector = movingBehavior.move(timeSinceLastFrame);
-	
+		
 		// UPDATE ANIMATION
 		animationController.updateState(translationVector.x, translationVector.y);
 		animationController.update(timeSinceLastFrame);
@@ -69,7 +69,7 @@ public abstract class MovingEntity extends Entity {
 	private boolean collides(final BoundingBox translatedBoundingBox, final List<Entity> entities) {
 		boolean collides = false;
 		
-		if (translatedBoundingBox != null) {
+		if (entities != null && translatedBoundingBox != null) {
 			for (int i = 0; i < entities.size() && !collides; i++) {
 	
 				Entity currentEntity = entities.get(i);

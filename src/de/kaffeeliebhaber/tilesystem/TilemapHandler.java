@@ -48,8 +48,6 @@ public class TilemapHandler {
 	}
 	
 	public void render(Graphics g, Camera c) {
-		
-		// TODO: Es wird die falsche Reihenfolge gerendert.
 		for (final Tilemap tilemap : tilemaps.values()) {
 			tilemap.render(g, c);
 		}

@@ -4,8 +4,6 @@ import java.util.List;
 
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.inventory.ItemManager;
-import de.kaffeeliebhaber.managers.EntityManager;
-import de.kaffeeliebhaber.math.Vector2f;
 import de.kaffeeliebhaber.tilesystem.transition.ITransitionListener;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.tilesystem.transition.TransitionEvent;
@@ -32,7 +30,7 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 	private TransitionDirection direction;
 	private int toChunkID;
 	
-	public ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final EntityManager entityHandler, final ItemManager itemManager) {
+	public ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final ItemManager itemManager) {
 		this.chunkSystem = chunkSystem;
 		this.player = player;
 		this.transition = transition;
@@ -52,12 +50,12 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 		//entityHandler.addAll(chunkSystem.getEntityList());
 		//entityHandler.add(player);
 		
-		chunkSystem.addEntity(chunkID, player);
+//		chunkSystem.addEntity(chunkID, player);
 		
 		final List<TransitionTile> transitionList = chunkSystem.getTransitionTileList(chunkID);
 		
 		if (transitionList != null && transitionList.size() > 0) {
-			registerTransitionTileListener(transitionList);
+			//registerTransitionTileListener(transitionList);
 			player.addEntityUpdateListeners(transitionList);
 		}
 	}
@@ -67,10 +65,10 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 		
 //		entityHandler.clear();
 		itemManager.clear();
-		chunkSystem.removeEntity(chunkID, player);
+//		chunkSystem.removeEntity(chunkID, player);
 		
 		if (transitionList != null && transitionList.size() > 0) {
-			unregisterTransitionTileListener(transitionList);
+			//unregisterTransitionTileListener(transitionList);
 			player.removeEntityUpdateListeners(transitionList);
 		}
 	}
@@ -91,21 +89,14 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 		}
 	}
 	
-	/**
-	 * Registers the current PlayState as TransitionTileListener to each TransitionTile in the given list.
-	 * @param transitionTiles
-	 */
-	private void registerTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
-		transitionTiles.forEach(e -> e.addTransitionTileListener(this));
-	}
-	
-	/**
-	 * Unregisters the current PlayState as TransitionTileListener to each TransitionTile in the given list.
-	 * @param transitionTiles
-	 */
-	private void unregisterTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
-		transitionTiles.forEach(e -> e.removeTransitionTileListener(this));
-	}
+
+//	private void registerTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
+//		transitionTiles.forEach(e -> e.addTransitionTileListener(this));
+//	}
+//	
+//	private void unregisterTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
+//		transitionTiles.forEach(e -> e.removeTransitionTileListener(this));
+//	}
 
 	@Override
 	public void transitionStateChanged(TransitionEvent event) {

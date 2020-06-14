@@ -20,6 +20,8 @@ import de.kaffeeliebhaber.behavior.moving.NoneMovingBehavior;
 import de.kaffeeliebhaber.behavior.moving.PlayerMovingBehavior;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.entitySystem.EntityComparator;
+import de.kaffeeliebhaber.entitySystem.EntitySystem;
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.entitySystem.npc.Fox;
 import de.kaffeeliebhaber.entitySystem.npc.NPC;
@@ -44,7 +46,6 @@ import de.kaffeeliebhaber.inventory.stats.PlayerStats;
 import de.kaffeeliebhaber.inventory.stats.Stat;
 import de.kaffeeliebhaber.math.Vector2f;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
-import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystemController;
 import de.kaffeeliebhaber.tilesystem.chunk.TiledXML;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionDirection;
@@ -58,10 +59,11 @@ public class GameObjectManager {
 	private Transition transition;
 	private Player player;
 	private Camera camera;
-	private EntityManager entityHandler;
+//	private EntityManager entityHandler;
 	private UIInventoryManager inventoryManager;
 	private ItemManager itemManager;
 	private UIInfoPane infoPane;
+	private EntitySystem entitySystem;
 
 	public GameObjectManager() {
 
@@ -82,31 +84,31 @@ public class GameObjectManager {
 		transition = new Transition(new Rectangle(0, 0, Config.WIDTH, Config.HEIGHT), 20, 20, 20);
 		transition.setColor(Color.BLACK);
 
-		entityHandler = new EntityManager();
 		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
 
-		createNPCs(chunkSystem);
 		createAndSetupInventory(player);
+		
+		entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
+		entitySystem.add(0, player);
+		createEntities();
+		createNPCs();
 		createWorldObjects();
-
-		ChunkSystemController chunkSystemController = new ChunkSystemController(chunkSystem, player, transition, entityHandler, itemManager);
-		chunkSystemController.setChunkID(0);
 	}
 
+	
 	private void createWorldObjects() {
 		
-		
-		chunkSystem.addEntity(0, new SimpleBush(70, 70, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
-		chunkSystem.addEntity(0, new SimpleBush(140, 30, 32, 32, AssetsLoader.spritesheet.getImageByIndex(42)));
+		entitySystem.add(0, new SimpleBush(70, 70, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
+		entitySystem.add(0, new SimpleBush(140, 30, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
 		
 		for (int x = 0; x < 16; x++) {
-			chunkSystem.addEntity(0, new SimpleBush(x * 32,       0, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
-			chunkSystem.addEntity(0, new SimpleBush(x * 32, 17 * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
+			entitySystem.add(0, new SimpleBush(x * 32,       0, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
+			entitySystem.add(0, new SimpleBush(x * 32, 17 * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
 		}
 		
 		for (int y = 0; y < 18; y++) {
-			chunkSystem.addEntity(0, new SimpleBush(      0, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
-			chunkSystem.addEntity(0, new SimpleBush(15 * 32, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(41)));
+			entitySystem.add(0, new SimpleBush(      0, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
+			entitySystem.add(0, new SimpleBush(15 * 32, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
 		}
 		
 		
@@ -114,16 +116,13 @@ public class GameObjectManager {
 				AssetsLoader.spritesheet.getImageByIndex(155),
 				AssetsLoader.spritesheet.getImageByIndex(163)};
 		
-		chunkSystem.addEntity(0, new SimpleWorldObject(400, 400, 32, 64, crow, new BoundingBox(410, 440, 12, 4)));
+		entitySystem.add(0, new SimpleWorldObject(400, 400, 32, 64, crow, new BoundingBox(410, 440, 12, 4)));
 	}
 
-	private void createNPCs(final ChunkSystem chunkSystem) {
-		chunkSystem.addEntity(0, createNPCVolantVillageElder());
-		chunkSystem.addEntity(0, createNPCVolantMasterKnight());
-		chunkSystem.addEntity(0, createNPCVolantVillagePeopleOne());
-		chunkSystem.addEntity(0, createNPCVolandFemaleAnne());
 
-		final int countOfFox = 1;
+	private void createNPCs() {
+
+		final int countOfFox = 20;
 
 		final Random r = new Random();
 
@@ -131,7 +130,7 @@ public class GameObjectManager {
 			float startX = r.nextInt(800);
 			float startY = r.nextInt(800);
 			
-			chunkSystem.addEntity(0, createFOX(startX, startY, 32, new Vector2f(startX, startY), 200, 200, 200, 200, 1f));
+			entitySystem.add(0, createFOX(startX, startY, 32, new Vector2f(startX, startY), 200, 200, 200, 200, 1f));
 //			chunkSystem.addEntity(0, createFOX(233, 316, 32, new Vector2f(233, 316), 200, 200, 200, 200, 0.01f));
 		}
 
@@ -139,6 +138,15 @@ public class GameObjectManager {
 //		chunkSystem.addEntity(0, createFOX(350, 177, 32, new Vector2f(366, 193), 350, 150, 200, 400, 0.006f));
 
 	}
+	
+	
+	private void createEntities() {
+		entitySystem.add(0, createNPCVolandFemaleAnne());
+		entitySystem.add(0, createNPCVolantVillageElder());
+		entitySystem.add(0, createNPCVolantMasterKnight());
+		entitySystem.add(0, createNPCVolantVillagePeopleOne());
+	}
+	
 
 	private NPC createNPCVolandFemaleAnne() {
 
@@ -408,9 +416,9 @@ public class GameObjectManager {
 		return camera;
 	}
 
-	public EntityManager getEntityHandler() {
-		return entityHandler;
-	}
+//	public EntityManager getEntityHandler() {
+//		return entityHandler;
+//	}
 
 	public UIInventoryManager getInventoryManager() {
 		return inventoryManager;
@@ -422,6 +430,10 @@ public class GameObjectManager {
 
 	public UIInfoPane getUIInfoPane() {
 		return infoPane;
+	}
+	
+	public EntitySystem getEntitySystem() {
+		return entitySystem;
 	}
 
 }

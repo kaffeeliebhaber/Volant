@@ -14,6 +14,7 @@ public class EntityComparator implements Comparator<Entity> {
 		} else {
 			compValue = 1;
 		}
+		
 		return compValue;
 	}
 

@@ -2,18 +2,16 @@ package de.kaffeeliebhaber.tilesystem.chunk;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
-import de.kaffeeliebhaber.collision.CollisionController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
-import de.kaffeeliebhaber.entitySystem.EntityComparator;
-import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.tilesystem.Tilemap;
 import de.kaffeeliebhaber.tilesystem.TilemapHandler;
+import de.kaffeeliebhaber.tilesystem.transition.tile.ITransitionTileListener;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
 
 public class ChunkSystem {
@@ -23,9 +21,9 @@ public class ChunkSystem {
 	private int chunkWidth;
 	private int chunkHeight;
 	private Map<Integer, TilemapHandler> chunkSystem;
-	private Map<Integer, List<Entity>> chunkEntities;
+//	private Map<Integer, List<Entity>> chunkEntities;
 	private Map<Integer, List<TransitionTile>> transitionTiles;
-	private final Comparator<Entity> entityComparator;
+	//private final Comparator<Entity> entityComparator;
 	private int currentChunkID;
 	private int objectLayerID;
 	
@@ -35,37 +33,47 @@ public class ChunkSystem {
 		this.chunkHeight = chunkHeight;
 		
 		chunkSystem = new TreeMap<Integer, TilemapHandler>();
-		chunkEntities = new TreeMap<Integer, List<Entity>>();
+//		chunkEntities = new TreeMap<Integer, List<Entity>>();
 		transitionTiles = new TreeMap<Integer, List<TransitionTile>>();
 		
-		entityComparator = new EntityComparator();
+//		entityComparator = new EntityComparator();
 	}
 	
+	/*
+	 * TODO: Wird im ChunkSystem wirklich die update-Methode benötigt?
+	 * 
+	 */
 	public void update(float timeSinceLastFrame) {
 		
 		getChunk(currentChunkID).update(timeSinceLastFrame);
 		
+		/*
+		// TODO: Muss definiv ausgelagert werden.
 		final List<Entity> currentChunkEntities = getEntityList();
 		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(currentChunkEntities);
-		final List<Entity> contextEntities = CollisionController.collectAllMovingEntityContextEntities(movingEntities, this, currentChunkEntities);
+		final List<Entity> contextEntities = CollisionController.collectAllContextEntities(movingEntities, this, currentChunkEntities);
 		
 		currentChunkEntities.forEach(e -> e.update(timeSinceLastFrame, contextEntities));
 		currentChunkEntities.sort(entityComparator);
+		*/
+		
 	}
 	
 	public void render(Graphics g, Camera camera) {
 		getChunk(currentChunkID).render(g, camera);
-		getEntityList().stream().forEach(e -> e.render(g, camera));
+		
+		// TODO: Wird das an dieser Stelle überhaupt benötigt?
+//		getEntityList().stream().forEach(e -> e.render(g, camera));
 		getTransitionTileList(currentChunkID).forEach(e -> e.render(g, camera));
 	}
 	
-	public void removeEntity(final int chunkID, final Entity e) {
-		getEntityList(chunkID).remove(e);
-	}
-	
-	public void addEntity(final int chunkID, final Entity e) {
-		getEntityList(chunkID).add(e);
-	}
+//	public void removeEntity(final int chunkID, final Entity e) {
+//		getEntityList(chunkID).remove(e);
+//	}
+//
+//	public void addEntity(final int chunkID, final Entity e) {
+//		getEntityList(chunkID).add(e);
+//	}
 	
 	public void addTransitionTile(final int chunkID, final TransitionTile tile) {
 		getTransitionTileList(chunkID).add(tile);
@@ -73,8 +81,32 @@ public class ChunkSystem {
 	
 	public void addChunk(final int chunkID, final TilemapHandler handler) {
 		chunkSystem.put(chunkID, handler);
-		chunkEntities.put(chunkID, new ArrayList<Entity>());
+//		chunkEntities.put(chunkID, new ArrayList<Entity>());
 		transitionTiles.put(chunkID, new ArrayList<TransitionTile>());
+	}
+	
+	/**
+	 * Registers the current PlayState as TransitionTileListener to each TransitionTile in the given list.
+	 * @param transitionTiles
+	 */
+	public void addTransitionTileListener(final ITransitionTileListener l) {
+		final Set<Integer> keys = transitionTiles.keySet();
+		
+		for (int key : keys) {
+			transitionTiles.get(key).stream().forEach(e -> e.addTransitionTileListener(l));
+		}
+	}
+	
+	/**
+	 * Unregisters the current PlayState as TransitionTileListener to each TransitionTile in the given list.
+	 * @param transitionTiles
+	 */
+	public void removeTransitionTileListener(final ITransitionTileListener l) {
+		final Set<Integer> keys = transitionTiles.keySet();
+		
+		for (int key : keys) {
+			transitionTiles.get(key).stream().forEach(e -> e.removeTransitionTileListener(l));
+		}
 	}
 	
 	public void setChunkID(final int chunkId) {
@@ -101,13 +133,13 @@ public class ChunkSystem {
 		return tileHeight;
 	}
 	
-	public List<Entity> getEntityList() {
-		return getEntityList(currentChunkID);
-	}
-	
-	public List<Entity> getEntityList(final int chunkID) {
-		return chunkEntities.get(chunkID);
-	}
+//	public List<Entity> getEntityList() {
+//		return getEntityList(currentChunkID);
+//	}
+//	
+//	public List<Entity> getEntityList(final int chunkID) {
+//		return chunkEntities.get(chunkID);
+//	}
 	
 	public List<TransitionTile> getTransitionTileList(final int chunkID) {
 		return transitionTiles.get(chunkID);

@@ -13,44 +13,52 @@ import de.kaffeeliebhaber.entitySystem.Player;
 
 public class TransitionTile extends Entity implements IEntityListener {
 
-	private static final Color color = new Color(175, 238, 238);
-	private List<ITransitionTileListener> transitionTileListener;
-	private int toChunkID;
-	private TransitionDirection direction;
+//	private static final Color color = new Color(175, 238, 238);
+	private final List<ITransitionTileListener> transitionTileListener;
+	private final int toChunkID;
+	private final TransitionDirection direction;
 	
-	public TransitionTile(float x, float y, int width, int height) {
+	public TransitionTile(float x, float y, int width, int height, final int toChunkID, TransitionDirection direction) {
 		super(x, y, width, height);
+		this.toChunkID = toChunkID;
+		this.direction = direction;
 		transitionTileListener = new ArrayList<ITransitionTileListener>();
 	}
 	
-	public TransitionTile(float x, float y, int width, int height, final int toChunkID, TransitionDirection direction) {
-		this(x, y, width, height);
-		this.toChunkID = toChunkID;
-		this.direction = direction;
-	}
-	
-	public void setToChunkID(final int toChunkID) {
-		this.toChunkID = toChunkID;
-	}
-	
-	public void setTransitionDirection(final TransitionDirection direction) {
-		this.direction = direction;
-	}
+//	public void setToChunkID(final int toChunkID) {
+//		this.toChunkID = toChunkID;
+//	}
+//	
+//	public void setTransitionDirection(final TransitionDirection direction) {
+//		this.direction = direction;
+//	}
 
 	// TODO: Hier muss definitiv noch etwas geändert werden.
 	@Override
-	public void update(float timeSinceLastFrame, final List<Entity> entities) {}
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {
+		
+		final int size = entities.size();
+		boolean execute = true;
+		
+		for (int i = 0; i < size && execute; i++) {
+			if (this.intersects(entities.get(i))) {
+				this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
+				execute = false;
+			}
+		}
+		
+	}
 	
 	@Override
 	public void render(Graphics g, Camera camera) {
-		renderBoundingBox(g, camera);
-	}
-	
-	private void renderBoundingBox(Graphics g, Camera camera) {
 		boundingBox.render(g, camera);
 	}
+	
+//	private void renderBoundingBox(Graphics g, Camera camera) {
+//		
+//	}
 
-	// TODO: Hier einfach direkt der Player übergeben.
+	// TODO: Diese Funktion wurde in die update-Methode ausgelagert. Das Interface wie auch diese Methode später entfernen.
 	@Override
 	public void entityUpdated(Entity entity) {
 		
