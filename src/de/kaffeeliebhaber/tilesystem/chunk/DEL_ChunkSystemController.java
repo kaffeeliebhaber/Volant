@@ -4,8 +4,6 @@ import java.util.List;
 
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.inventory.ItemManager;
-import de.kaffeeliebhaber.managers.EntityManager;
-import de.kaffeeliebhaber.math.Vector2f;
 import de.kaffeeliebhaber.tilesystem.transition.ITransitionListener;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.tilesystem.transition.TransitionEvent;
@@ -21,22 +19,22 @@ import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTileEvent;
  * @author User
  *
  */
-public class ChunkSystemController implements ITransitionTileListener, ITransitionListener {
+public class DEL_ChunkSystemController implements ITransitionTileListener, ITransitionListener {
 
 	private ChunkSystem chunkSystem;
 	private Player player;
 	private Transition transition;
-	private EntityManager entityHandler;
+//	private EntityManager entityHandler;
 	private ItemManager itemManager;
 	private boolean initialized;
 	private TransitionDirection direction;
 	private int toChunkID;
 	
-	public ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final EntityManager entityHandler, final ItemManager itemManager) {
+	public DEL_ChunkSystemController(final ChunkSystem chunkSystem, final Player player, final Transition transition, final ItemManager itemManager) {
 		this.chunkSystem = chunkSystem;
 		this.player = player;
 		this.transition = transition;
-		this.entityHandler = entityHandler;
+//		this.entityHandler = entityHandler;
 		this.itemManager = itemManager;
 		
 		transition.addTransitionListener(this);
@@ -48,14 +46,16 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 
 		// Die Entitäten werden nur deswegen in den EntityHandler eingefügt, um sie später durch den Y-SOrt zu sortieren.
 		// Kann das nicht direkt auch im ChunkSystem passieren?
-		entityHandler.clear();
-		entityHandler.addAll(chunkSystem.getEntityList());
-		entityHandler.add(player);
+		//entityHandler.clear();
+		//entityHandler.addAll(chunkSystem.getEntityList());
+		//entityHandler.add(player);
+		
+//		chunkSystem.addEntity(chunkID, player);
 		
 		final List<TransitionTile> transitionList = chunkSystem.getTransitionTileList(chunkID);
 		
 		if (transitionList != null && transitionList.size() > 0) {
-			registerTransitionTileListener(transitionList);
+			//registerTransitionTileListener(transitionList);
 			player.addEntityUpdateListeners(transitionList);
 		}
 	}
@@ -63,11 +63,12 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 	private void unsetChunkID(final int chunkID) {
 		final List<TransitionTile> transitionList = chunkSystem.getTransitionTileList(chunkID);
 		
-		entityHandler.clear();
+//		entityHandler.clear();
 		itemManager.clear();
+//		chunkSystem.removeEntity(chunkID, player);
 		
 		if (transitionList != null && transitionList.size() > 0) {
-			unregisterTransitionTileListener(transitionList);
+			//unregisterTransitionTileListener(transitionList);
 			player.removeEntityUpdateListeners(transitionList);
 		}
 	}
@@ -88,21 +89,14 @@ public class ChunkSystemController implements ITransitionTileListener, ITransiti
 		}
 	}
 	
-	/**
-	 * Registers the current PlayState as TransitionTileListener to each TransitionTile in the given list.
-	 * @param transitionTiles
-	 */
-	private void registerTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
-		transitionTiles.forEach(e -> e.addTransitionTileListener(this));
-	}
-	
-	/**
-	 * Unregisters the current PlayState as TransitionTileListener to each TransitionTile in the given list.
-	 * @param transitionTiles
-	 */
-	private void unregisterTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
-		transitionTiles.forEach(e -> e.removeTransitionTileListener(this));
-	}
+
+//	private void registerTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
+//		transitionTiles.forEach(e -> e.addTransitionTileListener(this));
+//	}
+//	
+//	private void unregisterTransitionTileListener(final List<? extends TransitionTile> transitionTiles) {
+//		transitionTiles.forEach(e -> e.removeTransitionTileListener(this));
+//	}
 
 	@Override
 	public void transitionStateChanged(TransitionEvent event) {

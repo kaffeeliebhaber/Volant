@@ -27,14 +27,20 @@ public abstract class Entity extends GameObject {
 		this.boundingBox = boundingBox;
 	}
 	
-	protected void translateX(final float dx) {
-		setX(this.x + dx);
-		boundingBox.translateX(dx);
-	}
+	// TODO: Macht es überhaupt Sinn, diese beiden Methoden als abstrak zu definieren und trotzdem schon eine Instanz-Variable hierfür bereitstellen?
+	// Ich denke, dass hier eher ein CollisionSystem das richtige wäre, dass als Instanz-Variable in der Entity bereitsteht.
 	
-	protected void translateY(final float dy) {
-		setY(this.y + dy);
-		boundingBox.translateY(dy);
+	// TODO: Ich finde es sehr komisch, weshalb es hier eine weiere 'intersects' Methode gibt. Dient sie wirklich nur für den Zweck von mehr als einer
+	// BoundingBox im Fall einer 'Tile'? (Tile.intersects(Entity)). Bitte einmal prüfen. 
+	public abstract boolean intersects(final Entity entity);
+	
+	public abstract boolean intersects(final BoundingBox boundingBox);
+	
+	protected void translate(final float dx, final float dy) {
+		setX(x + dx);
+		setY(y + dy);
+		
+		boundingBox.translate(dx, dy);
 	}
 	
 	public void setX(final float newX) {
@@ -52,7 +58,7 @@ public abstract class Entity extends GameObject {
 		notifyEntityListenerEntityUpdated();
 	}
 	
-	public abstract void update(float timeSinceLastFrame);
+	public abstract void update(float timeSinceLastFrame, final List<Entity> entities);
 	
 	public abstract void render(Graphics g, Camera c);
 	

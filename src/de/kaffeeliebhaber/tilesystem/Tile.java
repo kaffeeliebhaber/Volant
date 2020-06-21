@@ -1,8 +1,9 @@
 package de.kaffeeliebhaber.tilesystem;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
@@ -11,20 +12,19 @@ import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tile extends Entity {
 
+	private List<BoundingBox> boundingBoxes;
+	private int boundingBoxesSize;
 	private BufferedImage image;
 	private boolean blocked;
-	private int id;
+	private final int ID;
 	
-	public Tile(float x, float y, int width, int height) {
+	private static final int SCALE = 2;
+	
+	public Tile(final int ID, float x, float y, int width, int height, BufferedImage image) {
 		super(x, y , width, height);
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return id;
+		this.ID = ID;
+		this.image = image;
+		boundingBoxes = new ArrayList<BoundingBox>();
 	}
 	
 	public void setImage(BufferedImage image) {
@@ -39,55 +39,65 @@ public class Tile extends Entity {
 		this.blocked = blocked;
 	}
 	
-	@Override
-	public void update(float timeSinceLastFrame) {
-		
-	}
+	public void update(float timeSinceLastFrame, List<Entity> entities) {}
 	
-	@Override
 	public String toString() {
 		return "(Tile) " + super.toString();
 	}
 	
-	@Override
 	public void render(Graphics g, Camera camera) {
 		if (image != null) {
 			g.drawImage(image, (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
 		} 
-		
+		renderingBoundingBoxes(g, camera);
+	}
+	
+	private void renderingBoundingBoxes(Graphics g, Camera camera) {
 		if (Debug.TILE_RENDER_SHOW_BOUNDINGBOX) {
-			
-			final BoundingBox boundingBox = getBoundingBox();
-			
-			if (boundingBox != null) {
-				g.setColor(new Color(0, 255, 0, 100));
-				g.fillRect((int) (boundingBox.getX() - camera.getX()), (int) (boundingBox.getY() - camera.getY()), boundingBox.getWidth(), boundingBox.getHeight());
+			if (boundingBoxes.size() > 0) {
+				boundingBoxes.stream().forEach(b -> b.render(g, camera));
 			}
 		}
 	}
 	
+	public void setBoundingBoxes(final List<BoundingBox> boundingBoxesList) {
+		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
+		boundingBoxesSize = boundingBoxes.size();
+	}
 	
+	private boolean areBoundingBoxesAvailable() {
+		return boundingBoxesSize > 0;
+	}
+	
+	public void adjustBoundingBoxes() {
+		boundingBoxes.stream().forEach(b -> b.translate(x, y));
+	}
+
 	@Override
-	public BoundingBox getBoundingBox() {
-		BoundingBox localBoundingBox = null;
+	public boolean intersects(Entity entity) {
 		
-		/*
-		
-		TODO: Add this code again.
-		if (boundingBox != null) {
-			localBoundingBox = new BoundingBox(
-					(int) (this.x + boundingBox.getX()),
-					(int) (this.y + boundingBox.getY()),
-					(int) (boundingBox.getWidth()),
-					(int) (boundingBox.getHeight())
-					);
-		} else {
-			localBoundingBox = super.getBoundingBox();
+		boolean intersects = false;
+
+		if (areBoundingBoxesAvailable()) {
+			for (int i = 0; i < boundingBoxesSize && !intersects; i++) {
+				intersects = entity.intersects(boundingBoxes.get(i));
+			}
 		}
-		*/
 		
+		return intersects;
+	}
+
+	@Override
+	public boolean intersects(BoundingBox boundingBox) {
 		
+		boolean intersects = false;
 		
-		return localBoundingBox;
+		if (areBoundingBoxesAvailable()) {
+			for (int i = 0; i < boundingBoxesSize && !intersects; i++) {
+				intersects = boundingBox.intersects(boundingBoxes.get(i));
+			}
+		}
+		
+		return intersects;
 	}
 }

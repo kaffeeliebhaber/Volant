@@ -13,61 +13,75 @@ import de.kaffeeliebhaber.entitySystem.Player;
 
 public class TransitionTile extends Entity implements IEntityListener {
 
-	private static final Color color = new Color(175, 238, 238);
-	private List<ITransitionTileListener> transitionTileListener;
-	private int toChunkID;
-	private TransitionDirection direction;
+//	private static final Color color = new Color(175, 238, 238);
+	private final List<ITransitionTileListener> transitionTileListener;
+	private final int toChunkID;
+	private final TransitionDirection direction;
 	
-	public TransitionTile(float x, float y, int width, int height) {
+	public TransitionTile(float x, float y, int width, int height, final int toChunkID, TransitionDirection direction) {
 		super(x, y, width, height);
+		this.toChunkID = toChunkID;
+		this.direction = direction;
 		transitionTileListener = new ArrayList<ITransitionTileListener>();
 	}
 	
-	public TransitionTile(float x, float y, int width, int height, final int toChunkID, TransitionDirection direction) {
-		this(x, y, width, height);
-		this.toChunkID = toChunkID;
-		this.direction = direction;
-	}
-	
-	public void setToChunkID(final int toChunkID) {
-		this.toChunkID = toChunkID;
-	}
-	
-	public void setTransitionDirection(final TransitionDirection direction) {
-		this.direction = direction;
-	}
+//	public void setToChunkID(final int toChunkID) {
+//		this.toChunkID = toChunkID;
+//	}
+//	
+//	public void setTransitionDirection(final TransitionDirection direction) {
+//		this.direction = direction;
+//	}
 
+	// TODO: Hier muss definitiv noch etwas geändert werden.
 	@Override
-	public void update(float timeSinceLastFrame) {
+	public void update(float timeSinceLastFrame, final List<Entity> entities) {
+		
+		final int size = entities.size();
+		boolean execute = true;
+		
+		for (int i = 0; i < size && execute; i++) {
+			if (this.intersects(entities.get(i))) {
+				this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
+				execute = false;
+			}
+		}
 		
 	}
 	
 	@Override
 	public void render(Graphics g, Camera camera) {
-		g.setColor(color);
-		g.fillRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
-		
-		getBoundingBox().render(g, camera);
+		boundingBox.render(g, camera);
 	}
+	
+//	private void renderBoundingBox(Graphics g, Camera camera) {
+//		
+//	}
 
-	// TODO: Hier einfach direkt der Player übergeben.
+	// TODO: Diese Funktion wurde in die update-Methode ausgelagert. Das Interface wie auch diese Methode später entfernen.
 	@Override
 	public void entityUpdated(Entity entity) {
 		
+//		System.out.println("(TransitionTile) | entityUpdated");
 		// TODO: Refactor
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 
-			boolean executeTransition = true;
+			// TODO: Wofür brauche ich hier das 'true'???
+			//boolean executeTransition = true;
 			
+			if (this.intersects(player)) {
+//				System.out.println("(TransitionTile) | entityUpdated & intersects ");
+				this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
+			}
+			/*
 			if (executeTransition) {
 				
-				final BoundingBox boundingBox = player.getBoundingBox();
-				
-				if (this.getBoundingBox().intersects(boundingBox)) {
+				if (this.intersects(player)) {
 					this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
 				}
 			}
+			*/
 		}
 		
 	}
@@ -84,6 +98,16 @@ public class TransitionTile extends Entity implements IEntityListener {
 		for (int i = 0; i < transitionTileListener.size(); i++) {
 			transitionTileListener.get(i).transitionTileEntered(event);
 		}
+	}
+
+	@Override
+	public boolean intersects(Entity entity) {
+		return entity.intersects(boundingBox);
+	}
+
+	@Override
+	public boolean intersects(BoundingBox boundingBox) {
+		return boundingBox.intersects(this.boundingBox);
 	}
 
 }

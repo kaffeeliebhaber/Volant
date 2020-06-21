@@ -9,9 +9,9 @@ import de.kaffeeliebhaber.inventory.item.actions.IItemAction;
 
 public abstract class Item {
 
-	private ItemCategory itemCategory;
-	private ItemType itemType;
-	private String itemName;
+	private final ItemCategory itemCategory;
+	private final ItemType itemType;
+	private final String itemName;
 	private String itemDescription;
 	protected int quantity;
 	private boolean stackable;

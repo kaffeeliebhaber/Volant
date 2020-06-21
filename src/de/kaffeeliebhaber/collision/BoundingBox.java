@@ -13,17 +13,20 @@ public class BoundingBox extends GameObject {
 		super(x, y, width, height);
 	}
 	
-	public void translate(final float dx, final float dy) {
+	public BoundingBox translate(final float dx, final float dy) {
 		x += dx;
 		y += dy;
+		return this;
 	}
 	
-	public void translateX(final float dx) {
+	public BoundingBox translateX(final float dx) {
 		translate(dx, 0);
+		return this;
 	}
 	
-	public void translateY(final float dy) {
+	public BoundingBox translateY(final float dy) {
 		translate(0, dy);
+		return this;
 	}
 
 	private Rectangle createRectangle() {
@@ -35,11 +38,21 @@ public class BoundingBox extends GameObject {
 	}
 	
 	public void render(final Graphics g, final Camera camera ) {
-		g.setColor(new Color(0, 255, 0, 128));
+		g.setColor(new Color(255, 0, 0, 255));
 		g.drawRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
 	}
 	
 	public static BoundingBox createTranslatedBoundingBox(final BoundingBox boundingBox, final float dx, final float dy) {
 		return new BoundingBox(boundingBox.getX() + dx, boundingBox.getY() + dy, boundingBox.getWidth(), boundingBox.getHeight());
+	}
+	
+	@Override
+	public String toString() {
+		return "x: " + x + ", y: " + y + ", width: " + width + ", height: " + height;
+	}
+	
+	public BoundingBox createNew() {
+		return new BoundingBox(x, y, width, height);
+		
 	}
 }

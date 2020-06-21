@@ -31,7 +31,13 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 	private boolean active;
 	private boolean textboxMode;
 	
-	public UIInfoPane() {
+	private final int width, height;
+	
+	public UIInfoPane(final int width, final int height) {
+		
+		this.width = width;
+		this.height = height;
+		
 		setUITextbox(createUITextbox());
 		setUIImageContainer(createUIImageContainer());
 		setUIStripContainer(createUIStripContainer());
@@ -51,7 +57,7 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 		tweenManager.addTween(new DefaultTween(1, imageContainer, new TweenFunctionExp(Sign.POSITIVE,  9.0f, 1.0f), new TweenTransformElementX(-100, 100)));
 		tweenManager.addTween(new DefaultTween(2, imageContainer, new TweenFunctionExp(Sign.POSITIVE,  9.0f, 1.0f), new TweenTransformElementXNeg(100, 80)));
 		tweenManager.addTween(new DefaultTween(6, imageContainer, new TweenFunctionExp(Sign.POSITIVE,  9.0f, 1.0f), new TweenTransformElementXNeg(80, 60)));
-		tweenManager.addTween(new DefaultTween(7, imageContainer, new TweenFunctionExp(Sign.POSITIVE, 11.0f, 1.2f), new TweenTransformElementX(60, 650)));
+		tweenManager.addTween(new DefaultTween(7, imageContainer, new TweenFunctionExp(Sign.POSITIVE, 11.0f, 1.2f), new TweenTransformElementX(60, width + 10)));
 		tweenManager.addTween(new DefaultTween(8, stripContainer, new TweenFunctionExp(Sign.POSITIVE,  1.0f, 1.0f), new TweenTransformElementYAndDoubleHeightEnd(200, 240)));
 
 		tweenManager.setCurrentTween(0);
@@ -73,7 +79,7 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 	}
 	
 	private UIStripContainer createUIStripContainer() {
-		final UIStripContainer stripContainer = new UIStripContainer(0, 240, 640, 0);
+		final UIStripContainer stripContainer = new UIStripContainer(0, 240, width, 0);
 		return stripContainer;
 	}
 	
@@ -101,6 +107,7 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 	}
 	
 	public void render(Graphics g) {
+		
 		if (active) {
 			stripContainer.render(g);
 			imageContainer.render(g);

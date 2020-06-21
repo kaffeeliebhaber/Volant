@@ -160,30 +160,4 @@ public class EquipmentManager {
 	public void printEquipment() {
 		System.out.println(equippedItems.toString());
 	}
-	
-	/*
-	public Item getEquippedItemHead() {
-		return getItem(ItemType.HEAD);
-	}
-	
-	public Item getEquippedItemChest() {
-		return getItem(ItemType.CHEST);	
-	}
-	
-	public Item getEquippedItemLegs() {
-		return getItem(ItemType.LEGS);	
-	}
-	
-	public Item getEquippedItemFeets() {
-		return getItem(ItemType.FEETS);
-	}
-	
-	public Item getEquippedItemWeapon() {
-		return getItem(ItemType.WEAPON);
-	}
-	
-	public Item getEquippedItemShield() {
-		return getItem(ItemType.SHIELD);
-	}
-	*/
 }

@@ -21,6 +21,12 @@ import de.kaffeeliebhaber.ui.textbox.TextboxNodeInformation;
  */
 public class ItemManager {
 
+	/*
+	 * 
+	 * TODO: Hier muss auf jeden Fall auch noch eine Änderung passieren. Das perspektivische Rendern der Items passiert 
+	 * noch nicht.
+	 * 
+	 */
 	private Player player;
 	private List<Item> items;
 //	private List<ItemManagerListener> itemManagerListeners;
