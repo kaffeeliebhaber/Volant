@@ -13,6 +13,7 @@ public abstract class TextboxNode {
 	public TextboxNode(final String text) {
 		this(0, text);
 	}
+	
 	public TextboxNode(final int ID, final String text) {
 		deactivate();
 		setID(ID);
@@ -36,8 +37,8 @@ public abstract class TextboxNode {
 			
 			final TextboxNodeData nodeData = getCurrentNodeData();
 			
-			if (!nodeData.endReached()) {
 				
+			if (!nodeData.endReached()) {
 				updatePastTime(timeSinceLastFrame);
 				
 				if (shouldIncreaseCharsToShow()) {

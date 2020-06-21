@@ -38,6 +38,9 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 		this.itemManager = itemManager;
 		this.entitySystem = entitySystem;
 		this.transition = transition;
+		
+		setChunk(0);
+		transition.addTransitionListener(this);
 	}
 	
 	public void update(float timeSinceLastFrame) {
@@ -78,6 +81,7 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 	
 	@Override
 	public void transitionTileEntered(TransitionTileEvent event) {
+		
 		if (!transition.isActive()) {
 			transition.start();
 			
@@ -90,9 +94,9 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 	public void transitionStateChanged(TransitionEvent event) {
 		final TransitionState state = event.getState();
 		
+		
 		switch (state) {
 			case MAX:
-				
 				if (!initialized) {
 					changeChunk(chunkSystem.getCurrentChunkID(), toChunkID);
 					updatePlayerPosition();

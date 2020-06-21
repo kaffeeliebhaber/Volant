@@ -75,7 +75,7 @@ public class GameObjectManager extends GameObjectLoader {
 		createChunkSystem(Config.TILE_MAP_PATH);
 		createPlayer();
 
-//		addTransitionTilesToChunkSystem(chunkSystem);
+		addTransitionTilesToChunkSystem();
 
 		camera = new Camera(0, 0, Config.WIDTH, Config.HEIGHT, new Dimension(chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 		camera.focusOn(player);
@@ -118,17 +118,26 @@ public class GameObjectManager extends GameObjectLoader {
 		}
 		
 		
+		entitySystem.add(0, new SimpleBush(200, 200, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
+		entitySystem.add(1, new SimpleBush(200, 200, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
+		
+		/*
+		 * Das Objekt wird aktuell nicht gezeichnet, da dass Image für die Crow nicht im SPritesheet vorhanden ist.
 		BufferedImage[] crow = new BufferedImage[] {
 				AssetsLoader.spritesheet.getImageByIndex(155),
 				AssetsLoader.spritesheet.getImageByIndex(163)};
 		
 		entitySystem.add(0, new SimpleWorldObject(400, 400, 32, 64, crow, new BoundingBox(410, 440, 12, 4)));
+		
+		
+		entitySystem.add(0, new SimpleWorldObject(300, 300, 32, 64, crow, new BoundingBox(110, 440, 12, 4)));
+		*/
 	}
 
 
 	private void createNPCs() {
 
-		final int countOfFox = 20;
+		final int countOfFox = 0;
 
 		final Random r = new Random();
 
@@ -361,15 +370,15 @@ public class GameObjectManager extends GameObjectLoader {
 		tiled.clear();
 	}
 
-	public void addTransitionTilesToChunkSystem(final ChunkSystem chunkSystem) {
+	public void addTransitionTilesToChunkSystem() {
 
 		// CHUNK 0
-		TransitionTile tile = new TransitionTile(798, 300, 2, 100, 1, TransitionDirection.RIGHT);
-		tile.setBoundingBox(new BoundingBox(798, 300, 2, 100));
+		TransitionTile tile = new TransitionTile(50 * 32 - 2, 300, 2, 100, 1, TransitionDirection.RIGHT);
+		tile.setBoundingBox(new BoundingBox(50 * 32 - 2, 300, 2, 100));
 		chunkSystem.addTransitionTile(0, tile);
 
-		tile = new TransitionTile(480, 798, 180, 2, 2, TransitionDirection.DOWN);
-		tile.setBoundingBox(new BoundingBox(480, 798, 180, 2));
+		tile = new TransitionTile(480, 50 * 32 - 2, 180, 2, 4, TransitionDirection.DOWN);
+		tile.setBoundingBox(new BoundingBox(480, 50 * 32 - 2, 180, 2));
 		chunkSystem.addTransitionTile(0, tile);
 
 		// CHUNK 1
@@ -377,8 +386,8 @@ public class GameObjectManager extends GameObjectLoader {
 		tile.setBoundingBox(new BoundingBox(0, 330, 2, 100));
 		chunkSystem.addTransitionTile(1, tile);
 
-		tile = new TransitionTile(150, 798, 100, 2, 3, TransitionDirection.DOWN);
-		tile.setBoundingBox(new BoundingBox(150, 798, 100, 2));
+		tile = new TransitionTile(150, 50 * 32 - 2, 100, 2, 3, TransitionDirection.DOWN);
+		tile.setBoundingBox(new BoundingBox(150, 50 * 32 - 2, 100, 2));
 		chunkSystem.addTransitionTile(1, tile);
 
 		// CHUNK 2
@@ -386,8 +395,8 @@ public class GameObjectManager extends GameObjectLoader {
 		tile.setBoundingBox(new BoundingBox(480, 0, 180, 2));
 		chunkSystem.addTransitionTile(2, tile);
 
-		tile = new TransitionTile(798, 150, 2, 100, 3, TransitionDirection.RIGHT);
-		tile.setBoundingBox(new BoundingBox(798, 150, 2, 100));
+		tile = new TransitionTile(50 * 32 - 2, 150, 2, 100, 3, TransitionDirection.RIGHT);
+		tile.setBoundingBox(new BoundingBox(50 * 32 - 2, 150, 2, 100));
 		chunkSystem.addTransitionTile(2, tile);
 
 		// CHUNK 3
@@ -398,6 +407,7 @@ public class GameObjectManager extends GameObjectLoader {
 		tile = new TransitionTile(0, 150, 2, 100, 2, TransitionDirection.LEFT);
 		tile.setBoundingBox(new BoundingBox(0, 150, 2, 100));
 		chunkSystem.addTransitionTile(3, tile);
+		
 	}
 
 	public ChunkSystem getChunkSystem() {

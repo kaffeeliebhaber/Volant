@@ -62,19 +62,26 @@ public class TransitionTile extends Entity implements IEntityListener {
 	@Override
 	public void entityUpdated(Entity entity) {
 		
+//		System.out.println("(TransitionTile) | entityUpdated");
 		// TODO: Refactor
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 
 			// TODO: Wofür brauche ich hier das 'true'???
-			boolean executeTransition = true;
+			//boolean executeTransition = true;
 			
+			if (this.intersects(player)) {
+//				System.out.println("(TransitionTile) | entityUpdated & intersects ");
+				this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
+			}
+			/*
 			if (executeTransition) {
 				
 				if (this.intersects(player)) {
 					this.notifiyAllTransitionTileListener(new TransitionTileEvent(direction, toChunkID));
 				}
 			}
+			*/
 		}
 		
 	}

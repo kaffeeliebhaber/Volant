@@ -107,6 +107,7 @@ public class PlayState extends GameState {
 		inventoryManager.render(g);
 		infoPane.render(g);
 		hud.render(g);
+		transition.render(g);
 	}
 
 	@Override

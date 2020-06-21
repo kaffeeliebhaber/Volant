@@ -249,6 +249,50 @@ public class TiledXML {
 		
 		int chunkID = 0;
 		
+		
+		/*
+		 
+		 cols: 6
+		 rows: 6
+		 
+		 chunkWidth: 3
+		 chunkHeight: 3
+		 
+		 chunkID:
+		 chunkX: 
+		 chunkY;
+		 
+		 0,0,0,0,0,0
+		 0,0,0,0,0,0
+		 0,0,0,0,0,0
+		 0,0,0,0,0,0
+		 0,0,0,0,0,0
+		 0,0,0,0,0,0
+		 
+		 (4,1)
+		 
+		 0,0,0 | 0,0,0
+		 0,0,0 | 0,[0],0
+		 0,0,0 | 0,0,0
+		 -------------
+		 0,0,0 | 0,0,0
+		 0,0,0 | 0,0,0
+		 0,0,0 | 0,0,0
+		 
+		 (c_x, c_y) -> (ID)
+		 
+		 chunkY * 2 + chunkX => chunkID
+		 
+		 Beispiel: 
+		 (0,0) -> 0
+		 (0,1) -> 2
+		 (1,0) -> 1
+		 (1,1) -> 3
+		 0 | 1
+		 -----
+		 2 | 3
+
+		 */
 		for (int i = 0; i < (cols * rows); i++) {
 			
 			col = i % cols;
@@ -259,6 +303,7 @@ public class TiledXML {
 			chunkY = row / chunkHeight;
 			
 			chunkID = chunkY * (cols / chunkWidth) + (chunkX);
+//			chunkID = chunkY * chunkX + chunkX;
 			
 			// set data
 			layerData.get(chunkID)[col % chunkWidth][row % chunkHeight] = Integer.parseInt(splittedData[i].replaceAll("\\s+", "")) - 1;

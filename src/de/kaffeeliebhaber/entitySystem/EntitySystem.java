@@ -11,11 +11,6 @@ import de.kaffeeliebhaber.collision.CollisionController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 
-/*
- * 
- * TODO: Hier fehlt noch die Implementierung eines LIsteners, der informiert, wenn der Chunk gewechselt wurde.
- * 
- */
 public class EntitySystem {
 
 	// CHUNKID - ENTITYMANAGER
@@ -30,6 +25,15 @@ public class EntitySystem {
 		this.player = player;
 		this.comparator = comparator;
 		entitySystem = new HashMap<Integer, List<Entity>>();
+		initEntitySystem();
+	}
+	
+	private void initEntitySystem() {
+		
+		final int chunks = chunkSystem.chunks();
+		for (int i = 0; i < chunks; i++) {
+			addEmptyEntityList(i);
+		}
 	}
 	
 	public void add(final int chunkID, final Entity entity) {
@@ -38,7 +42,7 @@ public class EntitySystem {
 			addEmptyEntityList(chunkID);
 		}
 		
-		entitySystem.get(currentChunkID).add(entity);
+		entitySystem.get(chunkID).add(entity);
 	}
 	
 	public void remove(final int chunkID, final Entity entity) {

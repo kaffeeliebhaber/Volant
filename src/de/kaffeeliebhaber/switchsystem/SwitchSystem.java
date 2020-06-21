@@ -56,4 +56,22 @@ public class SwitchSystem implements ISwitchSystem {
 	private boolean inRange(final int eventID) {
 		return eventID >= 0 && eventID < switchList.size();
 	}
+	
+	public boolean isFinished(List<Integer> event) {
+		boolean isFinished = true;
+		
+		final int eventSize = event.size();
+		
+		if (eventSize > 0) {
+			for (int i = 0; i < eventSize && isFinished; i++) {
+				int currentEventID = event.get(i);
+				
+				if (inRange(currentEventID) && !switchList.get(currentEventID)) {
+					isFinished = false;
+				}
+			}
+		}
+		
+		return isFinished;
+	}
 }

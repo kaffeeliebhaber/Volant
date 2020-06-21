@@ -31,7 +31,6 @@ public class FollowEntityMovingBehavior implements IMovingBehavior {
 
 	@Override
 	public void contextMovingEntity(MovingEntity movingEntity) {
-		// TODO Auto-generated method stub
 		
 	}
 

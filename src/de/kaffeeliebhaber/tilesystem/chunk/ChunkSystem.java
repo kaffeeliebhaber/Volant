@@ -21,9 +21,7 @@ public class ChunkSystem {
 	private int chunkWidth;
 	private int chunkHeight;
 	private Map<Integer, TilemapHandler> chunkSystem;
-//	private Map<Integer, List<Entity>> chunkEntities;
 	private Map<Integer, List<TransitionTile>> transitionTiles;
-	//private final Comparator<Entity> entityComparator;
 	private int currentChunkID;
 	private int objectLayerID;
 	
@@ -33,47 +31,18 @@ public class ChunkSystem {
 		this.chunkHeight = chunkHeight;
 		
 		chunkSystem = new TreeMap<Integer, TilemapHandler>();
-//		chunkEntities = new TreeMap<Integer, List<Entity>>();
 		transitionTiles = new TreeMap<Integer, List<TransitionTile>>();
 		
-//		entityComparator = new EntityComparator();
 	}
 	
-	/*
-	 * TODO: Wird im ChunkSystem wirklich die update-Methode benötigt?
-	 * 
-	 */
 	public void update(float timeSinceLastFrame) {
-		
 		getChunk(currentChunkID).update(timeSinceLastFrame);
-		
-		/*
-		// TODO: Muss definiv ausgelagert werden.
-		final List<Entity> currentChunkEntities = getEntityList();
-		final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(currentChunkEntities);
-		final List<Entity> contextEntities = CollisionController.collectAllContextEntities(movingEntities, this, currentChunkEntities);
-		
-		currentChunkEntities.forEach(e -> e.update(timeSinceLastFrame, contextEntities));
-		currentChunkEntities.sort(entityComparator);
-		*/
-		
 	}
 	
 	public void render(Graphics g, Camera camera) {
 		getChunk(currentChunkID).render(g, camera);
-		
-		// TODO: Wird das an dieser Stelle überhaupt benötigt?
-//		getEntityList().stream().forEach(e -> e.render(g, camera));
 		getTransitionTileList(currentChunkID).forEach(e -> e.render(g, camera));
 	}
-	
-//	public void removeEntity(final int chunkID, final Entity e) {
-//		getEntityList(chunkID).remove(e);
-//	}
-//
-//	public void addEntity(final int chunkID, final Entity e) {
-//		getEntityList(chunkID).add(e);
-//	}
 	
 	public void addTransitionTile(final int chunkID, final TransitionTile tile) {
 		getTransitionTileList(chunkID).add(tile);
@@ -81,7 +50,6 @@ public class ChunkSystem {
 	
 	public void addChunk(final int chunkID, final TilemapHandler handler) {
 		chunkSystem.put(chunkID, handler);
-//		chunkEntities.put(chunkID, new ArrayList<Entity>());
 		transitionTiles.put(chunkID, new ArrayList<TransitionTile>());
 	}
 	
@@ -132,14 +100,6 @@ public class ChunkSystem {
 	public int getTileHeight() {
 		return tileHeight;
 	}
-	
-//	public List<Entity> getEntityList() {
-//		return getEntityList(currentChunkID);
-//	}
-//	
-//	public List<Entity> getEntityList(final int chunkID) {
-//		return chunkEntities.get(chunkID);
-//	}
 	
 	public List<TransitionTile> getTransitionTileList(final int chunkID) {
 		return transitionTiles.get(chunkID);
@@ -197,6 +157,10 @@ public class ChunkSystem {
 	
 	public boolean isOpenWorld() {
 		return chunkSystem.size() == 1;
+	}
+	
+	public int chunks() {
+		return chunkSystem.keySet().size();
 	}
 
 }
