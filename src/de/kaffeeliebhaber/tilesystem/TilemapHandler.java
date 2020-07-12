@@ -52,5 +52,4 @@ public class TilemapHandler {
 			tilemap.render(g, c);
 		}
 	}
-	
 }

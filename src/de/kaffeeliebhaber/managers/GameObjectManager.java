@@ -61,7 +61,6 @@ public class GameObjectManager extends GameObjectLoader {
 	private Transition transition;
 	private Player player;
 	private Camera camera;
-//	private EntityManager entityHandler;
 	private UIInventoryManager inventoryManager;
 	private UIHud hud;
 	private ItemManager itemManager;
@@ -95,9 +94,9 @@ public class GameObjectManager extends GameObjectLoader {
 		entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
 		
-		createEntities();
-		createNPCs();
-		createWorldObjects();
+		// TODO: createEntities();
+		// TODO: createNPCs();
+		// TODO: createWorldObjects();
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
 		hud = new UIHud(player);
 	}
@@ -206,7 +205,8 @@ public class GameObjectManager extends GameObjectLoader {
 		animationController.updateState(0, 0);
 
 		// CREATE PLAYER
-		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 125, 32, 7));
+		final int playerBoundingBoxHeight = 7;
+		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 100 + Config.PLAYER_SIZE - playerBoundingBoxHeight, Config.PLAYER_SIZE, playerBoundingBoxHeight));
 		player.setDistrict(new Rectangle(0, 0, chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 	}
 
@@ -229,6 +229,7 @@ public class GameObjectManager extends GameObjectLoader {
 	}
 
 	private NPC createNPCVolantMasterKnight() {
+		
 		// Moving - Animation
 		IAnimationController animationController = new NPCAnimationController();
 		animationController.addAnimation(new Animation(AnimationConstants.DOWN_IDLE, AssetsLoader.volantMasterKnightAnimationSequenceIdle, 10));
@@ -348,6 +349,8 @@ public class GameObjectManager extends GameObjectLoader {
 		// create item manager
 		itemManager = new ItemManager(player);
 		
+		/*TODO:
+		
 		itemManager.addItem(sword);
 		itemManager.addItem(chest);
 		itemManager.addItem(potion);
@@ -357,7 +360,7 @@ public class GameObjectManager extends GameObjectLoader {
 		itemManager.addItem(feets);
 		itemManager.addItem(head);
 		itemManager.addItem(shield);
-		
+		 */
 	}
 
 	private void createChunkSystem(final String mapPath) {

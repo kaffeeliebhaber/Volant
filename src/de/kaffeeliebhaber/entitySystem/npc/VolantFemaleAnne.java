@@ -4,14 +4,14 @@ import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.entitySystem.Player;
-import de.kaffeeliebhaber.switchsystem.SwitchSystem;
+import de.kaffeeliebhaber.questSystem.QuestDictionary;
 import de.kaffeeliebhaber.ui.textbox.TextboxNode;
 import de.kaffeeliebhaber.ui.textbox.TextboxNodeDecision;
 import de.kaffeeliebhaber.ui.textbox.TextboxNodeDecisionListener;
 import de.kaffeeliebhaber.ui.textbox.TextboxNodeInformation;
 
 public class VolantFemaleAnne extends NPC implements TextboxNodeDecisionListener {
-
+	
 	private TextboxNodeInformation infoIntroduction;
 	private TextboxNodeInformation infoIntroduction2;
 	private TextboxNodeDecision searchForFoxDecistion;
@@ -34,14 +34,14 @@ public class VolantFemaleAnne extends NPC implements TextboxNodeDecisionListener
 		
 		TextboxNode node = null;
 		
-		if (SwitchSystem.instance.isActivated(102)) {
+		if (QuestDictionary.searchFOX.isComplete()) {
 			node = foxFounded;
-		} else if (SwitchSystem.instance.isActivated(101)) {
+		} else if (QuestDictionary.searchFOX.isAccepted()) {
 			node = thanks;
 		} else {
 			node = infoIntroduction;
 		}
-		
+
 		return node;
 	}
 
@@ -53,7 +53,7 @@ public class VolantFemaleAnne extends NPC implements TextboxNodeDecisionListener
 		
 		infoIntroduction.setNextNode(infoIntroduction2);
 		
-		searchForFoxDecistion = new TextboxNodeDecision(101, "Suchst du meinen Fuchs für mich?");
+		searchForFoxDecistion = new TextboxNodeDecision(1, "Suchst du meinen Fuchs für mich?");
 		infoIntroduction2.setNextNode(searchForFoxDecistion);
 		
 		searchForFoxDecistion.addTextboxNodeDecisionListener(this);
@@ -72,10 +72,8 @@ public class VolantFemaleAnne extends NPC implements TextboxNodeDecisionListener
 	@Override
 	public void textboxDecisionNodeSelected(int currentTextboxNodeID, boolean isLeftTextboxNodeSelected) {
 
-		// 101 = Die Aufgabe wurde angenommen
-		// 102 = Die Aufgabe wurde abgeschlossen
-		if (currentTextboxNodeID == 101 && isLeftTextboxNodeSelected) {
-			SwitchSystem.instance.activate(currentTextboxNodeID);
+		if (currentTextboxNodeID == 1 && isLeftTextboxNodeSelected) {
+			QuestDictionary.searchFOX.accept();
 		}
 	}
 

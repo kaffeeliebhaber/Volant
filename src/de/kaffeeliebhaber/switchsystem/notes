@@ -1,0 +1,36 @@
+
+NEUE KLASSE
+----------------------------------------------------------------
+Verbindung zwischen Quest / Event und IDs
+
+Anfrage, ob eine Quest / Event abgeschlossen ist?
+
+
+final int ID;
+final List<Integer> questIDs;
+
+public abtract boolean isQuestComplete(final int ID);
+----------------------------------------------------------------
+Braucht der FOX die Information, in sich, über seine vorhanden Quest?
+Und wie sieht der Zugriff darauf aus?
+Wo werden die IDs abgespeichert?
+
+Beispiel:
+class FOX() {
+
+	final int askAnneQuestID = 1;
+	final int askPeterQuestID = 2;
+
+	public void update() {
+		final boolean questComplete = SwitchSystem.isQuestComplete(askAnneQuestID);
+		
+		if (!questComplete)	completeQuest(askAnneQuestID);
+	}
+	
+	private void completeQuest(int ID)
+	{
+		// Reagiere darauf...
+	}
+}
+
+-----------------------------------------------------------------

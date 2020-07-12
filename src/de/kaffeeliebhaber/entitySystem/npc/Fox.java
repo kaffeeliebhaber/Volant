@@ -4,7 +4,7 @@ import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.entitySystem.Player;
-import de.kaffeeliebhaber.switchsystem.SwitchSystem;
+import de.kaffeeliebhaber.questSystem.QuestDictionary;
 import de.kaffeeliebhaber.ui.textbox.TextboxNode;
 import de.kaffeeliebhaber.ui.textbox.TextboxNodeInformation;
 
@@ -21,8 +21,8 @@ public class Fox extends NPC {
 	public void interact(Player player) {
 		super.interact(player);
 		
-		if (SwitchSystem.instance.isActivated(101) && !SwitchSystem.instance.isActivated(102)) {
-			SwitchSystem.instance.activate(102);
+		if (QuestDictionary.searchFOX.isAccepted() && !QuestDictionary.searchFOX.isComplete()) {
+			QuestDictionary.searchFOX.foxFounded();
 		}
 	}
 	
@@ -32,7 +32,7 @@ public class Fox extends NPC {
 		
 		TextboxNode returnNode = null;
 		
-		if (SwitchSystem.instance.isActivated(101)) {
+		if (QuestDictionary.searchFOX.isAccepted()) {
 			returnNode = questCompletedNode;
 		} else {
 			returnNode = infoNode;
@@ -47,7 +47,7 @@ public class Fox extends NPC {
 	}
 	
 	@Override public boolean isOnInteractionDirection(Player player) {
-		return this.interactionDirection == Direction.DOWN  &&  player.getViewDirection() == Direction.UP;
+		return interactionDirection == Direction.DOWN  &&  player.getViewDirection() == Direction.UP;
 	}
 	
 }

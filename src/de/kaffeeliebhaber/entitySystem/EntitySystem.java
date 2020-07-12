@@ -14,7 +14,7 @@ import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 public class EntitySystem {
 
 	// CHUNKID - ENTITYMANAGER
-	private Map<Integer, List<Entity>> entitySystem;
+	private final Map<Integer, List<Entity>> entitySystem;
 	private int currentChunkID;
 	private final ChunkSystem chunkSystem;
 	private final Comparator<Entity> comparator;

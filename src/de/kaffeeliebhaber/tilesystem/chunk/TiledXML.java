@@ -53,8 +53,8 @@ public class TiledXML {
 
 		cols = Integer.parseInt(root.getAttribute("width"));
 		rows = Integer.parseInt(root.getAttribute("height"));
-		tileWidth = Integer.parseInt(root.getAttribute("tilewidth"));
-		tileHeight = Integer.parseInt(root.getAttribute("tileheight"));
+		tileWidth = 32; //Integer.parseInt(root.getAttribute("tilewidth"));
+		tileHeight = 32; //Integer.parseInt(root.getAttribute("tileheight"));
 		
 		// load chunk dimension
 		NodeList chunksizeNodeList = document.getElementsByTagName("chunksize");
@@ -336,7 +336,7 @@ public class TiledXML {
 				}
 			}
 			
-			Tilemap tilemap = new Tilemap(chunkHeight, chunkWidth, tileHeight, tileWidth);
+			Tilemap tilemap = new Tilemap(layerId, chunkHeight, chunkWidth, tileHeight, tileWidth);
 			tilemap.setTiles(tiles);
 			
 			tilemapHandlers.get(chunk).addTilemap(layerId, tilemap);

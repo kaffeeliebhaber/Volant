@@ -16,7 +16,6 @@ public class LinearMovingBehavior implements IMovingBehavior {
 	private final int areaWidth;
 	private final int areaHeight;
 	
-//	private MovingEntity movingEntity;
 	private Vector2f positionStart;
 	private Vector2f positionCurrent;
 	private Vector2f positionEnd;
@@ -54,9 +53,7 @@ public class LinearMovingBehavior implements IMovingBehavior {
 	}
 
 	@Override
-	public void contextMovingEntity(MovingEntity movingEntity) {
-//		this.movingEntity = movingEntity;
-	}
+	public void contextMovingEntity(MovingEntity movingEntity) {}
 
 	@Override
 	public Vector2f move(float timeSinceLastFrame) {
@@ -75,17 +72,9 @@ public class LinearMovingBehavior implements IMovingBehavior {
 			
 		}
 		
-//		System.out.println("DX: " + dx + ", DY: " + dy);
 		calcTranslationDelta(timeSinceLastFrame);
-		
 		translatePositionCurrent();
-
-//		System.out.println("DEGREES: " + degrees + ", DX: " + dx + ", DY: " + dy + ", START-POSITION: " + positionStart + ", CURRENT-POSITION: " + positionCurrent + ", END-POSITION: " + positionEnd);
-		
-//		System.out.println("DEGREES: " + degrees + ", START: " + positionStart + ", END: " + positionEnd);
 		return createTranslationDeltaVector();
-		
-//		return new Vector2f(0, 0);
 	}
 
 	private void storePositions() {
@@ -121,69 +110,4 @@ public class LinearMovingBehavior implements IMovingBehavior {
 		return positionCurrent.squareLenght(positionEnd) <= squareDistance;
 	}
 	
-//	private void createPositionEnd() {}
-	
-	/*
-	private void createPositionEnd() {
-		positionEnd = new Vector2f(300, 57);
-	}
-	
-	
-	@Override
-	public void contextMovingEntity(MovingEntity movingEntity) {
-		this.movingEntity = movingEntity;
-	}
-
-	@Override
-	public Vector2f move(float timeSinceLastFrame) {
-
-		resetTranslateVector();
-		
-		if (positionEnd == null) {
-			createPositionEnd();
-			createLineData();
-		}
-		
-		if (isTargetReached()) {
-			System.out.println("END REACHED");
-		}  else {
-			updateTranslatevector(timeSinceLastFrame);
-			translateCurrentPosition();
-		}
-		
-		return createTranslateVector();
-	}
-	
-	private Vector2f createTranslateVector() {
-		return new Vector2f(dx, dy);
-	}
-	
-	private void resetTranslateVector() {
-		dx = 0;
-		dy = 0;
-	}
-	
-	private void updateTranslatevector(final float timeSinceLastFrame) {
-		dx = speed * timeSinceLastFrame;
-		dy = dx * slope + gap;
-	}
-	
-	private void translateCurrentPosition() {
-		positionCurrent.translate(dx, dy);
-	}
-	
-	private void createPositionEnd() {
-		positionEnd = new Vector2f(100, 100);
-	}
-	
-	private void createLineData() {
-		slope = (positionEnd.y - positionStart.y) / (positionEnd.x - positionStart.x);
-		gap = positionStart.y - slope * positionStart.x;
-	}
-	
-	private boolean isTargetReached() {
-		return positionCurrent.squareLenght(positionEnd) <= squareDistance;
-	}
-	*/
-
 }
