@@ -11,11 +11,31 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class TiledEditorMapLoader {
+import de.kaffeeliebhaber.xml.tiledEditor.BoundingBox.TiledBoundingBoxManager;
+import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.ChunkSystemCreatorModel;
+import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.LayerDataContainer;
+import de.kaffeeliebhaber.xml.tiledEditor.ObjectSystem.TiledObjectGroupManager;
 
+public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
+
+	// global data
 	private final String documentPath;
 	private Document document;
 	
+	// model data
+	private TiledBoundingBoxManager boundingBoxManager;
+	private LayerDataContainer layerDataContainer;
+	private TiledObjectGroupManager objectGroupManager;
+	private int tileWidth;
+	private int tileHeight;
+	private int tilesX;
+	private int tilesY;
+	private int chunkwidth;
+	private int chunkheight;
+	private int objectLayerID;
+	private final int TILED_ID_DELTA = 1;
+	
+	// debug mode
 	private static final boolean DEBUG = true;
 	
 	public TiledEditorMapLoader(final String documentPath) {
@@ -25,6 +45,11 @@ public class TiledEditorMapLoader {
 	}
 	
 	private void init() {
+		
+		boundingBoxManager = new TiledBoundingBoxManager();
+		layerDataContainer = new LayerDataContainer();
+		objectGroupManager = new TiledObjectGroupManager();
+		
 		openDocument();
 		readDocument();
 	}
@@ -69,17 +94,16 @@ public class TiledEditorMapLoader {
 		
 		Element elementMap = (Element) nodeMap;
 		
-		String mapWidth = elementMap.getAttribute("width");
-		String mapHeight = elementMap.getAttribute("height");
-		String mapTilewidth = elementMap.getAttribute("tilewidth");
-		String mapTileheight = elementMap.getAttribute("tileheight");
-		
-		// TODO: create object
-		if (DEBUG)
-			System.out.println("width: " + mapWidth + ", height: " + mapHeight + ", tilewidth: " + mapTilewidth + ", tileheight: " + mapTileheight);
-		
+		tilesX = Integer.parseInt(elementMap.getAttribute("width"));
+		tilesY = Integer.parseInt(elementMap.getAttribute("height"));
+		tileWidth = Integer.parseInt(elementMap.getAttribute("tilewidth"));
+		tileHeight = Integer.parseInt(elementMap.getAttribute("tileheight"));
 	}
 	
+	/**
+	 * Loading bounding boxes for each tile.
+	 * @param nodeTileset
+	 */
 	private void readTagTileset(Node nodeTileset) {
 		
 		NodeList nodeTilesetChilds = nodeTileset.getChildNodes();
@@ -118,20 +142,23 @@ public class TiledEditorMapLoader {
 					Node objectgroupChild = objectgroupChilds.item(child);
 					
 					if (objectgroupChild.getNodeName().equals(TiledEditorTags.object)) {
-						createBoundingBox(tileID, objectgroupChild);
+						createAndAddBoundingBox(tileID, objectgroupChild);
 					}
 				}
 			}
 		}
 	}
 	
-	private void createBoundingBox(final int tileID, Node nodeTileObjectgroup) {
+	private void createAndAddBoundingBox(final int tileID, Node nodeTileObjectgroup) {
 		Element elementObject = (Element) nodeTileObjectgroup;
 		
 		float boundingBoxX = Float.parseFloat(elementObject.getAttribute("x"));
 		float boundingBoxY = Float.parseFloat(elementObject.getAttribute("y"));
 		int boundingBoxWidth = (int) Float.parseFloat(elementObject.getAttribute("width"));
 		int boundingBoxHeight = (int) Float.parseFloat(elementObject.getAttribute("height"));
+		
+		boundingBoxManager.addBoundingBox(tileID, boundingBoxX, boundingBoxY, boundingBoxWidth, boundingBoxHeight);
+//		boundingBoxContainer.put(tileID, new BoundingBox(boundingBoxX, boundingBoxY, boundingBoxWidth, boundingBoxHeight));
 
 		// TODO: create object
 		if (DEBUG)
@@ -149,16 +176,8 @@ public class TiledEditorMapLoader {
 			
 			if (currentNode.getNodeName().equals(TiledEditorTags.chunksize)) {
 				Element elementChunksize = (Element) currentNode;
-				
-				/*
-				 * READ 'PROPERTIES'
-				 */
-				String chunkwidth = elementChunksize.getAttribute("width");
-				String chunkheight = elementChunksize.getAttribute("height");
-				
-				// TODO: create object
-				if (DEBUG)
-					System.out.println("chunkWidth: " + chunkwidth + ", chunkHeight: " + chunkheight);
+				chunkwidth = Integer.parseInt(elementChunksize.getAttribute("width"));
+				chunkheight = Integer.parseInt(elementChunksize.getAttribute("height"));
 			}
 		}
 	}
@@ -166,7 +185,7 @@ public class TiledEditorMapLoader {
 	private void readTagLayer(Node nodeLayer) {
 		
 		Element elementLayer = (Element) nodeLayer;
-		String layerID = elementLayer.getAttribute("id");
+		final int layerID = Integer.parseInt(elementLayer.getAttribute("id"));
 		
 		if (DEBUG)
 			System.out.println("LayerID | " + layerID);
@@ -178,14 +197,51 @@ public class TiledEditorMapLoader {
 		for (int i = 0; i < nodeListLayerChildsCnt; i++) {
 			Node dataNode = nodeListLayerChilds.item(i);
 			
-			// TODO: create object
-			final String layerData = dataNode.getTextContent();
+			if (dataNode.getNodeName().equals("data")) {
+				final String layerData = dataNode.getTextContent();
+				
+				String[] splittedLayerData = layerData.split(",");
+				int[][] convertedLayerData = convertLayerData(splittedLayerData, tilesX, tilesY);
+				layerDataContainer.put(layerID, convertedLayerData);
+			}
 		}
 		
 	}
 	
+	private int[][] convertLayerData(final String[] currentLayerData, final int width, final int height) {
+		int[][] data = new int[width][height];
+		
+		for (int col = 0; col < width; col++) {
+			for (int row = 0; row < height; row++) {
+				
+				final int converted1DIndex = convert2DDimInto2DIndex(col, row, width);
+				final String rawCellData = replaceEmptySpace(currentLayerData[converted1DIndex]);
+				final int parseIntRawCellData = Integer.parseInt(rawCellData) - TILED_ID_DELTA; // TODO: WRITE OWN TRANSFORMER CLASS FOR THIS!!!
+				setData(data, col, row, parseIntRawCellData);
+			}
+		}
+		
+		return data;
+	}
+	
+	private int convert2DDimInto2DIndex(final int col, final int row, final int width) {
+		return col + row * width;
+	}
+	
+	private String replaceEmptySpace(String currentLayerData) {
+		return currentLayerData.replaceAll("\\s+", "");
+	}
+	
+	private void setData(int[][] data, int col, int row, int cellValue) {
+		data[col][row] = cellValue;
+	}
+	
 	private void readTagObjectgroup(Node nodeObjectgroup) {
 	
+		Element elementObjectgroup = (Element) nodeObjectgroup;
+		final int objectGroupID = Integer.parseInt(elementObjectgroup.getAttribute("id"));
+		
+		boolean singleObject = false;
 		NodeList nodeListObjectgroupChilds = nodeObjectgroup.getChildNodes();
 		
 		final int nodeListObjectgroupChildsCnt = nodeListObjectgroupChilds.getLength();
@@ -205,9 +261,9 @@ public class TiledEditorMapLoader {
 						if (elementProperty.getAttribute("name").equals("Single")) {
 							String propertySingleValue = elementProperty.getAttribute("value");
 							
-							// TODO: create object
-							if (DEBUG)
-								System.out.println("single | " + propertySingleValue);
+							singleObject = Boolean.parseBoolean(propertySingleValue);
+							
+							objectGroupManager.addObjectGroup(objectGroupID, singleObject);
 						}
 					}
 				}
@@ -217,18 +273,19 @@ public class TiledEditorMapLoader {
 				
 				// TODO:
 				// BEI DER 'GID' MUSS EVENTUELL EINE ANPASSUNG DER ID PASSIEREN (GID - 1), DA SICH <TILEID> UND <GID> UM DEN WERT <1> UNTERSCHEIDEN!!!
-				String objectGID = elementObject.getAttribute("gid");
-				String objectX = elementObject.getAttribute("x");
-				String objectY = elementObject.getAttribute("y");
-				String objectwidth = elementObject.getAttribute("width");
-				String objectHeight = elementObject.getAttribute("height");
+				final int objectID = Integer.parseInt(elementObject.getAttribute("gid"));
 				
-				// TODO: create object
-				if (DEBUG)
-					System.out.println("(Object) gid: " + objectGID + ", x: " + objectX + ", y: " + objectY + ", width: " + objectwidth + ", height: " + objectHeight);
+				objectGroupManager.addObject(
+						objectGroupID, 
+						objectID, 
+						Float.parseFloat(elementObject.getAttribute("x")), 
+						Float.parseFloat(elementObject.getAttribute("y")), 
+						Integer.parseInt(elementObject.getAttribute("width")), 
+						Integer.parseInt(elementObject.getAttribute("height")));
+				
+				System.out.println("(TiledEditorMapLoader.readTagObjectgroup) | objectID: " + objectID + ", objectGroupID: " + objectGroupID + ", single: " + singleObject);
 			}
 		}
-		
 	}
 	
 	private void readTagProperties(Node nodeProperties) {
@@ -242,18 +299,60 @@ public class TiledEditorMapLoader {
 			
 			if (currentNode.getNodeName().equals(TiledEditorTags.property)) {
 				Element elementProperty = (Element) currentNode;
-				
-				/*
-				 * READ 'PROPERTY' #ObjectLayerID
-				 */
 				if (elementProperty.hasAttribute("name") && elementProperty.getAttribute("name").equals("ObjectLayerID")) {
-					String objectLayerID = elementProperty.getAttribute("value");
-					
-					// TODO: create object
-					if (DEBUG)
-						System.out.println("objectLayerID: " + objectLayerID);
+					objectLayerID = Integer.parseInt(elementProperty.getAttribute("value"));
 				}
 			}
 		}
+	}
+
+	@Override
+	public LayerDataContainer getLayerDataContainer() {
+		return layerDataContainer;
+	}
+
+	@Override
+	public TiledBoundingBoxManager getTiledBoundingBoxManager() {
+		return boundingBoxManager;
+	}
+
+	@Override
+	public int getTileWidth() {
+		return tileWidth;
+	}
+
+	@Override
+	public int getTileHeight() {
+		return tileHeight;
+	}
+
+	@Override
+	public int getTilesX() {
+		return tilesX;
+	}
+
+	@Override
+	public int getTilesY() {
+		return tilesY;
+	}
+
+	@Override
+	public int getChunkWidth() {
+		return chunkwidth;
+	}
+
+	@Override
+	public int getChunkHeight() {
+		return chunkheight;
+	}
+
+	@Override
+	public int getObjectLayerID() {
+		return objectLayerID;
+	}
+
+	@Override
+	public TiledObjectGroupManager getTiledObjectGroupManager() {
+		return objectGroupManager;
 	}
 }

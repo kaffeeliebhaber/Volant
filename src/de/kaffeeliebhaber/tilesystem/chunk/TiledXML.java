@@ -218,10 +218,10 @@ public class TiledXML {
 	}
 	
 	public ChunkSystem createChunkSystem() {
-		ChunkSystem chunkSystem = new ChunkSystem(chunkWidth, chunkHeight);
+		ChunkSystem chunkSystem = new ChunkSystem(tileWidth, tileHeight, 0, 0, chunkWidth, chunkHeight);
 		
-		chunkSystem.setTileWidth(tileWidth);
-		chunkSystem.setTileHeight(tileHeight);
+//		chunkSystem.setTileWidth(tileWidth);
+//		chunkSystem.setTileHeight(tileHeight);
 		
 		for (int chunkID : tilemapHandlers.keySet()) {
 			chunkSystem.addChunk(chunkID, tilemapHandlers.get(chunkID));

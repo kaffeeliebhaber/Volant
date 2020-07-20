@@ -1,9 +1,10 @@
-package de.kaffeeliebhaber.xml.tiledEditor;
+package de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import de.kaffeeliebhaber.gfx.Spritesheet;
+import de.kaffeeliebhaber.tilesystem.TilemapHandler;
 
 public class Chunk {
 
@@ -28,10 +29,10 @@ public class Chunk {
 		addLayer(new Layer(layerID, layerData, tilesX, tilesY, tileWidth, tileHeight, spritesheet));
 	}
 
-	public TilemapManager createTilemapManager() {
-		final TilemapManager tilemapManager = new TilemapManager(chunkID);
-		layers.stream().forEach(l -> tilemapManager.addTilemap(l.createTilemap()));
-		return tilemapManager;
+	public TilemapHandler createTilemapHandler() {
+		final TilemapHandler tilemapHandler = new TilemapHandler();
+		layers.stream().forEach(l -> tilemapHandler.addTilemap(chunkID, l.createTilemap()));
+		return tilemapHandler;
 	}
 	
 	@Override

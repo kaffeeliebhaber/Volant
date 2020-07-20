@@ -28,6 +28,10 @@ public class EntitySystem {
 		initEntitySystem();
 	}
 	
+	public EntitySystem(final ChunkSystem chunkSystem, final Player player) {
+		this(chunkSystem, player, new EntityComparator());
+	}
+	
 	private void initEntitySystem() {
 		
 		final int chunks = chunkSystem.chunks();
@@ -56,7 +60,6 @@ public class EntitySystem {
 		if (currentEntities != null && currentEntities.size() > 0) {
 			final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(currentEntities);
 			final List<Entity> contextEntities = CollisionController.collectAllContextEntities(movingEntities, chunkSystem, currentEntities);
-			
 			entitySystem.get(currentChunkID).stream().forEach(e -> e.update(timeSinceLastFrame, contextEntities));
 			entitySystem.get(currentChunkID).sort(comparator);
 		}

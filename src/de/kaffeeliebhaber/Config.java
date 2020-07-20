@@ -4,8 +4,11 @@ public class Config {
 
 	public static final String IMG_PATH = "src/de/kaffeeliebhaber/assets/";
 	
-	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 768;
+	public static final int SCREEN_TILES_X = 25;
+	public static final int SCREEN_TILES_Y = 25;
+	public static final int TILE_SIZE = 32;
+	public static final int WIDTH = SCREEN_TILES_X * TILE_SIZE;
+	public static final int HEIGHT = SCREEN_TILES_Y * TILE_SIZE;
 	
 	// world 1
 //	public static final String TILE_MAP_PATH = "src/de/kaffeeliebhaber/assets/tiled/voland.xml";

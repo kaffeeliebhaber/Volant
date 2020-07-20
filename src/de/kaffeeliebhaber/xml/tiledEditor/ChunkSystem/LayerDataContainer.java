@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.xml.tiledEditor;
+package de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem;
 
 import java.util.HashMap;
 import java.util.Map;

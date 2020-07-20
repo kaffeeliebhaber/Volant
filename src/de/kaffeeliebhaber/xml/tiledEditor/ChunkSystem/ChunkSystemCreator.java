@@ -1,18 +1,22 @@
-package de.kaffeeliebhaber.xml.tiledEditor;
+package de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
+import de.kaffeeliebhaber.entitySystem.EntitySystem;
+import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.gfx.Spritesheet;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
+import de.kaffeeliebhaber.xml.tiledEditor.EntitySystem.EntitySystemCreator;
 
 public class ChunkSystemCreator {
 
 	private final ChunkSystemCreatorModel model;
 	private final Collection<Chunk> chunks;
 	private final Spritesheet spritesheet;
+	private ChunkSystem chunkSystem = null;
 
 	public ChunkSystemCreator(final ChunkSystemCreatorModel model, final Spritesheet spritesheet) {
 		this.model = model;
@@ -111,11 +115,21 @@ public class ChunkSystemCreator {
 	
 	public ChunkSystem createChunkSystem() {
 		
-		final ChunkSystem chunkSystem = new ChunkSystem(model.getObjectLayerID());
+		chunkSystem = new ChunkSystem(model.getTileWidth(), model.getTileHeight(), model.getTilesX(), model.getTilesY(), model.getChunkWidth(), model.getChunkHeight());
+		chunkSystem.setObjectLayerID(model.getObjectLayerID());
 		
-		chunks.stream().forEach(c -> chunkSystem.addTilemapManager(c.createTilemapManager()));
+		chunks.stream().forEach(c -> chunkSystem.addChunk(c.getChunkID(), c.createTilemapHandler()));
 		
 		return chunkSystem;
+	}
+	
+	public EntitySystem createEntitySystem(final Player player) {
+		
+		if (chunkSystem == null) {
+			throw new IllegalArgumentException("ChunkSystem not available. Call createEntitySystem method first and retry.");
+		}
+		
+		return new EntitySystemCreator(model, chunkSystem, player, spritesheet).createEntitySystem();
 	}
 	
 }

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import de.kaffeeliebhaber.Config;
@@ -31,7 +30,6 @@ import de.kaffeeliebhaber.entitySystem.npc.VolantMasterKnight;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillageElder;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillagePeopleOne;
 import de.kaffeeliebhaber.entitySystem.worldObjects.SimpleBush;
-import de.kaffeeliebhaber.entitySystem.worldObjects.SimpleWorldObject;
 import de.kaffeeliebhaber.inventory.EquipmentManager;
 import de.kaffeeliebhaber.inventory.Inventory;
 import de.kaffeeliebhaber.inventory.ItemManager;
@@ -54,6 +52,9 @@ import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
 import de.kaffeeliebhaber.ui.UIHud;
 import de.kaffeeliebhaber.ui.UIInfoPane;
 import de.kaffeeliebhaber.ui.inventory.UIInventoryManager;
+import de.kaffeeliebhaber.xml.tiledEditor.TiledEditorMapLoader;
+import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.ChunkSystemCreator;
+import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.ChunkSystemCreatorModel;
 
 public class GameObjectManager extends GameObjectLoader {
 
@@ -71,8 +72,17 @@ public class GameObjectManager extends GameObjectLoader {
 	public GameObjectManager() {
 
 		// LOAD AND CREATE CHUNKSYSTEM
-		createChunkSystem(Config.TILE_MAP_PATH);
+		//createChunkSystem(Config.TILE_MAP_PATH);
+		
+		//createPlayer();
+		
+		// Create ChunkSystem, Player and EntitySystem
+		final ChunkSystemCreatorModel model = new TiledEditorMapLoader("src/de/kaffeeliebhaber/assets/test/test.xml");
+		final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
+		chunkSystem = creator.createChunkSystem();
 		createPlayer();
+		
+		entitySystem = creator.createEntitySystem(player);
 
 		addTransitionTilesToChunkSystem();
 
@@ -91,7 +101,7 @@ public class GameObjectManager extends GameObjectLoader {
 		
 		itemManager.addInfoPaneInformerListener(infoPane);
 		
-		entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
+		//entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
 		
 		// TODO: createEntities();
@@ -206,8 +216,9 @@ public class GameObjectManager extends GameObjectLoader {
 
 		// CREATE PLAYER
 		final int playerBoundingBoxHeight = 7;
-		player = new Player(100, 100, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(100, 100 + Config.PLAYER_SIZE - playerBoundingBoxHeight, Config.PLAYER_SIZE, playerBoundingBoxHeight));
+		player = new Player(50, 50, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(50, 50 + Config.PLAYER_SIZE - playerBoundingBoxHeight, Config.PLAYER_SIZE, playerBoundingBoxHeight));
 		player.setDistrict(new Rectangle(0, 0, chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
+		
 	}
 
 	private NPC createNPCVolantVillageElder() {
@@ -362,15 +373,28 @@ public class GameObjectManager extends GameObjectLoader {
 		itemManager.addItem(shield);
 		 */
 	}
+	
+	
 
 	private void createChunkSystem(final String mapPath) {
-		TiledXML tiled = new TiledXML(Config.TILE_MAP_PATH);
-		tiled.load();
-
-		chunkSystem = tiled.createChunkSystem();
-		chunkSystem.setObjectLayerID(Config.TILE_MAP_OBJECT_LAYER_ID);
 		
-		tiled.clear();
+		boolean newSystem = true;
+		
+		if (!newSystem) {
+			TiledXML tiled = new TiledXML(Config.TILE_MAP_PATH);
+			tiled.load();
+	
+			chunkSystem = tiled.createChunkSystem();
+			chunkSystem.setObjectLayerID(Config.TILE_MAP_OBJECT_LAYER_ID);
+			
+			tiled.clear();
+		} else {
+			final ChunkSystemCreatorModel model = new TiledEditorMapLoader("src/de/kaffeeliebhaber/assets/test/test.xml");
+			final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
+			chunkSystem = creator.createChunkSystem();
+			entitySystem = creator.createEntitySystem(player);
+			
+		}
 	}
 
 	public void addTransitionTilesToChunkSystem() {

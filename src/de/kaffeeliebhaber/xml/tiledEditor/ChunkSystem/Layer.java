@@ -1,4 +1,4 @@
-package de.kaffeeliebhaber.xml.tiledEditor;
+package de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem;
 
 import de.kaffeeliebhaber.gfx.Spritesheet;
 import de.kaffeeliebhaber.tilesystem.Tilemap;

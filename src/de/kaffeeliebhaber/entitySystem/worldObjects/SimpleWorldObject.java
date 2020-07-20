@@ -41,8 +41,6 @@ public class SimpleWorldObject extends Entity {
 
 		for (int i = 0; i < images.length; i++) {
 			g.drawImage(images[i], (int) (x - camera.getX()), (int) (y + (height / images.length) * i - camera.getY()), null);
-			
-			//System.out.println("(SimpleWorldObject) render | rendering...");
 		}
 		
 		if (Debug.WORLDOBJECTS_RENDER_SHOW_BOUNDINGBOX) {

@@ -74,7 +74,7 @@ public abstract class MovingEntity extends Entity {
 	
 				Entity currentEntity = entities.get(i);
 				
-				if (currentEntity != this && currentEntity.intersects(translatedBoundingBox)) {
+				if (currentEntity != null && currentEntity != this && currentEntity.intersects(translatedBoundingBox)) {
 					collides = true;
 				}
 			}

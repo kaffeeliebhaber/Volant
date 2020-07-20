@@ -18,6 +18,8 @@ public class ChunkSystem {
 	
 	private int tileWidth;
 	private int tileHeight;
+	private int tilesX;
+	private int tilesY;
 	private int chunkWidth;
 	private int chunkHeight;
 	private Map<Integer, TilemapHandler> chunkSystem;
@@ -25,14 +27,17 @@ public class ChunkSystem {
 	private int currentChunkID;
 	private int objectLayerID;
 	
-	public ChunkSystem(int chunkWidth, int chunkHeight) {
+	public ChunkSystem(int tileWidth, int tileHeight, int tilesX, int tilesY, int chunkWidth, int chunkHeight) {
 		
+		this.tileWidth = tileWidth;
+		this.tileHeight = tileHeight;
+		this.tilesX = tilesX;
+		this.tilesY = tilesY;
 		this.chunkWidth = chunkWidth;
 		this.chunkHeight = chunkHeight;
 		
 		chunkSystem = new TreeMap<Integer, TilemapHandler>();
 		transitionTiles = new TreeMap<Integer, List<TransitionTile>>();
-		
 	}
 	
 	public void update(float timeSinceLastFrame) {
@@ -162,5 +167,27 @@ public class ChunkSystem {
 	public int chunks() {
 		return chunkSystem.keySet().size();
 	}
-
+	
+	public int getChunkID(int worldPosX, int worldPosY) {
+		int chunkX = getChunkX(worldPosX);
+		int chunkY = getChunkY(worldPosY);
+		return chunkX + chunksX() * chunkY;
+	}
+	
+	private int getChunkX(int worldPosX) {
+		int tileXID = worldPosX / this.tileWidth;
+		int chunkXID = tileXID / this.chunkWidth;
+		return chunkXID;
+	}
+	
+	private int getChunkY(int worldPosY) {
+		int tileYID = worldPosY / this.tileHeight;
+		int chunkYID = tileYID / this.chunkHeight;
+		return chunkYID;
+	}
+	
+	private int chunksX() {
+		return this.tilesX / this.chunkWidth;
+	}
+	
 }
