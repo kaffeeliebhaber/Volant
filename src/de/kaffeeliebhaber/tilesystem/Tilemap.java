@@ -1,6 +1,7 @@
 package de.kaffeeliebhaber.tilesystem;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +10,8 @@ import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tilemap {
-
+	
+	private final int ID;
 	private List<Entity> entities;
 	private int rows;
 	private int cols;
@@ -17,8 +19,9 @@ public class Tilemap {
 	private int tileWidth;
 	private Tile[][] tiles;
 	
-	public Tilemap(int cols, int rows, int tileHeight, int tileWidth) {
+	public Tilemap(final int ID, int cols, int rows, int tileHeight, int tileWidth) {
 		
+		this.ID = ID;
 		this.rows = rows;
 		this.cols = cols;
 		
@@ -27,7 +30,6 @@ public class Tilemap {
 		
 		tiles = new Tile[cols][rows];
 		entities = new LinkedList<Entity>();
-		
 	}
 	
 	public void setTiles(Tile[][] tiles) {
@@ -90,6 +92,10 @@ public class Tilemap {
 		if (tile != null && y >= 0 && y < rows && x >= 0 && x < cols) {
 			tiles[y][x] = tile;
 		}
+	}
+	
+	public void addTile(final int ID, final int col, final int row, final BufferedImage image) {
+		addTile(new Tile(ID, col * tileWidth, row * tileHeight, tileWidth, tileHeight, image), col, row);
 	}
 	
 	public Tile getTile(final int x, final int y) {

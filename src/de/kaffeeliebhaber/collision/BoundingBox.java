@@ -48,7 +48,7 @@ public class BoundingBox extends GameObject {
 	
 	@Override
 	public String toString() {
-		return "x: " + x + ", y: " + y + ", width: " + width + ", height: " + height;
+		return "x: " + x + ", y: " + y + ", width: " + width + ", height: " + height + "\n";
 	}
 	
 	public BoundingBox createNew() {

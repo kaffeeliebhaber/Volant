@@ -4,8 +4,11 @@ public class Config {
 
 	public static final String IMG_PATH = "src/de/kaffeeliebhaber/assets/";
 	
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int SCREEN_TILES_X = 25;
+	public static final int SCREEN_TILES_Y = 25;
+	public static final int TILE_SIZE = 32;
+	public static final int WIDTH = SCREEN_TILES_X * TILE_SIZE;
+	public static final int HEIGHT = SCREEN_TILES_Y * TILE_SIZE;
 	
 	// world 1
 //	public static final String TILE_MAP_PATH = "src/de/kaffeeliebhaber/assets/tiled/voland.xml";
@@ -19,9 +22,10 @@ public class Config {
 //	public static final int TILE_MAP_OBJECT_LAYER_ID = 5;
 	
 	// WORLD 3
-	public static final String TILE_MAP_PATH = "src/de/kaffeeliebhaber/assets/tiled/voland.xml";
+//	public static final String TILE_MAP_PATH = "src/de/kaffeeliebhaber/assets/tiled/voland3.xml";
+	public static final String TILE_MAP_PATH = "src/de/kaffeeliebhaber/assets/tiled/volandNewWorld.xml";
 //	public static final String TILE_MAP_TILESET_PATH = "src/de/kaffeeliebhaber/assets/AH_SpriteSheet_Objects.png";
-	public static final int TILE_MAP_OBJECT_LAYER_ID = 2;
+	public static final int TILE_MAP_OBJECT_LAYER_ID = 3;
 	
 	// Spritesheet player
 	public static final String PLAYER_SPRITESHEET = IMG_PATH + "AH_SpriteSheet_People1.png";

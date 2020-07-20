@@ -27,7 +27,7 @@ public class ItemManager {
 	 * noch nicht.
 	 * 
 	 */
-	private Player player;
+	private final Player player;
 	private List<Item> items;
 //	private List<ItemManagerListener> itemManagerListeners;
 	private List<InfoPaneInformerListener> infoPaneInformerListeners;

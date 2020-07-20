@@ -14,7 +14,7 @@ import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 public class EntitySystem {
 
 	// CHUNKID - ENTITYMANAGER
-	private Map<Integer, List<Entity>> entitySystem;
+	private final Map<Integer, List<Entity>> entitySystem;
 	private int currentChunkID;
 	private final ChunkSystem chunkSystem;
 	private final Comparator<Entity> comparator;
@@ -26,6 +26,10 @@ public class EntitySystem {
 		this.comparator = comparator;
 		entitySystem = new HashMap<Integer, List<Entity>>();
 		initEntitySystem();
+	}
+	
+	public EntitySystem(final ChunkSystem chunkSystem, final Player player) {
+		this(chunkSystem, player, new EntityComparator());
 	}
 	
 	private void initEntitySystem() {
@@ -56,7 +60,6 @@ public class EntitySystem {
 		if (currentEntities != null && currentEntities.size() > 0) {
 			final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(currentEntities);
 			final List<Entity> contextEntities = CollisionController.collectAllContextEntities(movingEntities, chunkSystem, currentEntities);
-			
 			entitySystem.get(currentChunkID).stream().forEach(e -> e.update(timeSinceLastFrame, contextEntities));
 			entitySystem.get(currentChunkID).sort(comparator);
 		}
