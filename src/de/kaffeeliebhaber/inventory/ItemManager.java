@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
+import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.inventory.item.Item;
@@ -49,10 +49,12 @@ public class ItemManager {
 	
 	public void update() {
 		if (items.size() > 0) {
-			BoundingBox playerBoundingBox = player.getBoundingBox();
+//			BoundingBox playerBoundingBox = player.getBoundingBox();
+			BoundingBoxController playerBoundingBoxController = player.getBoundingBoxController();
 			for (int i = items.size() - 1; i >= 0; i--) {
 				Item item = items.get(i);
-				if (item.getBoundingBox().intersects(playerBoundingBox)) {
+				if (item.getBoundingBoxController().intersects(playerBoundingBoxController)) {
+					
 					Inventory.instance.add(item);
 					items.remove(i);
 //					nofitifyItemManagerListeners(item);
@@ -68,6 +70,7 @@ public class ItemManager {
 	
 	public void render(Graphics g, Camera camera) {
 		
+//		System.out.println("(ItemManager.render) | render");/
 		if (items.size() > 0) {
 			
 			Iterator<Item> itemIterator = items.iterator();

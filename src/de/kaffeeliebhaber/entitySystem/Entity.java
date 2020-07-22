@@ -6,78 +6,82 @@ import java.util.Collection;
 import java.util.List;
 
 import de.kaffeeliebhaber.collision.BoundingBox;
+import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.math.Vector2f;
 
 public abstract class Entity extends GameObject {
 
-	private Collection<IEntityListener> entityListeners;
-	protected BoundingBox boundingBox;
-	
+	protected Collection<IEntityListener> entityListeners;
+	protected BoundingBoxController boundingBoxController;
+
 	public Entity(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		entityListeners = new ArrayList<IEntityListener>();
+		boundingBoxController = new BoundingBoxController();
+	}
+
+	public void addBoundingBox(final BoundingBox boundingBox) {
+		boundingBoxController.addBoundingBox(boundingBox);
 	}
 	
-	public BoundingBox getBoundingBox() {
-		return boundingBox;
+	public void addBoundingBoxes(final List<BoundingBox> boundingBoxes) {
+		boundingBoxController.addBoundingBoxes(boundingBoxes);
 	}
-	
-	public void setBoundingBox(final BoundingBox boundingBox) {
-		this.boundingBox = boundingBox;
+
+	public BoundingBoxController getBoundingBoxController() {
+		return boundingBoxController;
 	}
-	
-	// TODO: Macht es überhaupt Sinn, diese beiden Methoden als abstrak zu definieren und trotzdem schon eine Instanz-Variable hierfür bereitstellen?
-	// Ich denke, dass hier eher ein CollisionSystem das richtige wäre, dass als Instanz-Variable in der Entity bereitsteht.
-	
-	// TODO: Ich finde es sehr komisch, weshalb es hier eine weiere 'intersects' Methode gibt. Dient sie wirklich nur für den Zweck von mehr als einer
-	// BoundingBox im Fall einer 'Tile'? (Tile.intersects(Entity)). Bitte einmal prüfen. 
-	public abstract boolean intersects(final Entity entity);
-	
-	public abstract boolean intersects(final BoundingBox boundingBox);
-	
+
+	public boolean intersects(final Entity entity) {
+		return boundingBoxController.intersects(entity.getBoundingBoxController());
+	}
+
 	protected void translate(final float dx, final float dy) {
 		setX(x + dx);
 		setY(y + dy);
-		
-		boundingBox.translate(dx, dy);
+		translateBoundingBoxes(dx, dy);
 	}
-	
+
+	public void translateBoundingBoxes(final float dx, final float dy) {
+		boundingBoxController.translate(dx, dy);
+	}
+
 	public void setX(final float newX) {
 		super.setX(newX);
 		notifyEntityListenerEntityUpdated();
 	}
-	
+
 	public void setY(final float newY) {
 		super.setY(newY);
 		notifyEntityListenerEntityUpdated();
 	}
-	
+
 	public void setPosition(Vector2f position) {
 		super.setPosition(position);
 		notifyEntityListenerEntityUpdated();
 	}
-	
+
 	public abstract void update(float timeSinceLastFrame, final List<Entity> entities);
-	
+
 	public abstract void render(Graphics g, Camera c);
-	
+
 	protected void notifyEntityListenerEntityUpdated() {
 		entityListeners.forEach(e -> e.entityUpdated(this));
 	}
-	
+
 	public void addEntityUpdateListener(IEntityListener l) {
 		entityListeners.add(l);
 	}
-	
+
 	public void removeEntityUpdateListener(IEntityListener l) {
 		entityListeners.remove(l);
 	}
-	
+
 	public void addEntityUpdateListeners(final List<? extends IEntityListener> listeners) {
 		entityListeners.addAll(listeners);
 	}
-	
+
 	public void removeEntityUpdateListeners(final List<? extends IEntityListener> listeners) {
 		entityListeners.removeAll(listeners);
 	}

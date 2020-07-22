@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.entitySystem.Entity;
@@ -13,25 +12,26 @@ public class SimpleWorldObject extends Entity {
 
 	private BufferedImage[] images;
 	
+	/*
 	public SimpleWorldObject(float x, float y, int width, int height, BufferedImage[] images, BoundingBox boundingBox) {
 		super(x, y, width, height);
-		setBoundingBox(boundingBox);
+		addBoundingBox(boundingBox);
 		this.images = images;
 	}
 	
 	public SimpleWorldObject(float x, float y, int width, int height, BufferedImage image, BoundingBox boundingBox) {
 		this(x, y, width, height, new BufferedImage[] {image}, boundingBox);
 	}
+	*/
+	
+	public SimpleWorldObject(float x, float y, int width, int height, BufferedImage image) {
+		this(x, y, width, height, new BufferedImage[] {image});
 
-	@Override
-	public boolean intersects(Entity entity) {
-		return false;
 	}
-
-	// TODO: Kann diese Methode nicht auch direkt in der 'Entity' Class verschoeben werden.
-	@Override
-	public boolean intersects(BoundingBox entityBoundingBox) {
-		return boundingBox != null ? boundingBox.intersects(entityBoundingBox) : false;
+	
+	public SimpleWorldObject(float x, float y, int width, int height, BufferedImage[] images) {
+		super(x, y, width, height);
+		this.images = images;
 	}
 
 	public void update(float timeSinceLastFrame, List<Entity> entities) {}
@@ -44,7 +44,7 @@ public class SimpleWorldObject extends Entity {
 		}
 		
 		if (Debug.WORLDOBJECTS_RENDER_SHOW_BOUNDINGBOX) {
-			boundingBox.render(g, camera);
+			boundingBoxController.render(g, camera);
 		} 
 	}
 
