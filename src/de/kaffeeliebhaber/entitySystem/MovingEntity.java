@@ -7,7 +7,6 @@ import java.util.List;
 import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
-import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -58,30 +57,6 @@ public abstract class MovingEntity extends Entity {
 		return movingBehavior;
 	}
 	
- 	public boolean intersects(final Entity entity) {
- 		return intersects(entity.getBoundingBox());
-	}
-	
-	public boolean intersects(final BoundingBox entityBoundingBox) {
-		return boundingBox != null ? boundingBox.intersects(entityBoundingBox) : false;
-	}
-	
-	private boolean collides(final BoundingBox translatedBoundingBox, final List<Entity> entities) {
-		boolean collides = false;
-		
-		if (entities != null && translatedBoundingBox != null) {
-			for (int i = 0; i < entities.size() && !collides; i++) {
-	
-				Entity currentEntity = entities.get(i);
-				
-				if (currentEntity != null && currentEntity != this && currentEntity.intersects(translatedBoundingBox)) {
-					collides = true;
-				}
-			}
-		}
-		return collides;
-	}
-	
 	protected void move(final List<Entity> entities) {
 		if (!isCollisionXDir(entities)) {
 			moveX();
@@ -93,11 +68,11 @@ public abstract class MovingEntity extends Entity {
 	}
 	
 	private boolean isCollisionXDir(final List<Entity> entities) {
-		return collides(BoundingBox.createTranslatedBoundingBox(boundingBox, translationVector.x, 0), entities);
+		return boundingBoxController.intersects(this, entities, translationVector.x, 0);
 	}
 	
 	private boolean isCollisionYDir(final List<Entity> entities) {
-		return collides(BoundingBox.createTranslatedBoundingBox(boundingBox, 0, translationVector.y), entities);
+		return boundingBoxController.intersects(this, entities, 0, translationVector.y);
 	}
 	
 	public void render(Graphics g, Camera camera) {
@@ -107,16 +82,18 @@ public abstract class MovingEntity extends Entity {
 	protected void adjustDistricBorder() {
 		if (district != null) {
 			
-			if (boundingBox.getX() < district.x) {
-				translate(district.x - boundingBox.getX(), 0);
-			} else if (boundingBox.getX() > district.width - boundingBox.getWidth()) {
-				translate(district.width - boundingBox.getWidth()  - boundingBox.getX(), 0);
+			boundingBoxController.calcBoundingBoxesDimensions();
+			
+			if (boundingBoxController.getX() < district.x) {
+				translate(district.x - boundingBoxController.getX(), 0);
+			} else if (boundingBoxController.getX() > district.width - boundingBoxController.getWidth()) {
+				translate(district.width - boundingBoxController.getWidth()  - boundingBoxController.getX(), 0);
 			}
 			
-			if (boundingBox.getY() < district.y) { 
-				translate(0, district.y - boundingBox.getY());
-			} else if (boundingBox.getY() > district.height - boundingBox.getHeight()) { 
-				translate(0, district.height - boundingBox.getHeight() - boundingBox.getY());
+			if (boundingBoxController.getY() < district.y) { 
+				translate(0, district.y - boundingBoxController.getY());
+			} else if (boundingBoxController.getY() > district.height - boundingBoxController.getHeight()) { 
+				translate(0, district.height - boundingBoxController.getHeight() - boundingBoxController.getY());
 			}
 		}
 	}

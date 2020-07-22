@@ -12,14 +12,12 @@ import de.kaffeeliebhaber.inventory.stats.PlayerStats;
 
 public class Player extends MovingEntity {
 
-	// Macht es nicht Sinn, dass Inventory als Bestandteil des Spielers zu nehmen?
-	// private final Inventory inventory;
 	private final PlayerStats playerStats;
 
 	public Player(float x, float y, int width, int height, IAnimationController animationController, IMovingBehavior movingBehavior, final PlayerStats playerStats, BoundingBox boundingBox) {
 		super(x, y, width, height, animationController, movingBehavior);
 		this.playerStats = playerStats;
-		setBoundingBox(boundingBox);
+		addBoundingBox(boundingBox);
 	}
 	
 	public void update(float timeSinceLastFrame, final List<Entity> entities) {
@@ -33,7 +31,7 @@ public class Player extends MovingEntity {
 	
 	private void renderBoundingBox(Graphics g, Camera camera) {
 		if (Debug.PLAYER_RENDER_SHOW_BOUNDINGBOX) {
-			boundingBox.render(g, camera);
+			boundingBoxController.render(g, camera);
 		}
 	}
 	

@@ -6,17 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.kaffeeliebhaber.collision.BoundingBox;
+import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tile extends Entity {
 
-	private List<BoundingBox> boundingBoxes;
-	private int boundingBoxesSize;
+	//private List<BoundingBox> boundingBoxes;
+	//private int boundingBoxesSize;
 	private BufferedImage image;
 	private boolean blocked;
 	private final int ID;
+	private BoundingBoxController boundingBoxController;
 	
 	private static final int SCALE = 2;
 	
@@ -24,7 +26,8 @@ public class Tile extends Entity {
 		super(x, y , width, height);
 		this.ID = ID;
 		this.image = image;
-		boundingBoxes = new ArrayList<BoundingBox>();
+		//boundingBoxes = new ArrayList<BoundingBox>();
+		boundingBoxController = new BoundingBoxController();
 	}
 	
 	public void setImage(BufferedImage image) {
@@ -54,26 +57,29 @@ public class Tile extends Entity {
 	
 	private void renderingBoundingBoxes(Graphics g, Camera camera) {
 		if (Debug.TILE_RENDER_SHOW_BOUNDINGBOX) {
-			if (boundingBoxes.size() > 0) {
-				boundingBoxes.stream().forEach(b -> b.render(g, camera));
-			}
+//			if (boundingBoxes.size() > 0) {
+//				boundingBoxes.stream().forEach(b -> b.render(g, camera));
+//			}
+			boundingBoxController.render(g, camera);
 		}
 	}
 	
-	public void setBoundingBoxes(final List<BoundingBox> boundingBoxesList) {
-		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
-		boundingBoxesSize = boundingBoxes.size();
+	public void setBoundingBoxes(final List<BoundingBox> boundingBoxes) {
+//		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
+//		boundingBoxesSize = boundingBoxes.size();
+		boundingBoxController.addBoundingBoxes(boundingBoxes);
 	}
 	
-	private boolean areBoundingBoxesAvailable() {
-		return boundingBoxesSize > 0;
-	}
+//	private boolean areBoundingBoxesAvailable() {
+//		return boundingBoxesSize > 0;
+//	}
 	
 	public void adjustBoundingBoxes() {
-		boundingBoxes.stream().forEach(b -> b.translate(x, y));
+		//boundingBoxes.stream().forEach(b -> b.translate(x, y));
+		boundingBoxController.translate(x, y);
 	}
 
-	@Override
+/*
 	public boolean intersects(Entity entity) {
 		
 		boolean intersects = false;
@@ -86,8 +92,7 @@ public class Tile extends Entity {
 		
 		return intersects;
 	}
-
-	@Override
+	
 	public boolean intersects(BoundingBox boundingBox) {
 		
 		boolean intersects = false;
@@ -100,4 +105,5 @@ public class Tile extends Entity {
 		
 		return intersects;
 	}
+	*/
 }

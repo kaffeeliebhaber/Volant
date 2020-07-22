@@ -162,7 +162,7 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 
 		// TODO: create object
 		if (DEBUG)
-			System.out.println("(BB TILED-ID: " + tileID + ") x: " + boundingBoxX + ", y: " + boundingBoxY + ", width: " + boundingBoxWidth + ", height: " + boundingBoxHeight);
+			System.out.println("(TiledEditorMapLoader.readTagLayer) | (BB TILED-ID: " + tileID + ") x: " + boundingBoxX + ", y: " + boundingBoxY + ", width: " + boundingBoxWidth + ", height: " + boundingBoxHeight);
 	}
 	
 	private void readTagEditorsettings(Node nodeEditorsettings) {
@@ -188,7 +188,7 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 		final int layerID = Integer.parseInt(elementLayer.getAttribute("id"));
 		
 		if (DEBUG)
-			System.out.println("LayerID | " + layerID);
+			System.out.println("(TiledEditorMapLoader.readTagLayer) | LayerID: " + layerID);
 		
 		NodeList nodeListLayerChilds = nodeLayer.getChildNodes();
 		
@@ -283,7 +283,7 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 						Integer.parseInt(elementObject.getAttribute("width")), 
 						Integer.parseInt(elementObject.getAttribute("height")));
 				
-				System.out.println("(TiledEditorMapLoader.readTagObjectgroup) | objectID: " + objectID + ", objectGroupID: " + objectGroupID + ", single: " + singleObject);
+				//System.out.println("(TiledEditorMapLoader.readTagObjectgroup) | objectID: " + objectID + ", objectGroupID: " + objectGroupID + ", single: " + singleObject);
 			}
 		}
 	}

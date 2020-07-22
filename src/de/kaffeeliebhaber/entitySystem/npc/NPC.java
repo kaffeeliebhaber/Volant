@@ -39,7 +39,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		super(x, y, width, height, animationController, movingBehavior);
 
 		setInteractionDirection(interactionDirection);
-		setBoundingBox(new BoundingBox((int) x, (int) (y + height - BOUNDINGBOX_HEIGHT), width, BOUNDINGBOX_HEIGHT));
+		addBoundingBox(new BoundingBox((int) x, (int) (y + height - BOUNDINGBOX_HEIGHT), width, BOUNDINGBOX_HEIGHT));
 
 		infoPaneInformerListeners = new ArrayList<InfoPaneInformerListener>();
 
@@ -58,7 +58,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		g.drawImage(animationController.getImage(), (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
 
 		if (Debug.NPC_RENDER_SHOW_BOUNDINGBOX) {
-			boundingBox.render(g, camera);
+			boundingBoxController.render(g, camera);
 		}
 
 		if (Debug.NPC_RENDER_SHOW_INTERACTIONOX) {
@@ -107,7 +107,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 	}
 
 	private boolean isOnInteractionLayer(Player player) {
-		return player.intersects(getInteractionBox());
+		return getInteractionBox().intersects(player.getBoundingBoxController().getBoundingBoxes());
 	}
 
 	private void fireInformationPaneEvent() {

@@ -1,11 +1,9 @@
 package de.kaffeeliebhaber.tilesystem.transition.tile;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.IEntityListener;
@@ -51,7 +49,9 @@ public class TransitionTile extends Entity implements IEntityListener {
 	
 	@Override
 	public void render(Graphics g, Camera camera) {
-		boundingBox.render(g, camera);
+		//boundingBoxes.stream().forEach(b -> b.render(g, camera));
+		boundingBoxController.render(g, camera);
+		
 	}
 	
 //	private void renderBoundingBox(Graphics g, Camera camera) {
@@ -100,6 +100,7 @@ public class TransitionTile extends Entity implements IEntityListener {
 		}
 	}
 
+	/*
 	@Override
 	public boolean intersects(Entity entity) {
 		return entity.intersects(boundingBox);
@@ -109,5 +110,5 @@ public class TransitionTile extends Entity implements IEntityListener {
 	public boolean intersects(BoundingBox boundingBox) {
 		return boundingBox.intersects(this.boundingBox);
 	}
-
+*/
 }

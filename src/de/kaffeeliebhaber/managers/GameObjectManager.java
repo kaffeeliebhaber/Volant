@@ -72,9 +72,12 @@ public class GameObjectManager extends GameObjectLoader {
 	public GameObjectManager() {
 
 		// LOAD AND CREATE CHUNKSYSTEM
-		//createChunkSystem(Config.TILE_MAP_PATH);
-		
+		/*
+		createChunkSystem(Config.TILE_MAP_PATH);
+		createPlayer();
+		*/
 		//createPlayer();
+		
 		
 		// Create ChunkSystem, Player and EntitySystem
 		final ChunkSystemCreatorModel model = new TiledEditorMapLoader("src/de/kaffeeliebhaber/assets/test/test.xml");
@@ -83,8 +86,9 @@ public class GameObjectManager extends GameObjectLoader {
 		createPlayer();
 		
 		entitySystem = creator.createEntitySystem(player);
+		
 
-		addTransitionTilesToChunkSystem();
+		//addTransitionTilesToChunkSystem();
 
 		camera = new Camera(0, 0, Config.WIDTH, Config.HEIGHT, new Dimension(chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 		camera.focusOn(player);
@@ -104,9 +108,9 @@ public class GameObjectManager extends GameObjectLoader {
 		//entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
 		
-		// TODO: createEntities();
-		// TODO: createNPCs();
-		// TODO: createWorldObjects();
+		createEntities();
+		createNPCs();
+		//createWorldObjects();
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
 		hud = new UIHud(player);
 	}
@@ -146,7 +150,7 @@ public class GameObjectManager extends GameObjectLoader {
 
 	private void createNPCs() {
 
-		final int countOfFox = 0;
+		final int countOfFox = 2;
 
 		final Random r = new Random();
 
@@ -310,57 +314,57 @@ public class GameObjectManager extends GameObjectLoader {
 		IItemAction increaseHP10 = new FillUpHealthPointsAction(player, 10);
 
 		Item sword = new EquipItem(ItemCategory.EQUIPMENT, ItemType.WEAPON, "Einfaches Schwert", AssetsLoader.spritesheetInventory.getImageByIndex(37));
-		sword.setBoundingBox(new BoundingBox(300, 300, 16, 16));
+		sword.addBoundingBox(new BoundingBox(300, 300, 16, 16));
 		sword.setStackable(false);
 		sword.setArmorValue(1);
 		sword.setDamageValue(4);
 
 		Item chest = new EquipItem(ItemCategory.EQUIPMENT, ItemType.CHEST, "Einfacher Brustpanzer", AssetsLoader.spritesheetInventory.getImageByIndex(5));
-		chest.setBoundingBox(new BoundingBox(120, 210, 16, 16));
+		chest.addBoundingBox(new BoundingBox(120, 210, 16, 16));
 		chest.setStackable(false);
 		chest.setArmorValue(5);
 		chest.setDamageValue(2);
 
 		Item legs = new EquipItem(ItemCategory.EQUIPMENT, ItemType.LEGS, "Einfache Hose", AssetsLoader.spritesheetInventory.getImageByIndex(12));
-		legs.setBoundingBox(new BoundingBox(400, 320, 16, 16));
+		legs.addBoundingBox(new BoundingBox(400, 320, 16, 16));
 		legs.setStackable(false);
 		legs.setArmorValue(3);
 		legs.setDamageValue(1);
 
 		Item feets = new EquipItem(ItemCategory.EQUIPMENT, ItemType.FEETS, "Einfache Stiefel", AssetsLoader.spritesheetInventory.getImageByIndex(13));
-		feets.setBoundingBox(new BoundingBox(170, 520, 16, 16));
+		feets.addBoundingBox(new BoundingBox(170, 520, 16, 16));
 		feets.setStackable(false);
 		feets.setArmorValue(5);
 		feets.setDamageValue(2);
 
 		Item head = new EquipItem(ItemCategory.EQUIPMENT, ItemType.HEAD, "Einfache Helm", AssetsLoader.spritesheetInventory.getImageByIndex(4));
-		head.setBoundingBox(new BoundingBox(70, 320, 16, 16));
+		head.addBoundingBox(new BoundingBox(70, 320, 16, 16));
 		head.setStackable(false);
 		head.setArmorValue(5);
 		head.setDamageValue(3);
 
 		Item shield = new EquipItem(ItemCategory.EQUIPMENT, ItemType.SHIELD, "Einfache Stiefel", AssetsLoader.spritesheetInventory.getImageByIndex(20));
-		shield.setBoundingBox(new BoundingBox(20, 70, 16, 16));
+		shield.addBoundingBox(new BoundingBox(20, 70, 16, 16));
 		shield.setStackable(false);
 		shield.setArmorValue(5);
 		shield.setDamageValue(2);
 
 		Item potion = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0), increaseHP10);
-		potion.setBoundingBox(new BoundingBox(190, 60, 16, 16));
+		potion.addBoundingBox(new BoundingBox(190, 60, 16, 16));
 		potion.setStackable(true);
 
 		Item potion2 = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0), increaseHP10);
-		potion2.setBoundingBox(new BoundingBox(290, 160, 16, 16));
+		potion2.addBoundingBox(new BoundingBox(290, 160, 16, 16));
 		potion2.setStackable(true);
 
 		Item poisson = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "GIFT (1)", AssetsLoader.spritesheetInventory.getImageByIndex(1), new FillUpHealthPointsAction(player, -30));
-		poisson.setBoundingBox(new BoundingBox(340, 260, 16, 16));
+		poisson.addBoundingBox(new BoundingBox(340, 260, 16, 16));
 		poisson.setStackable(true);
 
 		// create item manager
 		itemManager = new ItemManager(player);
 		
-		/*TODO:
+		//TODO:
 		
 		itemManager.addItem(sword);
 		itemManager.addItem(chest);
@@ -371,7 +375,7 @@ public class GameObjectManager extends GameObjectLoader {
 		itemManager.addItem(feets);
 		itemManager.addItem(head);
 		itemManager.addItem(shield);
-		 */
+		 
 	}
 	
 	
@@ -401,38 +405,38 @@ public class GameObjectManager extends GameObjectLoader {
 
 		// CHUNK 0
 		TransitionTile tile = new TransitionTile(50 * 32 - 2, 300, 2, 100, 1, TransitionDirection.RIGHT);
-		tile.setBoundingBox(new BoundingBox(50 * 32 - 2, 300, 2, 100));
+		tile.addBoundingBox(new BoundingBox(50 * 32 - 2, 300, 2, 100));
 		chunkSystem.addTransitionTile(0, tile);
 
 		tile = new TransitionTile(480, 50 * 32 - 2, 180, 2, 4, TransitionDirection.DOWN);
-		tile.setBoundingBox(new BoundingBox(480, 50 * 32 - 2, 180, 2));
+		tile.addBoundingBox(new BoundingBox(480, 50 * 32 - 2, 180, 2));
 		chunkSystem.addTransitionTile(0, tile);
 
 		// CHUNK 1
 		tile = new TransitionTile(0, 300, 2, 100, 0, TransitionDirection.LEFT);
-		tile.setBoundingBox(new BoundingBox(0, 330, 2, 100));
+		tile.addBoundingBox(new BoundingBox(0, 330, 2, 100));
 		chunkSystem.addTransitionTile(1, tile);
 
 		tile = new TransitionTile(150, 50 * 32 - 2, 100, 2, 3, TransitionDirection.DOWN);
-		tile.setBoundingBox(new BoundingBox(150, 50 * 32 - 2, 100, 2));
+		tile.addBoundingBox(new BoundingBox(150, 50 * 32 - 2, 100, 2));
 		chunkSystem.addTransitionTile(1, tile);
 
 		// CHUNK 2
 		tile = new TransitionTile(480, 0, 180, 2, 0, TransitionDirection.UP);
-		tile.setBoundingBox(new BoundingBox(480, 0, 180, 2));
+		tile.addBoundingBox(new BoundingBox(480, 0, 180, 2));
 		chunkSystem.addTransitionTile(2, tile);
 
 		tile = new TransitionTile(50 * 32 - 2, 150, 2, 100, 3, TransitionDirection.RIGHT);
-		tile.setBoundingBox(new BoundingBox(50 * 32 - 2, 150, 2, 100));
+		tile.addBoundingBox(new BoundingBox(50 * 32 - 2, 150, 2, 100));
 		chunkSystem.addTransitionTile(2, tile);
 
 		// CHUNK 3
 		tile = new TransitionTile(150, 0, 100, 2, 1, TransitionDirection.UP);
-		tile.setBoundingBox(new BoundingBox(150, 0, 100, 2));
+		tile.addBoundingBox(new BoundingBox(150, 0, 100, 2));
 		chunkSystem.addTransitionTile(3, tile);
 
 		tile = new TransitionTile(0, 150, 2, 100, 2, TransitionDirection.LEFT);
-		tile.setBoundingBox(new BoundingBox(0, 150, 2, 100));
+		tile.addBoundingBox(new BoundingBox(0, 150, 2, 100));
 		chunkSystem.addTransitionTile(3, tile);
 		
 	}

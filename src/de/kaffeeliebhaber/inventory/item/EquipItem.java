@@ -13,7 +13,6 @@ public class EquipItem extends Item {
 
 	@Override
 	public void use() {
-		
 		EquipmentManager.instance.equip(this);
 		Inventory.instance.remove(this);
 		

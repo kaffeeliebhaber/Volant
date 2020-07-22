@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import de.kaffeeliebhaber.collision.BoundingBox;
+import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.inventory.item.actions.IItemAction;
 
@@ -15,8 +16,9 @@ public abstract class Item {
 	private String itemDescription;
 	protected int quantity;
 	private boolean stackable;
-	private BoundingBox boundingBox;
+//	private BoundingBox boundingBox;
 	private BufferedImage itemImage;
+	private BoundingBoxController boundingBoxController;
 	
 	// action
 	protected IItemAction itemAction;
@@ -31,6 +33,8 @@ public abstract class Item {
 		this.itemName = itemName;
 		this.itemImage = itemImage;
 		
+		boundingBoxController = new BoundingBoxController();
+		
 		// DEFAULT QUANTITY
 		this.quantity = 1;
 	}
@@ -40,8 +44,8 @@ public abstract class Item {
 		return itemCategory;
 	}
 	
-	public BoundingBox getBoundingBox() {
-		return boundingBox;
+	public BoundingBoxController getBoundingBoxController() {
+		return boundingBoxController;
 	}
 	
 	public String getName() {
@@ -76,8 +80,8 @@ public abstract class Item {
 		return itemImage;
 	}
 	
-	public void setBoundingBox(final BoundingBox boundingBox) {
-		this.boundingBox = boundingBox;
+	public void addBoundingBox(final BoundingBox boundingBox) {
+		boundingBoxController.addBoundingBox(boundingBox);
 	}
 	
 	public void setStackable(boolean stackable) {
@@ -119,14 +123,15 @@ public abstract class Item {
 	}
 	
 	public void render(Graphics g, Camera camera) {
-		g.drawImage(itemImage, (int) (boundingBox.getX() - camera.getX()), (int) (boundingBox.getY() - camera.getY()), boundingBox.getWidth(), boundingBox.getHeight(), null);
+		boundingBoxController.calcBoundingBoxesDimensions();
+		g.drawImage(itemImage, (int) (boundingBoxController.getX() - camera.getX()), (int) (boundingBoxController.getY() - camera.getY()), boundingBoxController.getWidth(), boundingBoxController.getHeight(), null);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((boundingBox == null) ? 0 : boundingBox.hashCode());
+		result = prime * result + ((boundingBoxController == null) ? 0 : boundingBoxController.hashCode());
 		result = prime * result + ((itemCategory == null) ? 0 : itemCategory.hashCode());
 		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
 		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
