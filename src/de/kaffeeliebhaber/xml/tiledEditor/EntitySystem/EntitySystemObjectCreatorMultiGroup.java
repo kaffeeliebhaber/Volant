@@ -2,9 +2,8 @@ package de.kaffeeliebhaber.xml.tiledEditor.EntitySystem;
 
 import java.util.List;
 
-import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.EntitySystem;
-import de.kaffeeliebhaber.entitySystem.worldObjects.SimpleWorldObject;
+import de.kaffeeliebhaber.entitySystem.worldObjects.StaticEntity;
 import de.kaffeeliebhaber.gfx.Spritesheet;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.xml.tiledEditor.BoundingBox.TiledBoundingBox;
@@ -24,18 +23,22 @@ public class EntitySystemObjectCreatorMultiGroup extends EntitySystemObjectCreat
 		final List<TiledObject> objects = objectGroup.getObjects();
 		
 		for (TiledObject object : objects) {
-			Entity simpleWorldObject = new SimpleWorldObject(object.getX(), object.getY(), object.getWidth(), object.getHeight(), spritesheet.getImageByIndex(object.getID() - 1));
 			
-			final TiledBoundingBox tiledBoundingBox = boundingBoxManager.getTiledBoundingBox(object.getID() - 1);
+			final StaticEntity staticEntity = new StaticEntity(object.getX(), object.getY(), object.getWidth(), object.getHeight());
+			staticEntity.addBufferedImage(spritesheet.getImageByIndex(object.getID() - 1), object.getX(), object.getY());
 			
-			if (tiledBoundingBox != null) {
-				simpleWorldObject.addBoundingBoxes(tiledBoundingBox.getBoundingBoxes());
-				simpleWorldObject.translateBoundingBoxes(object.getX(), object.getY());
+			if (!boundingBoxManager.isEmpty()) {
+				final TiledBoundingBox tiledBoundingBox = boundingBoxManager.getTiledBoundingBox(object.getID() - 1);
+				
+				if (tiledBoundingBox != null) {
+					staticEntity.addBoundingBoxes(tiledBoundingBox.getBoundingBoxes());
+					staticEntity.translateBoundingBoxes(object.getX(), object.getY());
+				}
 			}
 			
 			final int chunkID = chunkSystem.getChunkID((int) object.getX(), (int) object.getY());
 			
-			entitySystem.add(chunkID, simpleWorldObject);
+			entitySystem.add(chunkID, staticEntity);
 		}
 	}
 

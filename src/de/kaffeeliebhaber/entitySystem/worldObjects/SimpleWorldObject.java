@@ -8,7 +8,7 @@ import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
-public class SimpleWorldObject extends Entity {
+public abstract class SimpleWorldObject extends Entity {
 
 	private BufferedImage[] images;
 	
@@ -24,6 +24,12 @@ public class SimpleWorldObject extends Entity {
 	}
 	*/
 	
+	
+	/*
+	 *  TODO: Problem: Jedes BufferedImage muss eigentlich wissen, wo es gezeichnet werden soll.
+	 *  TODO: Eine Idee an dieser Stelle eine neue Klasse, die ein Vector2f und ein BufferedImage nimmt und selbst dafür verantwortlich ist, es zu zeichnen.
+	 * 
+	 */
 	public SimpleWorldObject(float x, float y, int width, int height, BufferedImage image) {
 		this(x, y, width, height, new BufferedImage[] {image});
 
