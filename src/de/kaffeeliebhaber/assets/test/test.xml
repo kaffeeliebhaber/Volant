@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="17">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="123">
  <editorsettings>
   <chunksize width="25" height="25"/>
  </editorsettings>
  <properties>
   <property name="ObjectLayerID" type="int" value="2"/>
  </properties>
- <tileset firstgid="1" name="voland_spritesheet_new" tilewidth="32" tileheight="32" tilecount="12" columns="6">
-  <image source="../pyxel/voland_spritesheet_new.png" width="192" height="64"/>
+ <tileset firstgid="1" name="voland_spritesheet_new" tilewidth="32" tileheight="32" tilecount="18" columns="6">
+  <image source="../pyxel/voland_spritesheet_new.png" width="192" height="96"/>
   <tile id="7">
    <objectgroup draworder="index" id="2">
     <object id="1" x="8.0048" y="20.5563" width="19.9159" height="7.36442"/>
@@ -19,16 +19,26 @@
     <object id="1" x="9.98999" y="28.1129" width="7.94076" height="1.92115"/>
    </objectgroup>
   </tile>
+  <tile id="12">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="21.2708" y="24.3095" width="10.4738" height="5.43085"/>
+   </objectgroup>
+  </tile>
+  <tile id="13">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="26.4431" width="7.04718" height="2.45681"/>
+   </objectgroup>
+  </tile>
  </tileset>
  <layer id="1" name="Background" width="50" height="50">
   <data encoding="csv">
-1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-9,9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-9,9,9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-9,9,9,9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,4,4,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,4,4,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,4,4,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,4,4,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,1,9,9,9,9,9,9,9,1,1,1,1,9,9,9,9,9,9,1,1,1,1,1,1,4,4,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,1,9,9,9,9,9,9,1,1,1,1,9,9,9,9,9,9,1,1,1,1,1,1,4,4,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,1,9,9,9,9,9,1,1,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
 9,9,9,9,9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
 9,9,9,9,9,9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
 9,9,9,9,9,9,9,9,9,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
@@ -74,30 +84,93 @@
 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9
 </data>
  </layer>
- <objectgroup id="3" name="Dorf Voland Peter 1" visible="0">
+ <objectgroup id="3" name="Dorf Voland Peter 1 (single)">
   <properties>
    <property name="Single" type="bool" value="true"/>
   </properties>
-  <object id="1" gid="8" x="560" y="175" width="32" height="32"/>
-  <object id="2" gid="10" x="561" y="207" width="32" height="32"/>
+  <object id="55" gid="8" x="655.333" y="260" width="32" height="32"/>
+  <object id="56" gid="8" x="655.333" y="234.667" width="32" height="32"/>
+  <object id="57" gid="8" x="655.333" y="210" width="32" height="32"/>
+  <object id="58" gid="8" x="656" y="186" width="32" height="32"/>
+  <object id="59" gid="8" x="654" y="165.333" width="32" height="32"/>
+  <object id="60" gid="8" x="655.333" y="136" width="32" height="32"/>
+  <object id="61" gid="8" x="654.667" y="111.333" width="32" height="32"/>
+  <object id="62" gid="8" x="658.667" y="88" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="5" name="Big Tree (Single)">
+  <properties>
+   <property name="Single" type="bool" value="true"/>
+  </properties>
+  <object id="89" gid="11" x="700" y="167" width="32" height="32"/>
+  <object id="90" gid="12" x="731.708" y="167.042" width="32" height="32"/>
+  <object id="91" gid="13" x="701.167" y="198.625" width="32" height="32"/>
+  <object id="92" gid="14" x="732.833" y="197.708" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="6" name="Big Tree 2 (Single)">
+  <properties>
+   <property name="Single" type="bool" value="true"/>
+  </properties>
+  <object id="94" gid="11" x="420" y="168.333" width="32" height="32"/>
+  <object id="95" gid="12" x="451.333" y="168" width="32" height="32"/>
+  <object id="96" gid="13" x="420" y="198.667" width="32" height="32"/>
+  <object id="97" gid="14" x="452" y="199" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="4" name="Dort Voland Tamor">
   <properties>
    <property name="Single" type="bool" value="false"/>
   </properties>
-  <object id="3" type="Trigger" gid="8" x="300" y="250" width="32" height="32"/>
-  <object id="5" gid="8" x="392" y="342" width="32" height="32"/>
-  <object id="6" gid="8" x="78" y="239" width="32" height="32"/>
-  <object id="7" gid="8" x="127" y="403" width="32" height="32"/>
-  <object id="8" gid="8" x="223" y="483" width="32" height="32"/>
-  <object id="9" gid="8" x="188" y="287" width="32" height="32"/>
-  <object id="10" gid="8" x="263" y="129" width="32" height="32"/>
-  <object id="11" gid="8" x="135" y="72" width="32" height="32"/>
-  <object id="12" gid="8" x="422" y="127" width="32" height="32"/>
-  <object id="13" gid="8" x="371" y="523" width="32" height="32"/>
-  <object id="14" gid="8" x="18" y="354" width="32" height="32"/>
-  <object id="15" gid="8" x="58" y="546" width="32" height="32"/>
-  <object id="16" gid="8" x="240" y="381" width="32" height="32"/>
+  <object id="63" gid="10" x="564.667" y="256" width="32" height="32"/>
+  <object id="64" gid="10" x="564" y="222.667" width="32" height="32"/>
+  <object id="65" gid="10" x="563.333" y="189.333" width="32" height="32"/>
+  <object id="66" gid="10" x="566.667" y="156.667" width="32" height="32"/>
+  <object id="67" gid="10" x="561.333" y="118.667" width="32" height="32"/>
+  <object id="68" gid="10" x="560" y="75.3333" width="32" height="32"/>
+  <object id="69" gid="10" x="514.667" y="74.6667" width="32" height="32"/>
+  <object id="70" gid="10" x="455.333" y="74.6667" width="32" height="32"/>
+  <object id="71" gid="10" x="416" y="74.6667" width="32" height="32"/>
+  <object id="72" gid="10" x="355.333" y="72.6667" width="32" height="32"/>
+  <object id="73" gid="10" x="328" y="77.3333" width="32" height="32"/>
+  <object id="74" gid="10" x="290.667" y="72.6667" width="32" height="32"/>
+  <object id="75" gid="10" x="287.333" y="111.333" width="32" height="32"/>
+  <object id="76" gid="10" x="290" y="148" width="32" height="32"/>
+  <object id="77" gid="10" x="291.333" y="185.333" width="32" height="32"/>
+  <object id="78" gid="10" x="292.667" y="218.667" width="32" height="32"/>
+  <object id="79" gid="10" x="289.333" y="256.667" width="32" height="32"/>
+  <object id="80" gid="10" x="292.667" y="287.333" width="32" height="32"/>
+  <object id="81" gid="10" x="332.667" y="290.667" width="32" height="32"/>
+  <object id="82" gid="10" x="360.667" y="287.333" width="32" height="32"/>
+  <object id="83" gid="10" x="400" y="288.667" width="32" height="32"/>
+  <object id="84" gid="10" x="435.333" y="289.333" width="32" height="32"/>
+  <object id="85" gid="10" x="464" y="288.667" width="32" height="32"/>
+  <object id="86" gid="10" x="501.333" y="293.333" width="32" height="32"/>
+  <object id="87" gid="10" x="542" y="290" width="32" height="32"/>
+  <object id="88" gid="10" x="568.667" y="287.333" width="32" height="32"/>
+  <object id="93" gid="8" x="526.333" y="115" width="32" height="32"/>
+  <object id="98" gid="10" x="589" y="401" width="32" height="32"/>
+  <object id="99" gid="10" x="525.333" y="360" width="32" height="32"/>
+  <object id="100" gid="10" x="451" y="402" width="32" height="32"/>
+  <object id="101" gid="10" x="383.667" y="346.333" width="32" height="32"/>
+  <object id="102" gid="10" x="306.667" y="367.667" width="32" height="32"/>
+  <object id="103" gid="10" x="342.667" y="418" width="32" height="32"/>
+  <object id="104" gid="10" x="122" y="243" width="32" height="32"/>
+  <object id="105" gid="10" x="96" y="339" width="32" height="32"/>
+  <object id="106" gid="10" x="183" y="470" width="32" height="32"/>
+  <object id="107" gid="10" x="326" y="497" width="32" height="32"/>
+  <object id="108" gid="10" x="131" y="587" width="32" height="32"/>
+  <object id="109" gid="10" x="71" y="440" width="32" height="32"/>
+  <object id="110" gid="10" x="234" y="349" width="32" height="32"/>
+  <object id="111" gid="10" x="545" y="533" width="32" height="32"/>
+  <object id="112" gid="10" x="287" y="591" width="32" height="32"/>
+  <object id="113" gid="10" x="538" y="615" width="32" height="32"/>
+  <object id="114" gid="8" x="483" y="465" width="32" height="32"/>
+  <object id="115" gid="8" x="413" y="575" width="32" height="32"/>
+  <object id="116" gid="8" x="210" y="506" width="32" height="32"/>
+  <object id="117" gid="8" x="192" y="382" width="32" height="32"/>
+  <object id="118" gid="8" x="135" y="335" width="32" height="32"/>
+  <object id="119" gid="8" x="206" y="240" width="32" height="32"/>
+  <object id="120" gid="8" x="54" y="153" width="32" height="32"/>
+  <object id="121" gid="8" x="19" y="247" width="32" height="32"/>
+  <object id="122" gid="8" x="236" y="91" width="32" height="32"/>
  </objectgroup>
  <layer id="2" name="Objects" width="50" height="50" visible="0">
   <data encoding="csv">

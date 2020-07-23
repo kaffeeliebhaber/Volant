@@ -35,6 +35,34 @@ public class TiledObjectGroup {
 		return this.tiledObjects;
 	}
 	
+	public float getMaxX() {
+		float max = Float.MIN_VALUE;
+		
+		for (final TiledObject object : tiledObjects) {
+			float currentX = object.getX();
+			
+			if (currentX > max) {
+				max = currentX;
+			}
+		}
+		
+		return max;
+	}
+	
+	public float getMaxY() {
+		float max = Float.MIN_VALUE;
+		
+		for (final TiledObject object : tiledObjects) {
+			float currentY = object.getY() + object.getHeight();
+			
+			if (currentY > max) {
+				max = currentY;
+			}
+		}
+		
+		return max;
+	}
+	
 	@Override
 	public String toString() {
 		
