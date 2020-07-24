@@ -2,20 +2,20 @@ package de.kaffeeliebhaber.xml.tiledEditor.ObjectSystem;
 
 public class TiledObject {
 
-	private final int ID;
+	private final int GID;
 	private float x, y;
 	private int width, height;
 	
-	public TiledObject(final int ID, float x, float y, int width, int height) {
-		this.ID = ID;
+	public TiledObject(final int GID, float x, float y, int width, int height) {
+		this.GID = GID;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
 
-	public int getID() {
-		return ID;
+	public int getGID() {
+		return GID;
 	}
 
 	public float getX() {
@@ -36,7 +36,7 @@ public class TiledObject {
 
 	@Override
 	public String toString() {
-		return "TiledObject [ID=" + ID + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]\n";
+		return "TiledObject [ID=" + GID + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]\n";
 	}
 	
 }

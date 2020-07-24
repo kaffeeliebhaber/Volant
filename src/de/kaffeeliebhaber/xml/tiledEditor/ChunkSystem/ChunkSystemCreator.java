@@ -10,6 +10,8 @@ import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.gfx.Spritesheet;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.xml.tiledEditor.EntitySystem.EntitySystemCreator;
+import de.kaffeeliebhaber.xml.tiledEditor.Freeform.TiledFreeformGroupManager;
+import de.kaffeeliebhaber.xml.tiledEditor.Freeform.TiledFreeformObjectCreator;
 
 public class ChunkSystemCreator {
 
@@ -121,6 +123,10 @@ public class ChunkSystemCreator {
 		chunks.stream().forEach(c -> chunkSystem.addChunk(c.getChunkID(), c.createTilemapHandler()));
 		
 		return chunkSystem;
+	}
+	
+	public void createFreeformObjects() {
+		new TiledFreeformObjectCreator(model.getTiledFreeformGroupManager(), chunkSystem).create();
 	}
 	
 	public EntitySystem createEntitySystem(final Player player) {

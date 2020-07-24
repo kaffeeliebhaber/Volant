@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import de.kaffeeliebhaber.xml.tiledEditor.BoundingBox.TiledBoundingBoxManager;
 import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.ChunkSystemCreatorModel;
 import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.LayerDataContainer;
+import de.kaffeeliebhaber.xml.tiledEditor.Freeform.TiledFreeformGroupManager;
 import de.kaffeeliebhaber.xml.tiledEditor.ObjectSystem.TiledObjectGroupManager;
 
 public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
@@ -26,6 +27,7 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 	private TiledBoundingBoxManager boundingBoxManager;
 	private LayerDataContainer layerDataContainer;
 	private TiledObjectGroupManager objectGroupManager;
+	private TiledFreeformGroupManager freeformGroupManager;
 	private int tileWidth;
 	private int tileHeight;
 	private int tilesX;
@@ -46,9 +48,10 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 	
 	private void init() {
 		
-		boundingBoxManager = new TiledBoundingBoxManager();
-		layerDataContainer = new LayerDataContainer();
-		objectGroupManager = new TiledObjectGroupManager();
+		boundingBoxManager 		= new TiledBoundingBoxManager();
+		layerDataContainer 		= new LayerDataContainer();
+		objectGroupManager 		= new TiledObjectGroupManager();
+		freeformGroupManager 	= new TiledFreeformGroupManager();
 		
 		openDocument();
 		readDocument();
@@ -267,23 +270,75 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 						}
 					}
 				}
-				
 			} else if (currentNode.getNodeName().equals(TiledEditorTags.object)) {
 				Element elementObject = (Element) currentNode;
 				
-				// TODO:
-				// BEI DER 'GID' MUSS EVENTUELL EINE ANPASSUNG DER ID PASSIEREN (GID - 1), DA SICH <TILEID> UND <GID> UM DEN WERT <1> UNTERSCHEIDEN!!!
-				final int objectID = Integer.parseInt(elementObject.getAttribute("gid"));
+				// ------- START
 				
-				objectGroupManager.addObject(
-						objectGroupID, 
-						objectID, 
-						Float.parseFloat(elementObject.getAttribute("x")), 
-						Float.parseFloat(elementObject.getAttribute("y")), 
-						Integer.parseInt(elementObject.getAttribute("width")), 
-						Integer.parseInt(elementObject.getAttribute("height")));
+				// TODO: NullPointerException in case of a freeform object -> gid is not available.
+				//final int objectID = Integer.parseInt(elementObject.getAttribute("gid"));
 				
-				//System.out.println("(TiledEditorMapLoader.readTagObjectgroup) | objectID: " + objectID + ", objectGroupID: " + objectGroupID + ", single: " + singleObject);
+				String attributeGID = elementObject.getAttribute("gid");
+				
+				if (!attributeGID.isEmpty()) {
+					final int objectID = Integer.parseInt(attributeGID);
+					// WIR SIND IM FALL, DASS ES SICH UM EIN TILE HANDELT.
+					objectGroupManager.addObject(
+							objectGroupID, 
+							objectID, 
+							Float.parseFloat(elementObject.getAttribute("x")), 
+							Float.parseFloat(elementObject.getAttribute("y")), 
+							Integer.parseInt(elementObject.getAttribute("width")), 
+							Integer.parseInt(elementObject.getAttribute("height")));
+				} else {
+					
+					// WIR SIND IM FALL, DASS ES SICH UM EINE FREIFORM HANDELT.
+					
+					// ID, Type, x, y, width, height
+					
+					final int ID = Integer.parseInt(elementObject.getAttribute("id"));
+					final String type = elementObject.getAttribute("type");
+					final float x = Float.parseFloat(elementObject.getAttribute("x")); 
+					final float y = Float.parseFloat(elementObject.getAttribute("y")); 
+					final int width = Integer.parseInt(elementObject.getAttribute("width"));
+					final int height = Integer.parseInt(elementObject.getAttribute("height"));
+					
+					freeformGroupManager.addFreeformObject(ID, type, x, y, width, height);
+					
+					NodeList nodeListProperty = currentNode.getChildNodes();
+					
+					final int nodeListPropertyCnt = nodeListProperty.getLength();
+					
+					for (int p = 0; p < nodeListPropertyCnt; p++) {
+						Node nodeFreeformProperty = nodeListProperty.item(p);
+						
+						NodeList nodeLisProperties = nodeFreeformProperty.getChildNodes();
+						
+						final int nodeLisPropertiesCnt = nodeLisProperties.getLength();
+						
+						for (int t = 0; t < nodeLisPropertiesCnt; t++) {
+							Node nodeFreeformProperties = nodeLisProperties.item(t);
+							
+							if (nodeFreeformProperties.getNodeName().equals(TiledEditorTags.property)) {
+								Element elementFreeformProperties = (Element) nodeFreeformProperties;
+								
+								String propertyName = elementFreeformProperties.getAttribute("name");
+								String propertyValue = elementFreeformProperties.getAttribute("value");
+								
+								freeformGroupManager.addFreeformObjectProperties(ID, propertyName, propertyValue);
+							}
+						}
+						
+						
+						
+						
+
+						
+					}
+				}
+				
+				// -------- ENDE
+				
 			}
 		}
 	}
@@ -355,4 +410,11 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 	public TiledObjectGroupManager getTiledObjectGroupManager() {
 		return objectGroupManager;
 	}
+
+	@Override
+	public TiledFreeformGroupManager getTiledFreeformGroupManager() {
+		return freeformGroupManager;
+	}
+	
+	
 }

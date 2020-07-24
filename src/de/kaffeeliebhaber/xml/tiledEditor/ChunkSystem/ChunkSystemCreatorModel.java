@@ -1,6 +1,7 @@
 package de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem;
 
 import de.kaffeeliebhaber.xml.tiledEditor.BoundingBox.TiledBoundingBoxManager;
+import de.kaffeeliebhaber.xml.tiledEditor.Freeform.TiledFreeformGroupManager;
 import de.kaffeeliebhaber.xml.tiledEditor.ObjectSystem.TiledObjectGroupManager;
 
 public interface ChunkSystemCreatorModel {
@@ -10,6 +11,8 @@ public interface ChunkSystemCreatorModel {
 	TiledBoundingBoxManager getTiledBoundingBoxManager();
 	
 	TiledObjectGroupManager getTiledObjectGroupManager();
+	
+	TiledFreeformGroupManager getTiledFreeformGroupManager();
 	
 	int getTileWidth();
 	

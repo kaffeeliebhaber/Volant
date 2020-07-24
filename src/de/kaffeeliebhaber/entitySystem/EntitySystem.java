@@ -35,6 +35,7 @@ public class EntitySystem {
 	private void initEntitySystem() {
 		
 		final int chunks = chunkSystem.chunks();
+		
 		for (int i = 0; i < chunks; i++) {
 			addEmptyEntityList(i);
 		}

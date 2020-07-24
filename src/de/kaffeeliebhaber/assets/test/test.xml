@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="123">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="125">
  <editorsettings>
   <chunksize width="25" height="25"/>
  </editorsettings>
@@ -171,6 +171,25 @@
   <object id="120" gid="8" x="54" y="153" width="32" height="32"/>
   <object id="121" gid="8" x="19" y="247" width="32" height="32"/>
   <object id="122" gid="8" x="236" y="91" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="7" name="TransitionTiles">
+  <properties>
+   <property name="Single" type="bool" value="false"/>
+  </properties>
+  <object id="123" type="TransitionTile" x="796" y="12.6667" width="3" height="136">
+   <properties>
+    <property name="Direction" value="right"/>
+    <property name="FromChunkID" type="int" value="0"/>
+    <property name="ToChunkID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="124" type="TransitionTile" x="160" y="688" width="244" height="26">
+   <properties>
+    <property name="Direction" value="down"/>
+    <property name="FromChunkID" type="int" value="0"/>
+    <property name="ToChunkID" type="int" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer id="2" name="Objects" width="50" height="50" visible="0">
   <data encoding="csv">

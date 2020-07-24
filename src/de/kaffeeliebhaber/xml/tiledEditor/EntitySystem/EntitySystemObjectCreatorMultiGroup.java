@@ -25,10 +25,10 @@ public class EntitySystemObjectCreatorMultiGroup extends EntitySystemObjectCreat
 		for (TiledObject object : objects) {
 			
 			final StaticEntity staticEntity = new StaticEntity(object.getX(), object.getY(), object.getWidth(), object.getHeight());
-			staticEntity.addBufferedImage(spritesheet.getImageByIndex(object.getID() - 1), object.getX(), object.getY());
+			staticEntity.addBufferedImage(spritesheet.getImageByIndex(object.getGID() - 1), object.getX(), object.getY());
 			
 			if (!boundingBoxManager.isEmpty()) {
-				final TiledBoundingBox tiledBoundingBox = boundingBoxManager.getTiledBoundingBox(object.getID() - 1);
+				final TiledBoundingBox tiledBoundingBox = boundingBoxManager.getTiledBoundingBox(object.getGID() - 1);
 				
 				if (tiledBoundingBox != null) {
 					staticEntity.addBoundingBoxes(tiledBoundingBox.getBoundingBoxes());

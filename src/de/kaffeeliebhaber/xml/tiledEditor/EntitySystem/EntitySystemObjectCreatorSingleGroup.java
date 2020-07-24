@@ -30,12 +30,12 @@ public class EntitySystemObjectCreatorSingleGroup extends EntitySystemObjectCrea
 		
 		for (final TiledObject object : objects) {
 			
-			final int ID = object.getID() - 1;
+			final int GID = object.getGID() - 1;
 			
-			staticEntity.addBufferedImage(spritesheet.getImageByIndex(ID), object.getX(), object.getY());
+			staticEntity.addBufferedImage(spritesheet.getImageByIndex(GID), object.getX(), object.getY());
 			
 			if (!boundingBoxManager.isEmpty()) {
-				final TiledBoundingBox tiledBoundingBox = boundingBoxManager.getTiledBoundingBox(ID);
+				final TiledBoundingBox tiledBoundingBox = boundingBoxManager.getTiledBoundingBox(GID);
 				
 				if (tiledBoundingBox != null) {
 					

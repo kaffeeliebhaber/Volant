@@ -80,15 +80,19 @@ public class GameObjectManager extends GameObjectLoader {
 		
 		
 		// Create ChunkSystem, Player and EntitySystem
-		final ChunkSystemCreatorModel model = new TiledEditorMapLoader("src/de/kaffeeliebhaber/assets/test/test.xml");
+		final String map = "test";
+		final String mapPath = "src/de/kaffeeliebhaber/assets/test/" + map +".xml";
+		final ChunkSystemCreatorModel model = new TiledEditorMapLoader(mapPath);
 		final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
 		chunkSystem = creator.createChunkSystem();
+		creator.createFreeformObjects();
+		
 		createPlayer();
 		
 		entitySystem = creator.createEntitySystem(player);
 		
 
-		//addTransitionTilesToChunkSystem();
+		//TODO: addTransitionTilesToChunkSystem();
 
 		camera = new Camera(0, 0, Config.WIDTH, Config.HEIGHT, new Dimension(chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 		camera.focusOn(player);
@@ -108,8 +112,8 @@ public class GameObjectManager extends GameObjectLoader {
 		//entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
 		
-		createEntities();
-		createNPCs();
+		//TODO: createEntities();
+		//TODO: createNPCs();
 		//createWorldObjects();
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
 		hud = new UIHud(player);
@@ -404,41 +408,20 @@ public class GameObjectManager extends GameObjectLoader {
 	public void addTransitionTilesToChunkSystem() {
 
 		// CHUNK 0
-		TransitionTile tile = new TransitionTile(50 * 32 - 2, 300, 2, 100, 1, TransitionDirection.RIGHT);
-		tile.addBoundingBox(new BoundingBox(50 * 32 - 2, 300, 2, 100));
-		chunkSystem.addTransitionTile(0, tile);
-
-		tile = new TransitionTile(480, 50 * 32 - 2, 180, 2, 4, TransitionDirection.DOWN);
-		tile.addBoundingBox(new BoundingBox(480, 50 * 32 - 2, 180, 2));
-		chunkSystem.addTransitionTile(0, tile);
-
-		// CHUNK 1
-		tile = new TransitionTile(0, 300, 2, 100, 0, TransitionDirection.LEFT);
-		tile.addBoundingBox(new BoundingBox(0, 330, 2, 100));
-		chunkSystem.addTransitionTile(1, tile);
-
-		tile = new TransitionTile(150, 50 * 32 - 2, 100, 2, 3, TransitionDirection.DOWN);
-		tile.addBoundingBox(new BoundingBox(150, 50 * 32 - 2, 100, 2));
-		chunkSystem.addTransitionTile(1, tile);
-
-		// CHUNK 2
-		tile = new TransitionTile(480, 0, 180, 2, 0, TransitionDirection.UP);
-		tile.addBoundingBox(new BoundingBox(480, 0, 180, 2));
-		chunkSystem.addTransitionTile(2, tile);
-
-		tile = new TransitionTile(50 * 32 - 2, 150, 2, 100, 3, TransitionDirection.RIGHT);
-		tile.addBoundingBox(new BoundingBox(50 * 32 - 2, 150, 2, 100));
-		chunkSystem.addTransitionTile(2, tile);
-
-		// CHUNK 3
-		tile = new TransitionTile(150, 0, 100, 2, 1, TransitionDirection.UP);
-		tile.addBoundingBox(new BoundingBox(150, 0, 100, 2));
-		chunkSystem.addTransitionTile(3, tile);
-
-		tile = new TransitionTile(0, 150, 2, 100, 2, TransitionDirection.LEFT);
-		tile.addBoundingBox(new BoundingBox(0, 150, 2, 100));
-		chunkSystem.addTransitionTile(3, tile);
+		chunkSystem.addTransitionTile(0, new TransitionTile(25 * 32 - 2, 300, 2, 100, 1, TransitionDirection.RIGHT));
+		chunkSystem.addTransitionTile(0, new TransitionTile(480, 25 * 32 - 2, 180, 2, 2, TransitionDirection.DOWN));
 		
+		// CHUNK 1
+		chunkSystem.addTransitionTile(1, new TransitionTile(0, 300, 2, 100, 0, TransitionDirection.LEFT));
+		chunkSystem.addTransitionTile(1, new TransitionTile(150, 25 * 32 - 2, 100, 2, 3, TransitionDirection.DOWN));
+		
+		// CHUNK 2
+		chunkSystem.addTransitionTile(2, new TransitionTile(480, 0, 180, 2, 0, TransitionDirection.UP));
+		chunkSystem.addTransitionTile(2, new TransitionTile(25 * 32 - 2, 150, 2, 100, 3, TransitionDirection.RIGHT));
+		
+		// CHUNK 3
+		chunkSystem.addTransitionTile(3, new TransitionTile(150, 0, 100, 2, 1, TransitionDirection.UP));
+		chunkSystem.addTransitionTile(3, new TransitionTile(0, 150, 2, 100, 2, TransitionDirection.LEFT));
 	}
 
 	public ChunkSystem getChunkSystem() {

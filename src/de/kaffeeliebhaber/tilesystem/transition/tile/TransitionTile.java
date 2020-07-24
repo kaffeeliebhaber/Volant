@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.IEntityListener;
@@ -21,6 +22,7 @@ public class TransitionTile extends Entity implements IEntityListener {
 		this.toChunkID = toChunkID;
 		this.direction = direction;
 		transitionTileListener = new ArrayList<ITransitionTileListener>();
+		addBoundingBox(new BoundingBox(x, y, width, height));
 	}
 	
 //	public void setToChunkID(final int toChunkID) {
