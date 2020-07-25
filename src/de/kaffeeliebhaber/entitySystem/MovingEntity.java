@@ -81,9 +81,7 @@ public abstract class MovingEntity extends Entity {
 	
 	protected void adjustDistricBorder() {
 		if (district != null) {
-			
-			boundingBoxController.calcBoundingBoxesDimensions();
-			
+
 			if (boundingBoxController.getX() < district.x) {
 				translate(district.x - boundingBoxController.getX(), 0);
 			} else if (boundingBoxController.getX() > district.width - boundingBoxController.getWidth()) {

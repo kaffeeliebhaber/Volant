@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
+import de.kaffeeliebhaber.test.ChunkSystemTest;
 import de.kaffeeliebhaber.tilesystem.Tilemap;
 import de.kaffeeliebhaber.tilesystem.TilemapHandler;
 import de.kaffeeliebhaber.tilesystem.transition.tile.ITransitionTileListener;
@@ -188,6 +189,29 @@ public class ChunkSystem {
 	
 	private int chunksX() {
 		return this.tilesX / this.chunkWidth;
+	}
+	
+	// Aktuelle X-Position -> Chunk x-Position
+	public float getChunkPositionX(final float x) {
+		
+		float chunkPositionX = x;
+		
+		if (chunkPositionX >= ChunkSystemTest.getChunkWidthInPixel()) {
+			chunkPositionX = x % ChunkSystemTest.getChunkWidthInPixel();
+		}
+		
+		return chunkPositionX;
+	}
+	
+	public float getChunkPositionY(final float y) {
+		
+		float chunkPositiony = y;
+		
+		if (chunkPositiony >= getChunkHeightInPixel()) {
+			chunkPositiony = y % getChunkHeightInPixel();
+		}
+		
+		return chunkPositiony;
 	}
 	
 }

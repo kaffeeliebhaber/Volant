@@ -15,7 +15,7 @@ public class TiledBoundingBoxManager {
 	
 	public void addBoundingBox(final int tileID, float x, float y, int width, int height) {
 		
-		System.out.println("(TiledBoundingBoxManager.addBoundingBox) | TileID: " + tileID);
+		//System.out.println("(TiledBoundingBoxManager.addBoundingBox) | TileID: " + tileID);
 		final long count = tiledBoundingBoxes.stream().filter(b -> b.getTileID() == tileID).count();
 		
 		if (count > 0) {

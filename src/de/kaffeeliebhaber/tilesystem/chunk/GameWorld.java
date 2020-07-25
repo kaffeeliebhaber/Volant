@@ -94,7 +94,6 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 	public void transitionStateChanged(TransitionEvent event) {
 		final TransitionState state = event.getState();
 		
-		
 		switch (state) {
 			case MAX:
 				if (!initialized) {
@@ -116,7 +115,7 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 		float newPosX = 0;
 		float newPosY = 0;
 		
-		final int offset = 2;
+		final int offset = 3;
 		
 		// RESET PLAYER POSITION
 		switch (transitionDirection) {

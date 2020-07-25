@@ -11,11 +11,12 @@ import de.kaffeeliebhaber.entitySystem.Entity;
 public class BoundingBoxController {
 
 	private List<BoundingBox> boundingBoxes;
-	private float xMin = Integer.MAX_VALUE, yMin = Integer.MAX_VALUE;
+	private float xMin, yMin;
 	private int width, height;
 	
 	public BoundingBoxController() {
 		boundingBoxes = new ArrayList<BoundingBox>();
+		reset();
 	}
 	
 	public List<BoundingBox> getBoundingBoxes() {
@@ -76,6 +77,13 @@ public class BoundingBoxController {
 	
 	public void translate(final float dx, final float dy) {
 		boundingBoxes.stream().forEach(b -> b.translate(dx, dy));
+		reset();
+		calcBoundingBoxesDimensions();
+	}
+	
+	private void reset() {
+		xMin = Integer.MAX_VALUE;
+		yMin = Integer.MAX_VALUE;
 	}
 	
 	public void calcBoundingBoxesDimensions() {
@@ -92,7 +100,7 @@ public class BoundingBoxController {
 			float currentY = currentBoundingBox.getY();
 			int currentWidth = currentBoundingBox.getWidth();
 			int currentHeight = currentBoundingBox.getHeight();
-
+			
 			// x
 			if (currentX < xMin) {
 				xMin = currentX;
@@ -111,7 +119,6 @@ public class BoundingBoxController {
 				yMax = currentY + currentHeight;
 			}
 		}
-		
 		
 		width = (int) (xMax - xMin);
 		height = (int) (yMax - yMin);

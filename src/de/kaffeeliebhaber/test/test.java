@@ -1,4 +1,6 @@
-package de.kaffeeliebhaber.xml.tiledEditor;
+package de.kaffeeliebhaber.test;
+
+import de.kaffeeliebhaber.xml.tiledEditor.TiledEditorMapLoader;
 
 public class test {
 

@@ -38,7 +38,7 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 	private final int TILED_ID_DELTA = 1;
 	
 	// debug mode
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = !true;
 	
 	public TiledEditorMapLoader(final String documentPath) {
 		this.documentPath = documentPath;

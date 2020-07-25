@@ -91,7 +91,6 @@ public class GameObjectManager extends GameObjectLoader {
 		
 		entitySystem = creator.createEntitySystem(player);
 		
-
 		//TODO: addTransitionTilesToChunkSystem();
 
 		camera = new Camera(0, 0, Config.WIDTH, Config.HEIGHT, new Dimension(chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
@@ -112,8 +111,8 @@ public class GameObjectManager extends GameObjectLoader {
 		//entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
 		
-		//TODO: createEntities();
-		//TODO: createNPCs();
+		// TODO: createEntities();
+		// TODO: createNPCs();
 		//createWorldObjects();
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
 		hud = new UIHud(player);
