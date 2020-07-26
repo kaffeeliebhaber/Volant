@@ -19,7 +19,6 @@ public class TiledFreeformObjectTransitionTile {
 	}
 	
 	public void create() {
-//		System.out.println("(TiledFreeformObjectTransitionTile.create) | create method was called.");
 		
 		final float x = chunkSystem.getChunkPositionX(freeformObject.getX());
 		final float y = chunkSystem.getChunkPositionY(freeformObject.getY());
@@ -45,19 +44,6 @@ public class TiledFreeformObjectTransitionTile {
 			}
 			
 		}
-		
-		/*
-		System.out.println("(TiledFreeformObjectTransitionTile.create) | " +
-		"fromChunkID: " + fromChunkID + 
-		", toChunkID: " + toChunkID + 
-		", TransitionDirection: " + transitionDirection + 
-		", x: " + x + 
-		", y: " + y + 
-		", old-x: " + freeformObject.getX() +
-		", old-y: " + freeformObject.getY() + 
-		", width: " + width + 
-		", height: " + height);
-		*/
 		
 		chunkSystem.addTransitionTile(fromChunkID, new TransitionTile(x, y, width, height, toChunkID, transitionDirection));
 		

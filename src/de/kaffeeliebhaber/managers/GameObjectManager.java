@@ -19,7 +19,6 @@ import de.kaffeeliebhaber.behavior.moving.NoneMovingBehavior;
 import de.kaffeeliebhaber.behavior.moving.PlayerMovingBehavior;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
-import de.kaffeeliebhaber.entitySystem.EntityComparator;
 import de.kaffeeliebhaber.entitySystem.EntitySystem;
 import de.kaffeeliebhaber.entitySystem.Player;
 import de.kaffeeliebhaber.entitySystem.npc.Fox;
@@ -29,7 +28,6 @@ import de.kaffeeliebhaber.entitySystem.npc.VolantFemaleAnne;
 import de.kaffeeliebhaber.entitySystem.npc.VolantMasterKnight;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillageElder;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillagePeopleOne;
-import de.kaffeeliebhaber.entitySystem.worldObjects.SimpleBush;
 import de.kaffeeliebhaber.inventory.EquipmentManager;
 import de.kaffeeliebhaber.inventory.Inventory;
 import de.kaffeeliebhaber.inventory.ItemManager;
@@ -45,10 +43,7 @@ import de.kaffeeliebhaber.inventory.stats.Stat;
 import de.kaffeeliebhaber.math.Vector2f;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.chunk.GameWorld;
-import de.kaffeeliebhaber.tilesystem.chunk.TiledXML;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
-import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionDirection;
-import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
 import de.kaffeeliebhaber.ui.UIHud;
 import de.kaffeeliebhaber.ui.UIInfoPane;
 import de.kaffeeliebhaber.ui.inventory.UIInventoryManager;
@@ -71,90 +66,55 @@ public class GameObjectManager extends GameObjectLoader {
 
 	public GameObjectManager() {
 
-		// LOAD AND CREATE CHUNKSYSTEM
 		/*
-		createChunkSystem(Config.TILE_MAP_PATH);
-		createPlayer();
-		*/
-		//createPlayer();
-		
-		
-		// Create ChunkSystem, Player and EntitySystem
+		 * LOAD CHUNKSYSTEM FROM TILED-EDITOR
+		 */
 		final String map = "test";
 		final String mapPath = "src/de/kaffeeliebhaber/assets/test/" + map +".xml";
 		final ChunkSystemCreatorModel model = new TiledEditorMapLoader(mapPath);
 		final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
+		
+		
+		// CREATE CHUNKSYSTEM
 		chunkSystem = creator.createChunkSystem();
+		
+		// CREATE FREEFORM OBJECTS FROM TILED-EDITOR
 		creator.createFreeformObjects();
 		
+		// CREATE PLAYER
 		createPlayer();
 		
+		// CREATE ENTITYSYSTEM
 		entitySystem = creator.createEntitySystem(player);
 		
-		//TODO: addTransitionTilesToChunkSystem();
-
+		// CREATE CAMERA
 		camera = new Camera(0, 0, Config.WIDTH, Config.HEIGHT, new Dimension(chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 		camera.focusOn(player);
-
 		player.addEntityUpdateListener(camera);
-
-		// create transition
+		
+		// CREATE CHUNK-TRANSITION
 		transition = new Transition(new Rectangle(0, 0, Config.WIDTH, Config.HEIGHT), 20, 20, 20);
 		transition.setColor(Color.BLACK);
-
-		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
-
-		createAndSetupInventory();
 		
+		// CREATE INFOPANE
+		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
+		
+		// CREATE ITEMS AND INVENTORY
+		createAndSetupInventory();
 		itemManager.addInfoPaneInformerListener(infoPane);
 		
-		//entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
+		// GLOBAL SETUP
 		entitySystem.add(0, player);
-		
-		createEntities();
-		// TODO: createNPCs();
-		//createWorldObjects();
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
 		hud = new UIHud(player);
-	}
-	
-	private void createWorldObjects() {
 		
-		entitySystem.add(0, new SimpleBush(70, 70, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-		entitySystem.add(0, new SimpleBush(140, 30, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-		
-		for (int x = 0; x < 16; x++) {
-			entitySystem.add(0, new SimpleBush(x * 32,       0, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-			entitySystem.add(0, new SimpleBush(x * 32, 17 * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-		}
-		
-		for (int y = 0; y < 18; y++) {
-			entitySystem.add(0, new SimpleBush(      0, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-			entitySystem.add(0, new SimpleBush(15 * 32, y * 32, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-		}
-		
-		
-		entitySystem.add(0, new SimpleBush(200, 200, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-		entitySystem.add(1, new SimpleBush(200, 200, 32, 32, AssetsLoader.spritesheet.getImageByIndex(3)));
-		
-		/*
-		 * Das Objekt wird aktuell nicht gezeichnet, da dass Image für die Crow nicht im SPritesheet vorhanden ist.
-		BufferedImage[] crow = new BufferedImage[] {
-				AssetsLoader.spritesheet.getImageByIndex(155),
-				AssetsLoader.spritesheet.getImageByIndex(163)};
-		
-		entitySystem.add(0, new SimpleWorldObject(400, 400, 32, 64, crow, new BoundingBox(410, 440, 12, 4)));
-		
-		
-		entitySystem.add(0, new SimpleWorldObject(300, 300, 32, 64, crow, new BoundingBox(110, 440, 12, 4)));
-		*/
+		// LOAD TEST-GAME OBJECTS
+		createEntityFox(1);
+		createEntityNPCs();
 	}
 
-
-	private void createNPCs() {
-
-		final int countOfFox = 2;
-
+	private void createEntityFox(final int countOfFox) {
+		
 		final Random r = new Random();
 
 		for (int i = 0; i < countOfFox; i++) {
@@ -162,23 +122,16 @@ public class GameObjectManager extends GameObjectLoader {
 			float startY = r.nextInt(800);
 			
 			entitySystem.add(0, createFOX(startX, startY, 32, new Vector2f(startX, startY), 200, 200, 200, 200, 1f));
-//			chunkSystem.addEntity(0, createFOX(233, 316, 32, new Vector2f(233, 316), 200, 200, 200, 200, 0.01f));
 		}
-
-//		chunkSystem.addEntity(0, createFOX(150, 300, 32, new Vector2f(166, 316), 150, 280, 300, 300, 0.01f));
-//		chunkSystem.addEntity(0, createFOX(350, 177, 32, new Vector2f(366, 193), 350, 150, 200, 400, 0.006f));
-
 	}
 	
-	
-	private void createEntities() {
+	private void createEntityNPCs() {
 		entitySystem.add(0, createNPCVolandFemaleAnne());
 		entitySystem.add(0, createNPCVolantVillageElder());
 		entitySystem.add(0, createNPCVolantMasterKnight());
 		entitySystem.add(0, createNPCVolantVillagePeopleOne());
 	}
 	
-
 	private NPC createNPCVolandFemaleAnne() {
 
 		// Moving - Animation
@@ -297,10 +250,7 @@ public class GameObjectManager extends GameObjectLoader {
 
 		animationController.updateState(0, 0);
 
-//		final IMovingBehavior movingBehavior = new LinearInterpolationToTargetPointMovingBehavior(startPoint, areaX, areaY, areaWidth, areaHeight, movingSpeed);
 		final IMovingBehavior linearMoving = new LinearMovingBehavior(areaX, areaY, areaWidth, areaHeight, movingSpeed, new Vector2f(startX, startY));
-		
-		
 		final NPC fox = new Fox(startX, startY, size, size, Direction.DOWN, animationController, linearMoving);
 		fox.setPopupImage(AssetsLoader.spritesheetNPCFox.getImageByIndex(0));
 		fox.setActionKeyID(KeyEvent.VK_E);
@@ -368,8 +318,6 @@ public class GameObjectManager extends GameObjectLoader {
 		// create item manager
 		itemManager = new ItemManager(player);
 		
-		//TODO:
-		
 		itemManager.addItem(sword);
 		itemManager.addItem(chest);
 		itemManager.addItem(potion);
@@ -379,50 +327,11 @@ public class GameObjectManager extends GameObjectLoader {
 		itemManager.addItem(feets);
 		itemManager.addItem(head);
 		itemManager.addItem(shield);
-		 
-	}
-	
-	
-
-	private void createChunkSystem(final String mapPath) {
-		
-		boolean newSystem = true;
-		
-		if (!newSystem) {
-			TiledXML tiled = new TiledXML(Config.TILE_MAP_PATH);
-			tiled.load();
-	
-			chunkSystem = tiled.createChunkSystem();
-			chunkSystem.setObjectLayerID(Config.TILE_MAP_OBJECT_LAYER_ID);
-			
-			tiled.clear();
-		} else {
-			final ChunkSystemCreatorModel model = new TiledEditorMapLoader("src/de/kaffeeliebhaber/assets/test/test.xml");
-			final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
-			chunkSystem = creator.createChunkSystem();
-			entitySystem = creator.createEntitySystem(player);
-			
-		}
 	}
 
-	public void addTransitionTilesToChunkSystem() {
-
-		// CHUNK 0
-		chunkSystem.addTransitionTile(0, new TransitionTile(25 * 32 - 2, 300, 2, 100, 1, TransitionDirection.RIGHT));
-		chunkSystem.addTransitionTile(0, new TransitionTile(480, 25 * 32 - 2, 180, 2, 2, TransitionDirection.DOWN));
-		
-		// CHUNK 1
-		chunkSystem.addTransitionTile(1, new TransitionTile(0, 300, 2, 100, 0, TransitionDirection.LEFT));
-		chunkSystem.addTransitionTile(1, new TransitionTile(150, 25 * 32 - 2, 100, 2, 3, TransitionDirection.DOWN));
-		
-		// CHUNK 2
-		chunkSystem.addTransitionTile(2, new TransitionTile(480, 0, 180, 2, 0, TransitionDirection.UP));
-		chunkSystem.addTransitionTile(2, new TransitionTile(25 * 32 - 2, 150, 2, 100, 3, TransitionDirection.RIGHT));
-		
-		// CHUNK 3
-		chunkSystem.addTransitionTile(3, new TransitionTile(150, 0, 100, 2, 1, TransitionDirection.UP));
-		chunkSystem.addTransitionTile(3, new TransitionTile(0, 150, 2, 100, 2, TransitionDirection.LEFT));
-	}
+	/*
+	 * GETTER FOR MODEL OBJECTS
+	 */
 
 	public ChunkSystem getChunkSystem() {
 		return chunkSystem;
