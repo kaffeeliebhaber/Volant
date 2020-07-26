@@ -8,6 +8,7 @@ import java.util.List;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.math.Vector2f;
 
 public abstract class Entity extends GameObject {
@@ -61,10 +62,16 @@ public abstract class Entity extends GameObject {
 		super.setPosition(position);
 		notifyEntityListenerEntityUpdated();
 	}
-
+	
 	public abstract void update(float timeSinceLastFrame, final List<Entity> entities);
 
 	public abstract void render(Graphics g, Camera c);
+	
+	protected void renderBoundingBox(Graphics g, Camera camera) {
+		if (Debug.ENTITY_RENDERBOUNDINGBOXES_SHOW_BOUNDINGBOX) {
+			boundingBoxController.render(g, camera);
+		}
+	}
 
 	protected void notifyEntityListenerEntityUpdated() {
 		entityListeners.forEach(e -> e.entityUpdated(this));

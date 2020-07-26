@@ -54,12 +54,7 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 	}
 
 	public void render(Graphics g, Camera camera) {
-
-		g.drawImage(animationController.getImage(), (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
-
-		if (Debug.NPC_RENDER_SHOW_BOUNDINGBOX) {
-			boundingBoxController.render(g, camera);
-		}
+		super.render(g, camera);
 
 		if (Debug.NPC_RENDER_SHOW_INTERACTIONOX) {
 			g.setColor(Color.red);
