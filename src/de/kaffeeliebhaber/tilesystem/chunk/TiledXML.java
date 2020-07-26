@@ -327,7 +327,7 @@ public class TiledXML {
 						Tile tile = new Tile(tileID, x * tileHeight, y * tileWidth, tileWidth, tileHeight, AssetsLoader.spritesheet.getImageByIndex(tileID));
 						
 						if (boundingBoxesMap.containsKey(tileID)) {
-							tile.setBoundingBoxes(boundingBoxesMap.get(tileID));
+							tile.addBoundingBoxes(boundingBoxesMap.get(tileID));
 							tile.adjustBoundingBoxes();
 						}
 						

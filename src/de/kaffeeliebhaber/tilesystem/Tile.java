@@ -13,8 +13,6 @@ import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tile extends Entity {
 
-	//private List<BoundingBox> boundingBoxes;
-	//private int boundingBoxesSize;
 	private BufferedImage image;
 	private boolean blocked;
 	private final int ID;
@@ -26,7 +24,6 @@ public class Tile extends Entity {
 		super(x, y , width, height);
 		this.ID = ID;
 		this.image = image;
-		//boundingBoxes = new ArrayList<BoundingBox>();
 		boundingBoxController = new BoundingBoxController();
 	}
 	
@@ -52,58 +49,12 @@ public class Tile extends Entity {
 		if (image != null) {
 			g.drawImage(image, (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
 		} 
-		renderingBoundingBoxes(g, camera);
+		
+		this.renderBoundingBox(g, camera);
 	}
-	
-	private void renderingBoundingBoxes(Graphics g, Camera camera) {
-		if (Debug.TILE_RENDER_SHOW_BOUNDINGBOX) {
-//			if (boundingBoxes.size() > 0) {
-//				boundingBoxes.stream().forEach(b -> b.render(g, camera));
-//			}
-			boundingBoxController.render(g, camera);
-		}
-	}
-	
-	public void setBoundingBoxes(final List<BoundingBox> boundingBoxes) {
-//		boundingBoxesList.stream().forEach(b -> boundingBoxes.add(b.createNew())); 
-//		boundingBoxesSize = boundingBoxes.size();
-		boundingBoxController.addBoundingBoxes(boundingBoxes);
-	}
-	
-//	private boolean areBoundingBoxesAvailable() {
-//		return boundingBoxesSize > 0;
-//	}
-	
+
 	public void adjustBoundingBoxes() {
-		//boundingBoxes.stream().forEach(b -> b.translate(x, y));
 		boundingBoxController.translate(x, y);
 	}
 
-/*
-	public boolean intersects(Entity entity) {
-		
-		boolean intersects = false;
-
-		if (areBoundingBoxesAvailable()) {
-			for (int i = 0; i < boundingBoxesSize && !intersects; i++) {
-				intersects = entity.intersects(boundingBoxes.get(i));
-			}
-		}
-		
-		return intersects;
-	}
-	
-	public boolean intersects(BoundingBox boundingBox) {
-		
-		boolean intersects = false;
-		
-		if (areBoundingBoxesAvailable()) {
-			for (int i = 0; i < boundingBoxesSize && !intersects; i++) {
-				intersects = boundingBox.intersects(boundingBoxes.get(i));
-			}
-		}
-		
-		return intersects;
-	}
-	*/
 }

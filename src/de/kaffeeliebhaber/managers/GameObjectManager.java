@@ -111,7 +111,7 @@ public class GameObjectManager extends GameObjectLoader {
 		//entitySystem = new EntitySystem(chunkSystem, player, new EntityComparator());
 		entitySystem.add(0, player);
 		
-		// TODO: createEntities();
+		createEntities();
 		// TODO: createNPCs();
 		//createWorldObjects();
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
@@ -223,7 +223,8 @@ public class GameObjectManager extends GameObjectLoader {
 
 		// CREATE PLAYER
 		final int playerBoundingBoxHeight = 7;
-		player = new Player(50, 50, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats, new BoundingBox(50, 50 + Config.PLAYER_SIZE - playerBoundingBoxHeight, Config.PLAYER_SIZE, playerBoundingBoxHeight));
+		player = new Player(50, 50, Config.PLAYER_SIZE, Config.PLAYER_SIZE, animationController, new PlayerMovingBehavior(2f), playerStats);
+		player.addBoundingBox(new BoundingBox(50, 50 + Config.PLAYER_SIZE - playerBoundingBoxHeight, Config.PLAYER_SIZE, playerBoundingBoxHeight));
 		player.setDistrict(new Rectangle(0, 0, chunkSystem.getChunkWidthInTile() * chunkSystem.getTileWidth(), chunkSystem.getChunkHeightInTile() * chunkSystem.getTileHeight()));
 		
 	}

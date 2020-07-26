@@ -12,19 +12,17 @@ import de.kaffeeliebhaber.ui.textbox.TextboxNodeInformation;
 
 public class VolantMasterKnight extends NPC implements TextboxNodeDecisionListener {
 	
-	public VolantMasterKnight(float x, float y, int width, int height, Direction interactionDirection,
-			IAnimationController animationController, IMovingBehavior movingBehavior) {
-		super(x, y, width, height, interactionDirection, animationController, movingBehavior);
-	}
-
 	private TextboxNodeInformation infoIntroduction;
 	private TextboxNodeDecision decisionBroughtCaffe;
 	private TextboxNodeInformation optionYesBroughtCaffe;
 	private TextboxNodeInformation optionNoBroughtCaffe;
-	
 	private TextboxNodeInformation infoBrotherAlreadyVisited;
-	
 	public static final int EVENT_BROUGHT_CAFFE = 2;
+
+	public VolantMasterKnight(float x, float y, int width, int height, Direction interactionDirection,
+			IAnimationController animationController, IMovingBehavior movingBehavior) {
+		super(x, y, width, height, interactionDirection, animationController, movingBehavior);
+	}
 
 	protected void initTextboxSetup() {
 		infoBrotherAlreadyVisited = new TextboxNodeInformation("Ich sehe du warst schon beim\nGordom. Wie geht es ihm?\n Habe ihn schon lange nicht mehr gesehen.");

@@ -24,6 +24,11 @@ public abstract class MovingEntity extends Entity {
 		this.movingBehavior.contextMovingEntity(this);
 	}
 
+	public void render(Graphics g, Camera camera) {
+		g.drawImage(animationController.getImage(), (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
+		renderBoundingBox(g, camera);
+	}
+	
 	public void update(float timeSinceLastFrame, final List<Entity> entities) {
 			
 		translationVector = movingBehavior.move(timeSinceLastFrame);
@@ -75,8 +80,12 @@ public abstract class MovingEntity extends Entity {
 		return boundingBoxController.intersects(this, entities, 0, translationVector.y);
 	}
 	
-	public void render(Graphics g, Camera camera) {
-		g.drawImage(animationController.getImage(), (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
+	public void updatePosition(float newPosX, float newPosY) {
+		final int dx = (int) (newPosX - x);
+		final int dy = (int) (newPosY - y);
+		
+		translate(dx, dy);
+		adjustDistricBorder();
 	}
 	
 	protected void adjustDistricBorder() {

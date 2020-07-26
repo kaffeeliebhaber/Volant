@@ -16,7 +16,7 @@ public class BoundingBoxController {
 	
 	public BoundingBoxController() {
 		boundingBoxes = new ArrayList<BoundingBox>();
-		reset();
+		resetMinMaxValues();
 	}
 	
 	public List<BoundingBox> getBoundingBoxes() {
@@ -39,7 +39,7 @@ public class BoundingBoxController {
 		return intersects(controller.getBoundingBoxes());
 	}
 	
-	public boolean intersects(final Entity own, final List<Entity> entities, final float dx, final float dy) {
+	public boolean intersects(final Entity callerEntity, final List<Entity> entities, final float dx, final float dy) {
 		boolean intersects = false;
 
 		final int size = boundingBoxes.size();
@@ -49,11 +49,10 @@ public class BoundingBoxController {
 			
 			final int entityListSize = entities.size();
 			
-			
 			for (int j = 0; j < entityListSize && !intersects; j++) {
 				
 				Entity currentEntity = entities.get(j);
-				if (currentEntity != own && currentTranslatedBoundingBox.intersects(currentEntity.getBoundingBoxController().getBoundingBoxes()))
+				if (currentEntity != callerEntity && currentTranslatedBoundingBox.intersects(currentEntity.getBoundingBoxController().getBoundingBoxes()))
 				{
 					intersects = true;
 				}
@@ -77,11 +76,11 @@ public class BoundingBoxController {
 	
 	public void translate(final float dx, final float dy) {
 		boundingBoxes.stream().forEach(b -> b.translate(dx, dy));
-		reset();
+		resetMinMaxValues();
 		calcBoundingBoxesDimensions();
 	}
 	
-	private void reset() {
+	private void resetMinMaxValues() {
 		xMin = Integer.MAX_VALUE;
 		yMin = Integer.MAX_VALUE;
 	}
