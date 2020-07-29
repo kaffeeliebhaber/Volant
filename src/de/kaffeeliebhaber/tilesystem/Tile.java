@@ -16,15 +16,19 @@ public class Tile extends Entity {
 	private BufferedImage image;
 	private boolean blocked;
 	private final int ID;
-	private BoundingBoxController boundingBoxController;
+	//private BoundingBoxController boundingBoxController;
 	
 	private static final int SCALE = 2;
 	
 	public Tile(final int ID, float x, float y, int width, int height, BufferedImage image) {
+		this(ID, x, y, width, height, image, false);
+	}
+	
+	public Tile(final int ID, float x, float y, int width, int height, BufferedImage image, final boolean blocked) {
 		super(x, y , width, height);
 		this.ID = ID;
 		this.image = image;
-		boundingBoxController = new BoundingBoxController();
+		this.blocked = blocked;
 	}
 	
 	public void setImage(BufferedImage image) {
@@ -36,11 +40,7 @@ public class Tile extends Entity {
 	}
 	
 	public boolean isEmpty() {
-		return ID == 0;
-	}
-	
-	public void setBlocked(boolean blocked) {
-		this.blocked = blocked;
+		return ID < 0;
 	}
 	
 	public void update(float timeSinceLastFrame, List<Entity> entities) {}
@@ -54,11 +54,9 @@ public class Tile extends Entity {
 			g.drawImage(image, (int) (x - camera.getX()), (int) (y - camera.getY()), width, height, null);
 		} 
 		
-		this.renderBoundingBox(g, camera);
+//		if (blocked) {
+//			g.setColor(java.awt.Color.GREEN);
+//			g.drawRect((int) (x - camera.getX()), (int) (y - camera.getY()), width, height);
+//		}
 	}
-
-	public void adjustBoundingBoxes() {
-		boundingBoxController.translate(x, y);
-	}
-
 }

@@ -7,8 +7,8 @@ public class Config {
 	public static final int SCREEN_TILES_X = 25;
 	public static final int SCREEN_TILES_Y = 25;
 	public static final int TILE_SIZE = 32;
-	public static final int WIDTH = SCREEN_TILES_X * TILE_SIZE;
-	public static final int HEIGHT = SCREEN_TILES_Y * TILE_SIZE;
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 600;
 	
 	public static final String MAP = "test";
 	public static final String MAP_PATH = "src/de/kaffeeliebhaber/assets/test/" + MAP +".xml";

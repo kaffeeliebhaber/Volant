@@ -48,7 +48,7 @@ public class ChunkSystemCreator {
 				
 				final int[][] extractedLayerData = createExtractedLayerData(chunkID, layerData, model.getTilesX(), model.getTilesY(), model.getChunkWidth(), model.getChunkHeight());
 				
-				getChunk(chunkID).addLayer(layerID, extractedLayerData, model.getChunkWidth(), model.getChunkHeight(), model.getTileWidth(), model.getTileHeight(), spritesheet);
+				getChunk(chunkID).addLayer(layerID, extractedLayerData, model.getChunkWidth(), model.getChunkHeight(), model.getTileWidth(), model.getTileHeight(), spritesheet, layerID == model.getObjectLayerID());
 			}
 		}
 	}

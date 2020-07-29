@@ -350,13 +350,16 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 		
 		final int nodeListPropertiesChildsCnt = nodeListPropertiesChilds.getLength();
 		
-		for (int i = 0; i < nodeListPropertiesChildsCnt; i++) {
+		boolean objectLayerIDFound = false;
+		
+		for (int i = 0; i < nodeListPropertiesChildsCnt && !objectLayerIDFound; i++) {
 			Node currentNode = nodeListPropertiesChilds.item(i);
 			
 			if (currentNode.getNodeName().equals(TiledEditorTags.property)) {
 				Element elementProperty = (Element) currentNode;
 				if (elementProperty.hasAttribute("name") && elementProperty.getAttribute("name").equals("ObjectLayerID")) {
 					objectLayerID = Integer.parseInt(elementProperty.getAttribute("value"));
+					objectLayerIDFound = true;
 				}
 			}
 		}

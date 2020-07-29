@@ -38,6 +38,8 @@ public class PlayState extends GameState {
 		infoPane 			= gameObjectLoader.getUIInfoPane();
 		gameWorld 			= gameObjectLoader.getGameWorld();
 		hud 				= gameObjectLoader.getUIHud();
+		
+		hud.activate();
 	}
 
 	@Override
