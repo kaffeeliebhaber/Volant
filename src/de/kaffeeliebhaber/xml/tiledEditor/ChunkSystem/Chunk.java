@@ -27,11 +27,15 @@ public class Chunk {
 	
 	public void addLayer(final int layerID, final int[][] layerData, final int tilesX, final int tilesY, final int tileWidth, final int tileHeight, final Spritesheet spritesheet) {
 		addLayer(new Layer(layerID, layerData, tilesX, tilesY, tileWidth, tileHeight, spritesheet));
+		// TODO: REMOVE THIS CODE LATER: System.out.println("(Chunk.addLayer) | Layer added | LayerID: " + layerID);
 	}
 
 	public TilemapHandler createTilemapHandler() {
+		
+		//System.out.println("(Chunk.createTilemapHandler) | START | ChunkID: " + chunkID);
 		final TilemapHandler tilemapHandler = new TilemapHandler();
-		layers.stream().forEach(l -> tilemapHandler.addTilemap(chunkID, l.createTilemap()));
+		layers.stream().forEach(l -> tilemapHandler.addTilemap(l.createTilemap()));
+//		System.out.println("(Chunk.createTilemapHandler) | END");
 		return tilemapHandler;
 	}
 	

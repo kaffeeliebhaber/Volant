@@ -6,19 +6,9 @@ import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionDirection;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
 
-public class TiledFreeformObjectTransitionTile {
+public class TiledFreeformObjectTransitionTile implements ITiledFreeformObjectCreate {
 
-	private final TiledFreeformObject freeformObject;
-	private final List<TiledFreeformObjectProperty> properties;
-	private final ChunkSystem chunkSystem;
-	
-	public TiledFreeformObjectTransitionTile(final TiledFreeformObject freeformObject, final List<TiledFreeformObjectProperty> properties, final ChunkSystem chunkSystem) {
-		this.freeformObject = freeformObject;
-		this.properties = properties;
-		this.chunkSystem = chunkSystem;
-	}
-	
-	public void create() {
+	public void create(final TiledFreeformObject freeformObject, final List<TiledFreeformObjectProperty> properties, final ChunkSystem chunkSystem) {
 		
 		final float x = chunkSystem.getChunkPositionX(freeformObject.getX());
 		final float y = chunkSystem.getChunkPositionY(freeformObject.getY());

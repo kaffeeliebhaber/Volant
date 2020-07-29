@@ -32,6 +32,10 @@ public class Tilemap {
 		entities = new LinkedList<Entity>();
 	}
 	
+	public int getID() {
+		return ID;
+	}
+	
 	public void setTiles(Tile[][] tiles) {
 		if (tiles.length == this.tiles.length && tiles[0].length == this.tiles[0].length) {
 			this.tiles = tiles;
@@ -57,6 +61,8 @@ public class Tilemap {
 	public void update(float timeSinceLastFrame) {}
 	
 	public void render(Graphics g, Camera camera) {
+		
+		// TODO: REMOVE THIS CODE LATER: System.out.println("(Tilemap.render) | ID: " + ID);
 		
 		// HOW MANY TILES MUST BE DRAWN: X-DIRECTION
 		int startX = (int) camera.getX() / tileWidth; 

@@ -1,3 +1,11 @@
-Belohnungssystem implementieren
-Kampf-System (Spieler Animation, Hurt-Boxen etc.)
-Pixel-Art
+[] Belohnungssystem implementieren
+[] Kampf-System (Spieler Animation, Hurt-Boxen etc.)
+[] Pixel-Art
+[] Um am Bildschirm die gemachten Schadenspunkte vom Spieler am Gegner etc anzuzeigen, muss es eine Klasse geben, die ein Objekt (muss noch definiert werden) nimmt und dieses
+   in einem Thread abspielt und die Schadenspunkte anzeigt.
+   () Macht hier das SINGELTON-PATTERN Sinn?
+   () Wie werden die Punkte berechnet?
+   () Wer kümmert sich um das Erstellen des Objekts, was an die neue Klase übergeben wird?
+[] HurtBoxController
+	() Welches (Entity) Objekt bekommt einen HurtBoxController?
+	

@@ -43,7 +43,6 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 	public TiledEditorMapLoader(final String documentPath) {
 		this.documentPath = documentPath;
 		init();
-
 	}
 	
 	private void init() {
@@ -189,6 +188,8 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 		
 		Element elementLayer = (Element) nodeLayer;
 		final int layerID = Integer.parseInt(elementLayer.getAttribute("id"));
+		
+		//System.out.println("(TiledEditorMapLoader.redTagLayer) | LayerID: " + layerID);
 		
 		if (DEBUG)
 			System.out.println("(TiledEditorMapLoader.readTagLayer) | LayerID: " + layerID);

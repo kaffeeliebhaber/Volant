@@ -39,7 +39,7 @@ public class ChunkSystemCreator {
 		final Set<Integer> layerIDs = layerDataMapper.getLayerIDs();
 
 		for (int layerID : layerIDs) {
-			
+			//System.out.println("(ChunkSystemCreator.init) | LayerID: " + layerID);
 			int[][] layerData = layerDataMapper.get(layerID);
 			
 			for (int chunkID = 0; chunkID < numberOfChunks; chunkID++) {

@@ -35,6 +35,10 @@ public class Tile extends Entity {
 		return blocked;
 	}
 	
+	public boolean isEmpty() {
+		return ID == 0;
+	}
+	
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
 	}

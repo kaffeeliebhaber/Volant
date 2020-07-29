@@ -66,20 +66,20 @@ public class GameObjectManager extends GameObjectLoader {
 
 	public GameObjectManager() {
 
-		/*
-		 * LOAD CHUNKSYSTEM FROM TILED-EDITOR
-		 */
-		final String map = "test";
-		final String mapPath = "src/de/kaffeeliebhaber/assets/test/" + map +".xml";
-		final ChunkSystemCreatorModel model = new TiledEditorMapLoader(mapPath);
-		final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
+		final boolean enableEntities 	= true;
+		final boolean enableLocalDebug 	= true;
 		
+		// LOAD CHUNKSYSTEM FROM TILED-EDITOR
+		final ChunkSystemCreatorModel model = new TiledEditorMapLoader(Config.MAP_PATH);
+		final ChunkSystemCreator creator = new ChunkSystemCreator(model, AssetsLoader.spritesheet);
 		
 		// CREATE CHUNKSYSTEM
 		chunkSystem = creator.createChunkSystem();
 		
 		// CREATE FREEFORM OBJECTS FROM TILED-EDITOR
-		creator.createFreeformObjects();
+		if (enableEntities) {
+			creator.createFreeformObjects();
+		}
 		
 		// CREATE PLAYER
 		createPlayer();
@@ -100,7 +100,14 @@ public class GameObjectManager extends GameObjectLoader {
 		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
 		
 		// CREATE ITEMS AND INVENTORY
-		createAndSetupInventory();
+		// TODO: (WICHTIG) BITTE WIEDER LÖSCHEN WENN DAS PROBLEM GEFUNDEN WURDE (EINIGE LAYER WERDEN NICHT GEZEICHNET).
+		if (enableEntities) {
+			createAndSetupInventory();
+		} else {
+			inventoryManager = new UIInventoryManager(Inventory.instance, EquipmentManager.instance, 100, 100);
+			itemManager = new ItemManager(player);
+		}
+		
 		itemManager.addInfoPaneInformerListener(infoPane);
 		
 		// GLOBAL SETUP
@@ -108,9 +115,15 @@ public class GameObjectManager extends GameObjectLoader {
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
 		hud = new UIHud(player);
 		
+		if (enableLocalDebug) {
+			hud.deactivate();
+		}
+		
 		// LOAD TEST-GAME OBJECTS
-		createEntityFox(1);
-		createEntityNPCs();
+		if (enableEntities) {
+			createEntityFox(1);
+			createEntityNPCs();
+		}
 	}
 
 	private void createEntityFox(final int countOfFox) {

@@ -20,7 +20,6 @@ public class EntitySystemCreator {
 		this.spritesheet = spritesheet;
 	}
 	
-	// final TiledObjectGroup objectGroup, final TiledBoundingBoxManager boundingBoxManager, final ChunkSystem chunkSystem, final Spritesheet spritesheet, final EntitySystem entitySystem
 	public EntitySystem createEntitySystem() {
 		EntitySystem entitySystem = new EntitySystem(chunkSystem, player);
 

@@ -31,6 +31,8 @@ public class Layer {
 		
 		final Tilemap tilemap = new Tilemap(layerID, tilesX, tilesY, tileWidth, tileHeight);
 		
+		//System.out.println(("(Layer.createTilemap) | LAYER CREATE | LayerID: " + layerID));
+		
 		for (int x = 0; x < data.length; x++) {
 			for (int y = 0; y < data[x].length; y++) {
 					tilemap.addTile(data[x][y], x, y, spritesheet.getImageByIndex(data[x][y]));
