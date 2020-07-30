@@ -68,9 +68,7 @@ public class AssetsLoader {
 	public static void load() {
 		
 		// load world sprite sheet
-		//spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/pyxel/voland_spritesheet.png", 32, 32);
-//		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/BaseChip_pipo.png", 32, 32);
-		//spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/tilesets/TilesetGraveyard.png", 16, 16);
+//		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/tilesets/TilesetGraveyard.png", 16, 16);
 		spritesheet = new Spritesheet("src/de/kaffeeliebhaber/assets/pyxel/voland_spritesheet_new.png", 32, 32);
 		spritesheet.load();
 		

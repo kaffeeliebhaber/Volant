@@ -88,8 +88,11 @@ public class UIEquipmentRepresenter extends UIElement implements MouseManagerLis
 			for (UIInventorySlot slot : newSlots) {
 				if (slot.contains(p) && !slot.isEmpty()) {
 					Item item = slot.getItem();
+					
+					// TODO: (Inventory)
 					Inventory.instance.add(item);
 					equipmentManager.unequip(item);
+					
 					slot.clear();
 					break;
 				}

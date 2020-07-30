@@ -6,20 +6,9 @@ import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionDirection;
 import de.kaffeeliebhaber.tilesystem.transition.tile.TransitionTile;
 
-public class TiledFreeformObjectTransitionTile {
+public class TiledFreeformObjectTransitionTile implements ITiledFreeformObjectCreate {
 
-	private final TiledFreeformObject freeformObject;
-	private final List<TiledFreeformObjectProperty> properties;
-	private final ChunkSystem chunkSystem;
-	
-	public TiledFreeformObjectTransitionTile(final TiledFreeformObject freeformObject, final List<TiledFreeformObjectProperty> properties, final ChunkSystem chunkSystem) {
-		this.freeformObject = freeformObject;
-		this.properties = properties;
-		this.chunkSystem = chunkSystem;
-	}
-	
-	public void create() {
-//		System.out.println("(TiledFreeformObjectTransitionTile.create) | create method was called.");
+	public void create(final TiledFreeformObject freeformObject, final List<TiledFreeformObjectProperty> properties, final ChunkSystem chunkSystem) {
 		
 		final float x = chunkSystem.getChunkPositionX(freeformObject.getX());
 		final float y = chunkSystem.getChunkPositionY(freeformObject.getY());
@@ -45,19 +34,6 @@ public class TiledFreeformObjectTransitionTile {
 			}
 			
 		}
-		
-		/*
-		System.out.println("(TiledFreeformObjectTransitionTile.create) | " +
-		"fromChunkID: " + fromChunkID + 
-		", toChunkID: " + toChunkID + 
-		", TransitionDirection: " + transitionDirection + 
-		", x: " + x + 
-		", y: " + y + 
-		", old-x: " + freeformObject.getX() +
-		", old-y: " + freeformObject.getY() + 
-		", width: " + width + 
-		", height: " + height);
-		*/
 		
 		chunkSystem.addTransitionTile(fromChunkID, new TransitionTile(x, y, width, height, toChunkID, transitionDirection));
 		

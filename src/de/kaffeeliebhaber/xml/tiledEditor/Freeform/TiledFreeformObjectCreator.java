@@ -22,11 +22,17 @@ public class TiledFreeformObjectCreator {
 			
 			final String type = object.getType();
 			
+			ITiledFreeformObjectCreate freeformObjectCreatingService = null;
+			
 			switch (type) {
 				case "TransitionTile": 
-					new TiledFreeformObjectTransitionTile(object, freeformGroupManager.getProperties(object.getID()), chunkSystem).create();
+					freeformObjectCreatingService = new TiledFreeformObjectTransitionTile();
+					break;
+				case "Player": freeformObjectCreatingService = new TiledFreeformObjectPlayer(); 
 					break;
 			}
+			
+			freeformObjectCreatingService.create(object, freeformGroupManager.getProperties(object.getID()), chunkSystem);
 		}
 		
 	}

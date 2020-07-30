@@ -25,13 +25,13 @@ public class Chunk {
 		layers.add(layer);
 	}
 	
-	public void addLayer(final int layerID, final int[][] layerData, final int tilesX, final int tilesY, final int tileWidth, final int tileHeight, final Spritesheet spritesheet) {
-		addLayer(new Layer(layerID, layerData, tilesX, tilesY, tileWidth, tileHeight, spritesheet));
+	public void addLayer(final int layerID, final int[][] layerData, final int tilesX, final int tilesY, final int tileWidth, final int tileHeight, final Spritesheet spritesheet, final boolean isObjectLayer) {
+		addLayer(new Layer(layerID, layerData, tilesX, tilesY, tileWidth, tileHeight, spritesheet, isObjectLayer));
 	}
 
 	public TilemapHandler createTilemapHandler() {
 		final TilemapHandler tilemapHandler = new TilemapHandler();
-		layers.stream().forEach(l -> tilemapHandler.addTilemap(chunkID, l.createTilemap()));
+		layers.stream().forEach(l -> tilemapHandler.addTilemap(l.createTilemap()));
 		return tilemapHandler;
 	}
 	

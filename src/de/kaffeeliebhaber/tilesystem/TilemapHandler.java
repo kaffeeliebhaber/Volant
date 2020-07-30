@@ -1,23 +1,51 @@
 package de.kaffeeliebhaber.tilesystem;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.kaffeeliebhaber.core.Camera;
 
 public class TilemapHandler {
 
-	private Map<Integer, Tilemap> tilemaps;
+	private List<Tilemap> tilemaps;
 	
 	public TilemapHandler() {
-		tilemaps = new HashMap<Integer, Tilemap>();
+		tilemaps = new ArrayList<Tilemap>();
 	}
 	
-	public void addTilemap(int id, Tilemap tilemap) {
-		if (!tilemaps.containsKey(id)) {
-			tilemaps.put(id, tilemap);
+	public void addTilemap(final Tilemap tilemap) {
+		tilemaps.add(tilemap);
+	}
+	
+	public Tilemap getTilemap(final int tilemapID) {
+		return tilemaps
+				.stream()
+				.filter(t -> t.getID() == tilemapID)
+				.findFirst()
+				.get();
+	}
+	
+	public void update(float timeSinceLastFrame) {
+		tilemaps.stream().forEach(t -> t.update(timeSinceLastFrame));
+	}
+	
+	public void render(Graphics g, Camera c) {
+		tilemaps.stream().forEach(t -> t.render(g, c));
+	}
+	/*
+	private Map<Integer, List<Tilemap>> tilemaps;
+	
+	public TilemapHandler() {
+		tilemaps = new HashMap<Integer, List<Tilemap>>();
+	}
+	
+	public void addTilemap(int ID, Tilemap tilemap) {
+		if (!tilemaps.containsKey(ID)) {
+			tilemaps.put(ID, tilemap);
 		}
+		
+		System.out.println("(TilemapHandler.addTilemap) | Tilemap added | ID: " + ID + "size: " + tilemaps.size());
 	}
 	
 	public void removeTilemap(int id) {
@@ -52,4 +80,5 @@ public class TilemapHandler {
 			tilemap.render(g, c);
 		}
 	}
+	*/
 }

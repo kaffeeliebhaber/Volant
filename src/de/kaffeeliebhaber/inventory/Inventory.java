@@ -27,8 +27,6 @@ public class Inventory {
 	}
 
 	private Map<ItemCategory, List<Item>> items;
-	
-	
 	private List<InventoryListener> inventoryListeners;
 	
 	private Inventory() {

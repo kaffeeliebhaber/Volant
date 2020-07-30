@@ -43,7 +43,6 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 	public TiledEditorMapLoader(final String documentPath) {
 		this.documentPath = documentPath;
 		init();
-
 	}
 	
 	private void init() {
@@ -189,6 +188,8 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 		
 		Element elementLayer = (Element) nodeLayer;
 		final int layerID = Integer.parseInt(elementLayer.getAttribute("id"));
+		
+		//System.out.println("(TiledEditorMapLoader.redTagLayer) | LayerID: " + layerID);
 		
 		if (DEBUG)
 			System.out.println("(TiledEditorMapLoader.readTagLayer) | LayerID: " + layerID);
@@ -349,13 +350,16 @@ public class TiledEditorMapLoader implements ChunkSystemCreatorModel {
 		
 		final int nodeListPropertiesChildsCnt = nodeListPropertiesChilds.getLength();
 		
-		for (int i = 0; i < nodeListPropertiesChildsCnt; i++) {
+		boolean objectLayerIDFound = false;
+		
+		for (int i = 0; i < nodeListPropertiesChildsCnt && !objectLayerIDFound; i++) {
 			Node currentNode = nodeListPropertiesChilds.item(i);
 			
 			if (currentNode.getNodeName().equals(TiledEditorTags.property)) {
 				Element elementProperty = (Element) currentNode;
 				if (elementProperty.hasAttribute("name") && elementProperty.getAttribute("name").equals("ObjectLayerID")) {
 					objectLayerID = Integer.parseInt(elementProperty.getAttribute("value"));
+					objectLayerIDFound = true;
 				}
 			}
 		}

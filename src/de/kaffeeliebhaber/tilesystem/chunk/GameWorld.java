@@ -46,6 +46,8 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 	public void update(float timeSinceLastFrame) {
 		if (active) {
 			chunkSystem.update(timeSinceLastFrame);
+			
+			// TODO: HIER DEN PLAYER ÜBERGEBEN
 			itemManager.update();
 			entitySystem.update(timeSinceLastFrame);
 		}

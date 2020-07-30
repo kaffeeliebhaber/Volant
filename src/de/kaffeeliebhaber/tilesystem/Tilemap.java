@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
@@ -30,6 +31,10 @@ public class Tilemap {
 		
 		tiles = new Tile[cols][rows];
 		entities = new LinkedList<Entity>();
+	}
+	
+	public int getID() {
+		return ID;
 	}
 	
 	public void setTiles(Tile[][] tiles) {
@@ -57,6 +62,8 @@ public class Tilemap {
 	public void update(float timeSinceLastFrame) {}
 	
 	public void render(Graphics g, Camera camera) {
+		
+		// TODO: REMOVE THIS CODE LATER: System.out.println("(Tilemap.render) | ID: " + ID);
 		
 		// HOW MANY TILES MUST BE DRAWN: X-DIRECTION
 		int startX = (int) camera.getX() / tileWidth; 
@@ -89,13 +96,20 @@ public class Tilemap {
 	}
 	
 	public void addTile(final Tile tile, final int y, final int x) {
-		if (tile != null && y >= 0 && y < rows && x >= 0 && x < cols) {
+		if (tile != null && !tile.isEmpty() && y >= 0 && y < rows && x >= 0 && x < cols) {
 			tiles[y][x] = tile;
 		}
 	}
 	
-	public void addTile(final int ID, final int col, final int row, final BufferedImage image) {
-		addTile(new Tile(ID, col * tileWidth, row * tileHeight, tileWidth, tileHeight, image), col, row);
+	public void addTile(final int ID, final int col, final int row, final BufferedImage image, final boolean blocked) {
+		
+		final Tile tile = new Tile(ID, col * tileWidth, row * tileHeight, tileWidth, tileHeight, image, blocked);
+		
+		if (blocked) {
+			tile.addBoundingBox(new BoundingBox(col * tileWidth, row * tileHeight, tileWidth, tileHeight));
+		}
+		
+		addTile(tile, col, row);
 	}
 	
 	public Tile getTile(final int x, final int y) {

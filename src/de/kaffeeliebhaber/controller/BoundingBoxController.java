@@ -31,10 +31,6 @@ public class BoundingBoxController {
 		this.boundingBoxes.addAll(new ArrayList<BoundingBox>(boundingBoxes));
 	}
 	
-	public boolean intersects(final Entity entity) {
-		return intersects(entity.getBoundingBoxController());
-	}
-	
 	public boolean intersects(final BoundingBoxController controller) {
 		return intersects(controller.getBoundingBoxes());
 	}
@@ -45,14 +41,13 @@ public class BoundingBoxController {
 		final int size = boundingBoxes.size();
 		
 		for (int i = 0; i < size && !intersects; i++) {
-			final BoundingBox currentTranslatedBoundingBox = boundingBoxes.get(i).createTranslatedBoundingBox(dx, dy);
 			
 			final int entityListSize = entities.size();
 			
 			for (int j = 0; j < entityListSize && !intersects; j++) {
 				
 				Entity currentEntity = entities.get(j);
-				if (currentEntity != callerEntity && currentTranslatedBoundingBox.intersects(currentEntity.getBoundingBoxController().getBoundingBoxes()))
+				if (currentEntity != callerEntity && boundingBoxes.get(i).createTranslatedBoundingBox(dx, dy).intersects(currentEntity.getBoundingBoxController().getBoundingBoxes()))
 				{
 					intersects = true;
 				}

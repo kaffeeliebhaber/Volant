@@ -43,7 +43,7 @@ public class UIInventoryManager extends UIElement implements KeyManagerListener 
 	private void init() {
 		
 		inventoryRepresenter = new UIInventoryRepresenter(inventory, (int) x, (int) y);
-		equipmentRepresenter = new UIEquipmentRepresenter(equipmentManager,(int)  x + inventoryRepresenter.getWidth() + UIInventoryConstants.margin, 100);
+		equipmentRepresenter = new UIEquipmentRepresenter(equipmentManager, (int)  x + inventoryRepresenter.getWidth() + UIInventoryConstants.margin, 100);
 		
 		// text dimension
 		FontRenderContext frc = new FontRenderContext(new AffineTransform(), true, true);     
