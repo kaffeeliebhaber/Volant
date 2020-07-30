@@ -55,6 +55,8 @@ public class ItemManager {
 				Item item = items.get(i);
 				if (item.getBoundingBoxController().intersects(playerBoundingBoxController)) {
 					
+					// TODO: (Inventory) | Wie kann dieses anders umgesetzt werden? 
+					// TODO: (Inventory) | player.addItem(item) -> class:Player [inventory.addItem(item)}
 					Inventory.instance.add(item);
 					items.remove(i);
 //					nofitifyItemManagerListeners(item);

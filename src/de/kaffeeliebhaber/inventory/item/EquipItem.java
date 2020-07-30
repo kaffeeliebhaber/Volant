@@ -15,7 +15,6 @@ public class EquipItem extends Item {
 	public void use() {
 		EquipmentManager.instance.equip(this);
 		Inventory.instance.remove(this);
-		
 	}
 
 }
