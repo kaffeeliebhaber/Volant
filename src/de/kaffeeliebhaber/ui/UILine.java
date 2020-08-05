@@ -3,7 +3,7 @@ package de.kaffeeliebhaber.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import de.kaffeeliebhaber.ui.inventory.UIElement;
+import de.kaffeeliebhaber.newUI.UIElement;
 
 public class UILine extends UIElement {
 
@@ -20,7 +20,5 @@ public class UILine extends UIElement {
 		g.drawLine((int) startX, (int) y, (int) x, (int) y);
 	}
 	
-	@Override
-	protected void calcDimension() {}
 
 }

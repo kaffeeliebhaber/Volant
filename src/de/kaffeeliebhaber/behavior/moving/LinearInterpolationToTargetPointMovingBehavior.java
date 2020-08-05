@@ -2,6 +2,7 @@ package de.kaffeeliebhaber.behavior.moving;
 
 import java.util.Random;
 
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -34,7 +35,7 @@ public class LinearInterpolationToTargetPointMovingBehavior implements IMovingBe
 		targetPosition = createRandomPosition();
 	}
 
-	@Override public Vector2f move(float timeSinceLastFrame) {
+	@Override public Vector2f move(final KeyManager keyManager, float timeSinceLastFrame) {
 		
 		// AKTUALISIEREN DER AKTUELLEN POSITION
 		createTranslationDelta(timeSinceLastFrame);

@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.kaffeeliebhaber.core.Keyboard;
+import de.kaffeeliebhaber.core.KeyManager;
 
 public class DefaultAnimationController implements IAnimationController {
 
@@ -33,18 +33,18 @@ public class DefaultAnimationController implements IAnimationController {
 		animationHandler.update(timeSinceLastFrame);
 	}
 	
-	public void updateState(final float dx, final float dy) {
+	public void updateState(final KeyManager keyManager, final float dx, final float dy) {
 		if (animationHandler != null) {
 			if (isMoving(dx, dy)) {
-				updateMoveAnimation();
+				updateMoveAnimation(keyManager);
 			} else {
 				updateIdleAnimation();
 			}
 		}
 	}
 	
-	private void updateMoveAnimation() {
-		switch (Keyboard.getMaxPressedKey(movementKeys)) {
+	private void updateMoveAnimation(final KeyManager keyManager) {
+		switch (keyManager.getMaxPressedKey(movementKeys)) {
 			case KeyEvent.VK_A:
 				animationHandler.setCurrentAnimation(AnimationConstants.LEFT_MOVE);
 				animationHandler.startAnimation();

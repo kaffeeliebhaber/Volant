@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import de.kaffeeliebhaber.assets.AssetsLoader;
 import de.kaffeeliebhaber.entitySystem.Player;
-import de.kaffeeliebhaber.inventory.stats.PlayerStats;
+import de.kaffeeliebhaber.entitySystem.stats.PlayerStats;
 
 
 public class UIHud {

@@ -2,6 +2,7 @@ package de.kaffeeliebhaber.behavior.moving;
 
 import java.util.Random;
 
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -56,7 +57,7 @@ public class LinearMovingBehavior implements IMovingBehavior {
 	public void contextMovingEntity(MovingEntity movingEntity) {}
 
 	@Override
-	public Vector2f move(float timeSinceLastFrame) {
+	public Vector2f move(final KeyManager keyManager, float timeSinceLastFrame) {
 
 		if (positionEnd == null) {
 			createPositionEnd();

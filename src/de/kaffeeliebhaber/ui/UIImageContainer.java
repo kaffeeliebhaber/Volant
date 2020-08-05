@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import de.kaffeeliebhaber.ui.inventory.UIElement;
+import de.kaffeeliebhaber.newUI.UIElement;
 
 public class UIImageContainer extends UIElement {
 
@@ -56,5 +56,4 @@ public class UIImageContainer extends UIElement {
 		this.imageHeight = imageHeight;
 	}
 
-	@Override protected void calcDimension() {}
 }

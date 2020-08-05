@@ -16,13 +16,12 @@ import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.entitySystem.Player;
-import de.kaffeeliebhaber.input.KeyManagerListener;
 import de.kaffeeliebhaber.tweens.InfoPaneEvent;
 import de.kaffeeliebhaber.tweens.InfoPaneInformerListener;
 import de.kaffeeliebhaber.tweens.InfoPaneListener;
 import de.kaffeeliebhaber.ui.textbox.TextboxNode;
 
-public abstract class NPC extends MovingEntity implements KeyManagerListener, InfoPaneListener {
+public abstract class NPC extends MovingEntity implements InfoPaneListener {
 
 	// CONSTANTS
 	private final int BOUNDINGBOX_HEIGHT = 10;
@@ -42,9 +41,6 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		addBoundingBox(new BoundingBox((int) x, (int) (y + height - BOUNDINGBOX_HEIGHT), width, BOUNDINGBOX_HEIGHT));
 
 		infoPaneInformerListeners = new ArrayList<InfoPaneInformerListener>();
-
-		// REGISTER KEYMANAGER-LISTENER
-		KeyManager.instance.addKeyManagerListener(this);
 
 		initTextboxSetup();
 	}
@@ -93,8 +89,13 @@ public abstract class NPC extends MovingEntity implements KeyManagerListener, In
 		return new BoundingBox((int) x, (int) (y + height), width, INTERACTIONBOX_HEIGHT);
 	}
 
-	public void update(float timeSinceLastFrame, final List<Entity> entities) {
-		super.update(timeSinceLastFrame, entities);
+	public void update(final KeyManager keyManager, float timeSinceLastFrame, final List<Entity> entities) {
+		super.update(keyManager, timeSinceLastFrame, entities);
+		
+		if (canInteract(player) && keyManager.isKeyPressed(actionKeyID) && !isActive()) {
+			activate();
+			interact(player);
+		}
 	}
 
 	protected void interact(Player player) {

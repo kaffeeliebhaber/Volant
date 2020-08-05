@@ -7,8 +7,7 @@ import java.util.List;
 import de.kaffeeliebhaber.animation.Animation;
 import de.kaffeeliebhaber.animation.AnimationHandler;
 import de.kaffeeliebhaber.assets.AssetsLoader;
-import de.kaffeeliebhaber.core.KeyManager;
-import de.kaffeeliebhaber.input.KeyManagerListener;
+import de.kaffeeliebhaber.core.KeyManagerListener;
 import de.kaffeeliebhaber.ui.textbox.TextboxListener;
 import de.kaffeeliebhaber.ui.textbox.TextboxNode;
 
@@ -32,7 +31,8 @@ public class UITextbox implements KeyManagerListener {
 
 		textboxListeners = new ArrayList<TextboxListener>();
 
-		KeyManager.instance.addKeyManagerListener(this);
+		// TODO: (KeyManager)
+		//KeyManager.instance.addKeyManagerListener(this);
 
 		// CREATE AND INIT ANIMATIONHANDLER
 		animationHandler = new AnimationHandler();

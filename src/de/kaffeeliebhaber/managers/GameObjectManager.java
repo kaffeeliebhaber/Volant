@@ -28,25 +28,25 @@ import de.kaffeeliebhaber.entitySystem.npc.VolantFemaleAnne;
 import de.kaffeeliebhaber.entitySystem.npc.VolantMasterKnight;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillageElder;
 import de.kaffeeliebhaber.entitySystem.npc.VolantVillagePeopleOne;
-import de.kaffeeliebhaber.inventory.EquipmentManager;
-import de.kaffeeliebhaber.inventory.Inventory;
-import de.kaffeeliebhaber.inventory.ItemManager;
-import de.kaffeeliebhaber.inventory.item.EquipItem;
-import de.kaffeeliebhaber.inventory.item.Item;
-import de.kaffeeliebhaber.inventory.item.ItemCategory;
-import de.kaffeeliebhaber.inventory.item.ItemType;
-import de.kaffeeliebhaber.inventory.item.UseItem;
-import de.kaffeeliebhaber.inventory.item.actions.FillUpHealthPointsAction;
-import de.kaffeeliebhaber.inventory.item.actions.IItemAction;
-import de.kaffeeliebhaber.inventory.stats.PlayerStats;
-import de.kaffeeliebhaber.inventory.stats.Stat;
+import de.kaffeeliebhaber.entitySystem.stats.PlayerStats;
+import de.kaffeeliebhaber.entitySystem.stats.Stat;
+import de.kaffeeliebhaber.inventorySystem.EquipmentManager;
+import de.kaffeeliebhaber.inventorySystem.InventoryManager;
+import de.kaffeeliebhaber.inventorySystem.ItemManager;
+import de.kaffeeliebhaber.inventorySystem.item.EquipItem;
+import de.kaffeeliebhaber.inventorySystem.item.Item;
+import de.kaffeeliebhaber.inventorySystem.item.ItemCategory;
+import de.kaffeeliebhaber.inventorySystem.item.ItemType;
+import de.kaffeeliebhaber.inventorySystem.item.UseItem;
+import de.kaffeeliebhaber.inventorySystem.item.action.FillUpHealthPointsAction;
+import de.kaffeeliebhaber.inventorySystem.item.action.IItemAction;
 import de.kaffeeliebhaber.math.Vector2f;
+import de.kaffeeliebhaber.newUI.UIInventory;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 import de.kaffeeliebhaber.tilesystem.chunk.GameWorld;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.ui.UIHud;
 import de.kaffeeliebhaber.ui.UIInfoPane;
-import de.kaffeeliebhaber.ui.inventory.UIInventoryManager;
 import de.kaffeeliebhaber.xml.tiledEditor.TiledEditorMapLoader;
 import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.ChunkSystemCreator;
 import de.kaffeeliebhaber.xml.tiledEditor.ChunkSystem.ChunkSystemCreatorModel;
@@ -57,17 +57,30 @@ public class GameObjectManager extends GameObjectLoader {
 	private Transition transition;
 	private Player player;
 	private Camera camera;
-	private UIInventoryManager inventoryManager;
 	private UIHud hud;
 	private ItemManager itemManager;
 	private UIInfoPane infoPane;
 	private EntitySystem entitySystem;
 	private GameWorld gameWorld;
+	private UIInventory uiInventory;
+	private InventoryManager inventoryManager;
+	private EquipmentManager equipmentManager;
 
 	public GameObjectManager() {
 
-		final boolean enableEntities 	= true;
-		final boolean enableLocalDebug 	= true;
+		// USER INTERFACE
+		equipmentManager = new EquipmentManager();
+		inventoryManager = new InventoryManager(equipmentManager);
+		uiInventory = new UIInventory(0, 0, 100, 100, inventoryManager, equipmentManager);
+		
+		itemManager = new ItemManager();
+		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
+		
+		// INVENTORY REGISTRATION
+		itemManager.addItemManagerListener(inventoryManager);
+		itemManager.setInfoPaneInformerListener(infoPane);
+		
+
 		
 		// LOAD CHUNKSYSTEM FROM TILED-EDITOR
 		final ChunkSystemCreatorModel model = new TiledEditorMapLoader(Config.MAP_PATH);
@@ -77,12 +90,13 @@ public class GameObjectManager extends GameObjectLoader {
 		chunkSystem = creator.createChunkSystem();
 		
 		// CREATE FREEFORM OBJECTS FROM TILED-EDITOR
-		if (enableEntities) {
-			creator.createFreeformObjects();
-		}
+//		creator.createFreeformObjects();
 		
 		// CREATE PLAYER
 		createPlayer();
+		
+		// CREATE DUMMY ITEMS
+		createAndSetupInventory();
 		
 		// CREATE ENTITYSYSTEM
 		entitySystem = creator.createEntitySystem(player);
@@ -96,34 +110,16 @@ public class GameObjectManager extends GameObjectLoader {
 		transition = new Transition(new Rectangle(0, 0, Config.WIDTH, Config.HEIGHT), 20, 20, 20);
 		transition.setColor(Color.BLACK);
 		
-		// CREATE INFOPANE
-		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
-		
-		// CREATE ITEMS AND INVENTORY
-		// TODO: (WICHTIG) BITTE WIEDER LÖSCHEN WENN DAS PROBLEM GEFUNDEN WURDE (EINIGE LAYER WERDEN NICHT GEZEICHNET).
-		if (enableEntities) {
-			createAndSetupInventory();
-		} else {
-			inventoryManager = new UIInventoryManager(Inventory.instance, EquipmentManager.instance, 100, 100);
-			itemManager = new ItemManager(player);
-		}
-		
-		itemManager.addInfoPaneInformerListener(infoPane);
-		
 		// GLOBAL SETUP
 		entitySystem.add(0, player);
 		gameWorld = new GameWorld(player, chunkSystem, itemManager, entitySystem, transition);
-		hud = new UIHud(player);
 		
-		if (enableLocalDebug) {
-			hud.deactivate();
-		}
+		hud = new UIHud(player);
+		hud.activate();
 		
 		// LOAD TEST-GAME OBJECTS
-		if (enableEntities) {
-			createEntityFox(1);
-			createEntityNPCs();
-		}
+//		createEntityFox(1);
+//		createEntityNPCs();
 	}
 
 	private void createEntityFox(final int countOfFox) {
@@ -150,7 +146,7 @@ public class GameObjectManager extends GameObjectLoader {
 		// Moving - Animation
 		IAnimationController animationController = new NPCAnimationController();
 		animationController.addAnimation(new Animation(AnimationConstants.DOWN_IDLE, AssetsLoader.femaleIdle, 10));
-		animationController.updateState(0, 0);
+		animationController.updateState(null, 0, 0);
 
 		NPC anne = new VolantFemaleAnne(400, 150, 32, 32, Direction.DOWN, animationController, new NoneMovingBehavior());
 
@@ -169,7 +165,7 @@ public class GameObjectManager extends GameObjectLoader {
 		playerStats.setArmorStat(new Stat(10));
 		playerStats.setDamageStat(new Stat(2));
 
-		EquipmentManager.instance.addEquipmentManagerListener(playerStats);
+		equipmentManager.addEquipmentManagerListener(playerStats);
 
 		IAnimationController animationController = new DefaultAnimationController();
 
@@ -185,7 +181,7 @@ public class GameObjectManager extends GameObjectLoader {
 		animationController.addAnimation(new Animation(AnimationConstants.RIGHT_IDLE, AssetsLoader.playerIdleRightAnimationSequence, 10));
 		animationController.addAnimation(new Animation(AnimationConstants.TOP_IDLE, AssetsLoader.playerIdleTopAnimationSequence, 10));
 
-		animationController.updateState(0, 0);
+		animationController.updateState(null, 0, 0);
 
 		// CREATE PLAYER
 		final int playerBoundingBoxHeight = 7;
@@ -200,7 +196,7 @@ public class GameObjectManager extends GameObjectLoader {
 		// Moving - Animation
 		IAnimationController animationController = new NPCAnimationController();
 		animationController.addAnimation(new Animation(AnimationConstants.DOWN_IDLE, AssetsLoader.volantVillageElderAnimationSequenceIdle, 10));
-		animationController.updateState(0, 0);
+		animationController.updateState(null, 0, 0);
 
 		// CREATE AND CONFIGURE NPC - GORDOM
 		final NPC gordom = new VolantVillageElder(500, 400, 32, 32, Direction.DOWN, animationController, new NoneMovingBehavior());
@@ -218,7 +214,7 @@ public class GameObjectManager extends GameObjectLoader {
 		// Moving - Animation
 		IAnimationController animationController = new NPCAnimationController();
 		animationController.addAnimation(new Animation(AnimationConstants.DOWN_IDLE, AssetsLoader.volantMasterKnightAnimationSequenceIdle, 10));
-		animationController.updateState(0, 0);
+		animationController.updateState(null, 0, 0);
 
 		// CREATE AND CONFIGURE NPC - GORDOM
 		final NPC knight = new VolantMasterKnight(300, 550, 32, 32, Direction.DOWN, animationController,new NoneMovingBehavior());
@@ -236,7 +232,7 @@ public class GameObjectManager extends GameObjectLoader {
 		// Moving - Animation
 		IAnimationController animationController = new NPCAnimationController();
 		animationController.addAnimation(new Animation(AnimationConstants.DOWN_IDLE,AssetsLoader.volantVillagePeopleOneAnimationSequenceIdle, 10));
-		animationController.updateState(0, 0);
+		animationController.updateState(null, 0, 0);
 
 		// CREATE AND CONFIGURE NPC - GORDOM
 		final NPC npc = new VolantVillagePeopleOne(150, 600, 32, 32, Direction.DOWN, animationController, new NoneMovingBehavior());
@@ -261,7 +257,7 @@ public class GameObjectManager extends GameObjectLoader {
 		animationController.addAnimation(new Animation(AnimationConstants.TOP_MOVE, AssetsLoader.foxTopAnimationSequence, 10));
 		animationController.addAnimation(new Animation(AnimationConstants.DOWN_IDLE, AssetsLoader.foxIdle, 10));
 
-		animationController.updateState(0, 0);
+		animationController.updateState(null, 0, 0);
 
 		final IMovingBehavior linearMoving = new LinearMovingBehavior(areaX, areaY, areaWidth, areaHeight, movingSpeed, new Vector2f(startX, startY));
 		final NPC fox = new Fox(startX, startY, size, size, Direction.DOWN, animationController, linearMoving);
@@ -276,8 +272,9 @@ public class GameObjectManager extends GameObjectLoader {
 	private void createAndSetupInventory() {
 
 		// create items
-		inventoryManager = new UIInventoryManager(Inventory.instance, EquipmentManager.instance, 100, 100);
+		//inventoryManager = new UIInventoryManager(Inventory.instance, EquipmentManager.instance, 100, 100);
 
+		
 		IItemAction increaseHP10 = new FillUpHealthPointsAction(player, 10);
 
 		Item sword = new EquipItem(ItemCategory.EQUIPMENT, ItemType.WEAPON, "Einfaches Schwert", AssetsLoader.spritesheetInventory.getImageByIndex(37));
@@ -323,13 +320,13 @@ public class GameObjectManager extends GameObjectLoader {
 		Item potion2 = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "Heiltrank (1)", AssetsLoader.spritesheetInventory.getImageByIndex(0), increaseHP10);
 		potion2.addBoundingBox(new BoundingBox(290, 160, 16, 16));
 		potion2.setStackable(true);
+		potion2.setQuantity(10);
 
 		Item poisson = new UseItem(ItemCategory.OBJECT, ItemType.POTION, "GIFT (1)", AssetsLoader.spritesheetInventory.getImageByIndex(1), new FillUpHealthPointsAction(player, -30));
 		poisson.addBoundingBox(new BoundingBox(340, 260, 16, 16));
 		poisson.setStackable(true);
 
 		// create item manager
-		itemManager = new ItemManager(player);
 		
 		itemManager.addItem(sword);
 		itemManager.addItem(chest);
@@ -340,6 +337,34 @@ public class GameObjectManager extends GameObjectLoader {
 		itemManager.addItem(feets);
 		itemManager.addItem(head);
 		itemManager.addItem(shield);
+		
+		// ---- INVENTORY
+		inventoryManager.add(sword);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion);
+		inventoryManager.add(potion2);
+		inventoryManager.add(potion2);
+//		inventoryManager.add(potion);
+		
+		inventoryManager.add(feets);
+		
+		inventoryManager.add(poisson);
+		inventoryManager.add(poisson);
+		
 	}
 
 	/*
@@ -362,10 +387,6 @@ public class GameObjectManager extends GameObjectLoader {
 		return camera;
 	}
 
-	public UIInventoryManager getUIInventoryManager() {
-		return inventoryManager;
-	}
-
 	public ItemManager getItemManager() {
 		return itemManager;
 	}
@@ -384,6 +405,11 @@ public class GameObjectManager extends GameObjectLoader {
 
 	public UIHud getUIHud() {
 		return hud;
+	}
+
+	@Override
+	public UIInventory getUIInventory() {
+		return uiInventory;
 	}
 
 }

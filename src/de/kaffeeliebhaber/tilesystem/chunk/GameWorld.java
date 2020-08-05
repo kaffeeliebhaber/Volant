@@ -4,9 +4,11 @@ import java.awt.Graphics;
 import java.util.List;
 
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.core.KeyManager;
+import de.kaffeeliebhaber.core.MouseManager;
 import de.kaffeeliebhaber.entitySystem.EntitySystem;
 import de.kaffeeliebhaber.entitySystem.Player;
-import de.kaffeeliebhaber.inventory.ItemManager;
+import de.kaffeeliebhaber.inventorySystem.ItemManager;
 import de.kaffeeliebhaber.tilesystem.transition.ITransitionListener;
 import de.kaffeeliebhaber.tilesystem.transition.Transition;
 import de.kaffeeliebhaber.tilesystem.transition.TransitionEvent;
@@ -43,13 +45,13 @@ public class GameWorld implements ITransitionTileListener, ITransitionListener {
 		transition.addTransitionListener(this);
 	}
 	
-	public void update(float timeSinceLastFrame) {
+	public void update(final KeyManager keyManager, final MouseManager mouseManager, float timeSinceLastFrame) {
 		if (active) {
 			chunkSystem.update(timeSinceLastFrame);
 			
 			// TODO: HIER DEN PLAYER ÜBERGEBEN
-			itemManager.update();
-			entitySystem.update(timeSinceLastFrame);
+			itemManager.update(player);
+			entitySystem.update(keyManager, timeSinceLastFrame);
 		}
 	}
 	

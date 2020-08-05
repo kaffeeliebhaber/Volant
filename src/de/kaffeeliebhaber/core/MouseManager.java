@@ -6,17 +6,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.kaffeeliebhaber.input.MouseManagerListener;
-
 public class MouseManager implements MouseListener, MouseMotionListener {
-
-	public static MouseManager instance;
-	
-	static {
-		if (instance == null) {
-			instance = new MouseManager();
-		}
-	}
 	
 	private List<MouseManagerListener> mouseManagerListeners;
 	

@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 import de.kaffeeliebhaber.core.KeyManager;
-import de.kaffeeliebhaber.input.KeyManagerListener;
+import de.kaffeeliebhaber.core.KeyManagerListener;
 import de.kaffeeliebhaber.math.Sign;
 import de.kaffeeliebhaber.tweens.DefaultTween;
 import de.kaffeeliebhaber.tweens.InfoPaneEvent;
@@ -46,6 +46,10 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 		registerListener();
 	}
 	
+	public void registerKeyManagerListener(final KeyManager keyManager) {
+		keyManager.addKeyManagerListener(this);
+	}
+	
 	private TweenManager createTweenManager() {
 		tweenManager = new TweenManager();
 		return tweenManager;
@@ -85,7 +89,6 @@ implements InfoPaneInformerListener, TextboxListener, TweenManagerListener, KeyM
 	
 	private void registerListener() {
 		tweenManager.addTweenManagerListener(this);
-		KeyManager.instance.addKeyManagerListener(this);
 	}
 	
 	private void setUITextbox(final UITextbox textbox) {

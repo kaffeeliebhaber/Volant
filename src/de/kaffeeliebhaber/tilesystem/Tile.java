@@ -2,13 +2,10 @@ package de.kaffeeliebhaber.tilesystem;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
-import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
-import de.kaffeeliebhaber.debug.Debug;
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
 public class Tile extends Entity {
@@ -43,7 +40,7 @@ public class Tile extends Entity {
 		return ID < 0;
 	}
 	
-	public void update(float timeSinceLastFrame, List<Entity> entities) {}
+	public void update(final KeyManager keyManager, float timeSinceLastFrame, List<Entity> entities) {}
 	
 	public String toString() {
 		return "(Tile) " + super.toString();

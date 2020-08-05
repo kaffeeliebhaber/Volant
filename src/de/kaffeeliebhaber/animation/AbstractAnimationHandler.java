@@ -2,6 +2,8 @@ package de.kaffeeliebhaber.animation;
 
 import java.awt.image.BufferedImage;
 
+import de.kaffeeliebhaber.core.KeyManager;
+
 public abstract class AbstractAnimationHandler implements IAnimationController {
 
 	protected AnimationHandler animationHandler;
@@ -24,7 +26,7 @@ public abstract class AbstractAnimationHandler implements IAnimationController {
 		animationHandler.removeAnimation(animation);
 	}
 
-	public abstract void updateState(float dx, float dy);
+	public abstract void updateState(final KeyManager keyManager, float dx, float dy);
 
 	public abstract Direction getViewDirection();
 

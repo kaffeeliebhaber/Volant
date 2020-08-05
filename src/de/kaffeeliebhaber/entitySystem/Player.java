@@ -2,7 +2,7 @@ package de.kaffeeliebhaber.entitySystem;
 
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
-import de.kaffeeliebhaber.inventory.stats.PlayerStats;
+import de.kaffeeliebhaber.entitySystem.stats.PlayerStats;
 
 public class Player extends MovingEntity {
 

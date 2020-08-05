@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
@@ -26,7 +27,7 @@ public class StaticEntity extends Entity {
 	}
 
 	@Override
-	public void update(float timeSinceLastFrame, List<Entity> entities) {}
+	public void update(final KeyManager keyManager, float timeSinceLastFrame, List<Entity> entities) {}
 
 	@Override
 	public void render(Graphics g, Camera camera) {

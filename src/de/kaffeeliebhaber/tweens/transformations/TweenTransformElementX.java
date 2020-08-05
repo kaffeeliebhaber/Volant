@@ -1,6 +1,6 @@
 package de.kaffeeliebhaber.tweens.transformations;
 
-import de.kaffeeliebhaber.ui.inventory.UIElement;
+import de.kaffeeliebhaber.newUI.UIElement;
 
 public class TweenTransformElementX extends AbstractTweeenTransformElement {
 	

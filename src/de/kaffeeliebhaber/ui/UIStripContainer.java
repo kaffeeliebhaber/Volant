@@ -3,7 +3,7 @@ package de.kaffeeliebhaber.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import de.kaffeeliebhaber.ui.inventory.UIElement;
+import de.kaffeeliebhaber.newUI.UIElement;
 
 /**
  * Diese Klass dient zur Darstellung eines konfigurierten Rechtecks.
@@ -25,6 +25,4 @@ public class UIStripContainer extends UIElement {
 		
 	}
 	
-	@Override protected void calcDimension() {}
-
 }

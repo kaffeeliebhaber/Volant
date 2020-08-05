@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.kaffeeliebhaber.core.KeyManager;
+import de.kaffeeliebhaber.core.MouseManager;
+
 public class GameStateManager {
 
     private final Map<String, GameState> gameStates;
@@ -11,7 +14,7 @@ public class GameStateManager {
 
     public GameStateManager() {
     	gameStates = new HashMap<>();
-        currentGameState = new DefaultEmptyState(this);
+        currentGameState = new DefaultEmptyState(this, null, null);
         gameStates.put(null, currentGameState);
     }
 
@@ -25,8 +28,8 @@ public class GameStateManager {
     	currentGameState.enter();
     }
 
-    public void update(float timeSinceLastFrame) {
-    	currentGameState.update(timeSinceLastFrame);
+    public void update(final KeyManager keyManager, final MouseManager mouseManager, float timeSinceLastFrame) {
+    	currentGameState.update(keyManager, mouseManager, timeSinceLastFrame);
     }
 
     public void render(Graphics g) {

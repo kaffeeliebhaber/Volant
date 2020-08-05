@@ -1,0 +1,11 @@
+
+
+Die PlayerState müssen vom EquipmentManager informiert werden.
+Der ItemManager muss das InventoryManager informieren
+
+
+
+InventerManager.register(ItemManager)
+EquipmentManager.reister(PlayerState);
+
+

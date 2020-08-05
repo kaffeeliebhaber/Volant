@@ -8,6 +8,7 @@ import java.util.List;
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.controller.BoundingBoxController;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.debug.Debug;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -63,7 +64,7 @@ public abstract class Entity extends GameObject {
 		notifyEntityListenerEntityUpdated();
 	}
 	
-	public abstract void update(float timeSinceLastFrame, final List<Entity> entities);
+	public abstract void update(final KeyManager keyManager, float timeSinceLastFrame, final List<Entity> entities);
 
 	public abstract void render(Graphics g, Camera c);
 	

@@ -3,9 +3,9 @@ package de.kaffeeliebhaber.tweens;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.kaffeeliebhaber.newUI.UIElement;
 import de.kaffeeliebhaber.tweens.functions.TweenFunction;
 import de.kaffeeliebhaber.tweens.transformations.TweenTransformElement;
-import de.kaffeeliebhaber.ui.inventory.UIElement;
 
 public class DefaultTween implements Tween {
 

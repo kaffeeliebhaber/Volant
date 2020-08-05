@@ -8,7 +8,7 @@ import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
 import de.kaffeeliebhaber.entitySystem.Entity;
 
-public class BoundingBoxController {
+public class BoundingBoxController implements Cloneable {
 
 	private List<BoundingBox> boundingBoxes;
 	private float xMin, yMin;
@@ -182,6 +182,17 @@ public class BoundingBoxController {
 	@Override
 	public String toString() {
 		return "x: " + this.xMin + ", y: " + this.yMin + ", width: " + this.width + ", height: " + this.height;
+	}
+	
+	@Override
+	public BoundingBoxController clone() throws CloneNotSupportedException{
+		BoundingBoxController boundingBoxControllerClone = new BoundingBoxController();
+		boundingBoxControllerClone.xMin = this.xMin;
+		boundingBoxControllerClone.yMin = this.yMin;
+		boundingBoxControllerClone.width = this.width;
+		boundingBoxControllerClone.height = this.height;
+		boundingBoxControllerClone.boundingBoxes = new ArrayList<>(boundingBoxes);
+		return boundingBoxControllerClone;
 	}
 	
 }

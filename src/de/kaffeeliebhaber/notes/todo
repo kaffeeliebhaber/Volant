@@ -1,0 +1,6 @@
+[] Create Item.clone() method.
+[] Create new UIInventory user interface.
+	() UIViewInventory
+	() UIViewEquipment
+[] May be change Interface.EquipmentManagerModel
+	() Includes changes on class UIViewEquipment

@@ -1,5 +1,6 @@
 package de.kaffeeliebhaber.behavior.moving;
 
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.entitySystem.MovingEntity;
 import de.kaffeeliebhaber.math.Vector2f;
 
@@ -16,7 +17,7 @@ public class FollowEntityMovingBehavior implements IMovingBehavior {
 	}
 	
 	@Override
-	public Vector2f move(float timeSinceLastFrame) {
+	public Vector2f move(final KeyManager keyManager, float timeSinceLastFrame) {
 		float targetX = targetEntity.getX();
 		float targetY = targetEntity.getY();
 		

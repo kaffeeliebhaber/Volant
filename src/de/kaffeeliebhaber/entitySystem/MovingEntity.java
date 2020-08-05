@@ -8,6 +8,7 @@ import de.kaffeeliebhaber.animation.Direction;
 import de.kaffeeliebhaber.animation.IAnimationController;
 import de.kaffeeliebhaber.behavior.moving.IMovingBehavior;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.math.Vector2f;
 
 public abstract class MovingEntity extends Entity {
@@ -29,12 +30,12 @@ public abstract class MovingEntity extends Entity {
 		renderBoundingBox(g, camera);
 	}
 	
-	public void update(float timeSinceLastFrame, final List<Entity> entities) {
+	public void update(final KeyManager keyManager, float timeSinceLastFrame, final List<Entity> entities) {
 			
-		translationVector = movingBehavior.move(timeSinceLastFrame);
+		translationVector = movingBehavior.move(keyManager, timeSinceLastFrame);
 		
 		// UPDATE ANIMATION
-		animationController.updateState(translationVector.x, translationVector.y);
+		animationController.updateState(keyManager, translationVector.x, translationVector.y);
 		animationController.update(timeSinceLastFrame);
 		
 		move(entities);

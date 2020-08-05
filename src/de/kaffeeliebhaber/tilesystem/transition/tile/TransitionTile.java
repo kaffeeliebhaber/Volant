@@ -6,6 +6,7 @@ import java.util.List;
 
 import de.kaffeeliebhaber.collision.BoundingBox;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.entitySystem.Entity;
 import de.kaffeeliebhaber.entitySystem.IEntityListener;
 import de.kaffeeliebhaber.entitySystem.Player;
@@ -25,7 +26,7 @@ public class TransitionTile extends Entity implements IEntityListener {
 	}
 
 	@Override
-	public void update(float timeSinceLastFrame, final List<Entity> entities) {
+	public void update(final KeyManager keyManager, float timeSinceLastFrame, final List<Entity> entities) {
 		
 		final int size = entities.size();
 		boolean execute = true;

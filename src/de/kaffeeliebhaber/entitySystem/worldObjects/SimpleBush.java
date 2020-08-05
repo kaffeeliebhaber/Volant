@@ -2,7 +2,6 @@ package de.kaffeeliebhaber.entitySystem.worldObjects;
 
 import java.awt.image.BufferedImage;
 
-import de.kaffeeliebhaber.collision.BoundingBox;
 
 public class SimpleBush extends SimpleWorldObject {
 
@@ -23,5 +22,6 @@ public class SimpleBush extends SimpleWorldObject {
 		
 	}
 	*/
+
 
 }

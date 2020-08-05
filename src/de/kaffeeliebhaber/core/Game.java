@@ -36,6 +36,10 @@ public class Game extends Canvas implements Runnable {
 	// GAMESTATEMANAGER
 	private GameStateManager gameStateManager;
 	
+	// USER-INPUT
+	private final KeyManager keyManager;
+	private final MouseManager mouseManager;
+	
 	public Game(final int screenWidth, final int screenHeight) {
 		
 		Game.screenWidth = screenWidth;
@@ -44,15 +48,14 @@ public class Game extends Canvas implements Runnable {
 		setPreferredSize(new Dimension(Game.screenWidth, Game.screenHeight));
 		setMinimumSize(new Dimension(Game.screenWidth, Game.screenHeight));
 		setMaximumSize(new Dimension(Game.screenWidth, Game.screenHeight));
+
+		keyManager = new KeyManager();
+		mouseManager = new MouseManager();
 		
-		final Keyboard keyboard = new Keyboard();
-		
-		addKeyListener(keyboard);
-		//addMouseListener(keyboard);
-		addKeyListener(KeyManager.instance);
-		addMouseListener(MouseManager.instance);
-		addMouseMotionListener(MouseManager.instance);
-		
+		addKeyListener(keyManager);
+		addMouseListener(mouseManager);
+		addMouseMotionListener(mouseManager);
+
 		setFocusable(true);
 		requestFocus();
 	}
@@ -67,10 +70,9 @@ public class Game extends Canvas implements Runnable {
 		isRunning = true;
 		thread.start();
 	}
-	
 
 	public synchronized void update(float timeSinceLastFrame) {
-		gameStateManager.update(timeSinceLastFrame);
+		gameStateManager.update(keyManager, mouseManager, timeSinceLastFrame);
 	}
 	
 	public synchronized void draw(Graphics g) {
@@ -93,7 +95,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void init() {
 		gameStateManager = new GameStateManager();
-		gameStateManager.add("PLAY", new PlayState(gameStateManager));
+		gameStateManager.add("PLAY", new PlayState(gameStateManager, keyManager, mouseManager));
 		gameStateManager.change("PLAY");
 	}
 	

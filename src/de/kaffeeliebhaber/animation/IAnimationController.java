@@ -2,6 +2,8 @@ package de.kaffeeliebhaber.animation;
 
 import java.awt.image.BufferedImage;
 
+import de.kaffeeliebhaber.core.KeyManager;
+
 public interface IAnimationController {
 
 	void update(final float timeSinceLastFrame);
@@ -10,7 +12,7 @@ public interface IAnimationController {
 	
 	void removeAnimation(final Animation animation);
 	
-	void updateState(final float dx, final float dy);
+	void updateState(final KeyManager keyManager, final float dx, final float dy);
 	
 	Direction getViewDirection();
 	

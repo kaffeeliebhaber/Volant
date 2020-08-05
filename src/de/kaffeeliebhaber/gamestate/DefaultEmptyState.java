@@ -2,14 +2,17 @@ package de.kaffeeliebhaber.gamestate;
 
 import java.awt.Graphics;
 
+import de.kaffeeliebhaber.core.KeyManager;
+import de.kaffeeliebhaber.core.MouseManager;
+
 public class DefaultEmptyState extends GameState {
 
-	public DefaultEmptyState(GameStateManager gameStateManager) {
-		super(gameStateManager);
+	public DefaultEmptyState(GameStateManager gameStateManager, final KeyManager keyManager, final MouseManager mouseManager) {
+		super(gameStateManager, keyManager, mouseManager);
 	}
 
 	@Override
-	public void update(float timeSinceLastFrame) {
+	public void update(final KeyManager keyManager, final MouseManager mouseManager, float timeSinceLastFrame) {
 		
 	}
 

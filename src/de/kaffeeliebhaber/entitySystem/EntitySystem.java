@@ -7,8 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JTable;
+
 import de.kaffeeliebhaber.collision.CollisionController;
 import de.kaffeeliebhaber.core.Camera;
+import de.kaffeeliebhaber.core.KeyManager;
 import de.kaffeeliebhaber.tilesystem.chunk.ChunkSystem;
 
 public class EntitySystem {
@@ -54,14 +57,14 @@ public class EntitySystem {
 		entitySystem.get(currentChunkID).remove(entity);
 	}
 	
-	public void update(float timeSinceLastFrame) {
+	public void update(final KeyManager keyManager, float timeSinceLastFrame) {
 		
 		final List<Entity> currentEntities = entitySystem.get(currentChunkID);
 		
 		if (currentEntities != null && currentEntities.size() > 0) {
 			final List<MovingEntity> movingEntities = CollisionController.filterListForMovingEntities(currentEntities);
 			final List<Entity> contextEntities = CollisionController.collectAllContextEntities(movingEntities, chunkSystem, currentEntities);
-			entitySystem.get(currentChunkID).stream().forEach(e -> e.update(timeSinceLastFrame, contextEntities));
+			entitySystem.get(currentChunkID).stream().forEach(e -> e.update(keyManager, timeSinceLastFrame, contextEntities));
 			entitySystem.get(currentChunkID).sort(comparator);
 		}
 	}
