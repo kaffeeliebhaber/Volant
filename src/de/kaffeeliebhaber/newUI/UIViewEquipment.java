@@ -2,70 +2,76 @@ package de.kaffeeliebhaber.newUI;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.kaffeeliebhaber.inventorySystem.EquipmentManagerModel;
 import de.kaffeeliebhaber.inventorySystem.InventoryModelListener;
+import de.kaffeeliebhaber.inventorySystem.item.ItemType;
 
 public class UIViewEquipment extends UIView implements InventoryModelListener {
 
-	private UIInventorySlot itemSlotWeapon;
-	private UIInventorySlot itemSlotFeet;
-	
-	/*
-	 * Map<ItemType, Item>
-	 * 
-	 */
-	// TODO: Es muss für jeden ItemType ein Slot bereitgestellt werden
-	// In der clear MEthdoe müssen alle Slots von ihrem Item befreit werden -> slot.clear()
-	// Anschließend müssen alle SLots wieder durch das Model vorbeleget werden.
+	private Map<ItemType, UIInventorySlot> slots;
 	private EquipmentManagerModel model;
+	private static final int COLS = 3;
+	private static final int ROWS = 4;
 	
-	public UIViewEquipment(float x, float y, int width, int height, final EquipmentManagerModel model) {
-		super(x, y, width, height);
+	public UIViewEquipment(float x, float y, final EquipmentManagerModel model) {
+		super(x, y);
 		this.model = model;
 		this.model.addInventoryModelListener(this);
 		
-//		slots = new ArrayList<UIInventorySlot>();
+		slots = new HashMap<ItemType, UIInventorySlot>();
 		initSlots();
-		init();
+		initFromModel();
 	}
 	
 	private void initSlots() {
-		itemSlotWeapon = new UIInventorySlot(0, 500, 100, 40, 40);
-		itemSlotFeet = new UIInventorySlot(1, 550, 100, 40, 40);
+		addSlot(ItemType.HEAD	, 0,  1);
+		addSlot(ItemType.WEAPON	, 1,  3);
+		addSlot(ItemType.CHEST	, 2,  4);
+		addSlot(ItemType.SHIELD	, 3,  5);
+		addSlot(ItemType.LEGS	, 4,  7);
+		addSlot(ItemType.FEETS	, 5, 10);
+	}
+	
+	private Point calcSlotDrawPoint(final int cellID) {
+		
+		int posX = (int) x + (cellID % COLS) * (UIInventorySlot.PADDING + UIInventorySlot.WIDTH) + UIInventorySlot.PADDING;
+		int posY = (int) y + (cellID / COLS) * (UIInventorySlot.PADDING + UIInventorySlot.HEIGHT) + UIInventorySlot.PADDING;
+		return new Point(posX, posY);
+	}
+	
+	private void addSlot(final ItemType itemType, final int ID, final int cellID) {
+		final Point drawPoint = this.calcSlotDrawPoint(cellID);
+		slots.put(itemType, new UIInventorySlot(ID, drawPoint.x, drawPoint.y));
 	}
 	
 	private void clear() {
-		//slots.stream().forEach(s -> s.clear());
-		itemSlotWeapon.clear();
-		itemSlotFeet.clear();
+		slots.values().stream().forEach(s -> s.clear());
 	}
 	
-	public void init() {
-		itemSlotWeapon.setItem(model.getItemWeapon());
-		itemSlotFeet.setItem(model.getItemFeets());
+	public void initFromModel() {
+		model.getAvailableItemTypes().stream().forEach(t -> slots.get(t).setItem(model.getByItemType(t)));
 	}
 	
 	public void render(final Graphics g) {
 		if (visible) {
-			itemSlotWeapon.render(g);
-			itemSlotFeet.render(g);
+			slots.values().stream().forEach(s -> s.render(g));
 		}
 	}
 	
 	public void clicked(int buttonID, Point p) {
-		itemSlotWeapon.clicked(buttonID, p);
-		itemSlotFeet.clicked(buttonID, p);
+		slots.values().stream().forEach(s -> s.clicked(buttonID, p));
 	}
 	
 	public void mouseMoved(Point p) {
-		itemSlotWeapon.mouseMoved(p);
-		itemSlotFeet.mouseMoved(p);
+		slots.values().stream().forEach(s -> s.mouseMoved(p));
 	}
 
 	@Override
 	public void inventoryChanged() {
 		clear();
-		init();
+		initFromModel();
 	}
 }

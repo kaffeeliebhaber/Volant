@@ -1,18 +1,15 @@
 package de.kaffeeliebhaber.inventorySystem;
 
+import java.util.Set;
+
 import de.kaffeeliebhaber.inventorySystem.item.Item;
+import de.kaffeeliebhaber.inventorySystem.item.ItemType;
 
 public interface EquipmentManagerModel {
 
-	Item getItemHead();
+	Set<ItemType> getAvailableItemTypes();
 	
-	Item getItemChest();
-	
-	Item getItemFeets();
-	
-	Item getItemWeapon();
-	
-	Item getItemShield();
+	Item getByItemType(final ItemType itemType);
 	
 	void addInventoryModelListener(final InventoryModelListener l);
 	

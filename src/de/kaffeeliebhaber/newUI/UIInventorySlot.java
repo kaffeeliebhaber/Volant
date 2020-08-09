@@ -9,9 +9,13 @@ import de.kaffeeliebhaber.inventorySystem.item.Item;
 
 public class UIInventorySlot extends UIView {
 	
+	// COLOR
+	private static final Color COLOR_BORDER = Color.DARK_GRAY;
+	private static final Color COLOR_BACKGROUND = new Color(138, 138, 138);
+	
 	// SLOT CONSTANTS
-	public static final int WIDTH   = 50;
-	public static final int HEIGHT  = 50;
+	public static final int WIDTH   = 40;
+	public static final int HEIGHT  = 40;
 	public static final int PADDING =  5;
 	
 	@SuppressWarnings("unused")
@@ -46,41 +50,53 @@ public class UIInventorySlot extends UIView {
 	}
 	
 	public void render(Graphics g) {
-		
-		// DRAW: BACKGROUND
-		g.setColor(Color.DARK_GRAY);
+		renderBackground(g);
+		renderBorder(g);
+		renderImage(g);
+		renderQuantity(g);
+		renderHoverEffect(g);
+//		renderLookup(g);
+	}
+	
+	private void renderBackground(Graphics g) {
+		g.setColor(UIInventorySlot.COLOR_BORDER);
 		g.fillRect((int) x, (int) y, width, height);
-		
-		// DRAW: BORDER
-		g.setColor(new Color(138, 138, 138));
+	}
+	
+	private void renderBorder(Graphics g) {
+		g.setColor(UIInventorySlot.COLOR_BACKGROUND);
 		g.drawRect((int) x, (int) y, width, height);
-		
+	}
+	
+	private void renderImage(Graphics g) {
 		if (item != null) {
-			
-			// DRAW: ITEM IMAGE
 			g.drawImage(
-					item.getItemImage(), 
-					(int) x + padding, 
-					(int) y + padding, 
-					width - 2 * padding, 
-					height - 2 * padding, 
-					null);
-			
-			// TODO: DUPLICTAE DRAW ACTION
-			// DRAW: ITEM QUANTITY
-			if (item.isStackable()) {
-				g.setColor(Color.WHITE);
-				g.drawString(
-						"" + item.getQuantity(), 
-						(int) x + width - 4 * padding, 
-						(int) y + height - 2 * padding); 
-			}
+				item.getItemImage(), 
+				(int) x + padding, 
+				(int) y + padding, 
+				width - 2 * padding, 
+				height - 2 * padding, 
+				null);
 		}
-		
-		// DRAW: HOVER EFFECT
+	}
+	
+	private void renderQuantity(Graphics g) {
+		if (item != null && item.isStackable()) {
+			g.setColor(Color.WHITE);
+			g.drawString("" + item.getQuantity(), (int) x + width - 4 * padding, (int) y + height - 2 * padding); 
+		}
+	}
+	
+	private void renderHoverEffect(Graphics g) {
 		if (hover) {
 			g.setColor(new Color(245, 255, 250, 125));
 			g.fillRect((int) x + 2, (int) y + 2, width - 3, height - 3);
+		}
+	}
+	
+	private void renderLookup(Graphics g) {
+		if (item != null && hover) {
+			UIInventorySlotLookup.getInstance().render(g, currentMousePosition, item);
 		}
 	}
 }

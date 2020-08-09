@@ -1,6 +1,10 @@
-[] Create Item.clone() method.
+[x] Create Item.clone() method.
 [] Create new UIInventory user interface.
-	() UIViewInventory
+	(x) UIViewInventory
 	() UIViewEquipment
 [] May be change Interface.EquipmentManagerModel
 	() Includes changes on class UIViewEquipment
+[] UIViewGrid erstellen,
+	() Es gibt ein ViewGridModel das für die Bereitstellung der Datensorgt.
+	() Es muss die Möglichkeit geschaffen werden, einzelne Slot auszublenden.
+	() Dadurch kann man sowohl das Inventory als auch das Equipment abbilden.

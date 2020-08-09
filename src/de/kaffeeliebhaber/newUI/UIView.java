@@ -5,6 +5,7 @@ import java.awt.Point;
 
 public abstract class UIView extends UIElement {
 
+	protected Point currentMousePosition;
 	protected boolean hover;
 	
 	public UIView(float x, float y) {
@@ -20,7 +21,8 @@ public abstract class UIView extends UIElement {
 	public abstract void render(final Graphics g);
 	
 	public void mouseMoved(final Point p) {
-		hover = contains(p);
+		currentMousePosition = p;
+		hover = contains(currentMousePosition);
 	}
 	
 }

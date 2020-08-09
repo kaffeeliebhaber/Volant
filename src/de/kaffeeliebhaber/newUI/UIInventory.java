@@ -12,7 +12,10 @@ import de.kaffeeliebhaber.inventorySystem.InventoryManagerModel;
 
 public class UIInventory extends UIView implements KeyManagerListener, MouseManagerListener {
 	
-	private List<UIView> uiViews;
+	private static final int GAB_BETWEEN_INVENTORY_AND_EQUIPMENT = 300;
+	private static final int TRANSLATE_X = 30;
+	private static final int TRANSLATE_Y = 30;
+	private final List<UIView> uiViews;
 	private int openInventoryKeyID;
 	
 	public UIInventory(float x, float y, int width, int height, final InventoryManagerModel inventoryManagerModel, final EquipmentManagerModel equipmentManagerModel) {
@@ -20,8 +23,10 @@ public class UIInventory extends UIView implements KeyManagerListener, MouseMana
 		
 		uiViews = new ArrayList<UIView>();
 		
-		uiViews.add(new UIViewInventory(100, 100, inventoryManagerModel));
-		uiViews.add(new UIViewEquipment(500, 110, 210, 100, equipmentManagerModel));
+		uiViews.add(new UIViewPanel(x, y, width, height));
+		uiViews.add(new UIViewLabel("INVENTORY", x + 200, y + 20, new java.awt.Color(255, 255, 255)));
+		uiViews.add(new UIViewInventory(x + TRANSLATE_X, y + TRANSLATE_Y, inventoryManagerModel));
+		uiViews.add(new UIViewEquipment(x + TRANSLATE_X + GAB_BETWEEN_INVENTORY_AND_EQUIPMENT, y + TRANSLATE_Y, equipmentManagerModel));
 	}
 	
 	public void setKeyIDOpenInventory(final int keyID) {

@@ -71,7 +71,7 @@ public class GameObjectManager extends GameObjectLoader {
 		// USER INTERFACE
 		equipmentManager = new EquipmentManager();
 		inventoryManager = new InventoryManager(equipmentManager);
-		uiInventory = new UIInventory(0, 0, 100, 100, inventoryManager, equipmentManager);
+		uiInventory = new UIInventory(100, 100, 500, 250, inventoryManager, equipmentManager);
 		
 		itemManager = new ItemManager();
 		infoPane = new UIInfoPane(Config.WIDTH, Config.HEIGHT);
@@ -340,28 +340,11 @@ public class GameObjectManager extends GameObjectLoader {
 		
 		// ---- INVENTORY
 		inventoryManager.add(sword);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion);
-		inventoryManager.add(potion2);
-		inventoryManager.add(potion2);
-//		inventoryManager.add(potion);
-		
+		inventoryManager.add(chest);
+		inventoryManager.add(legs);
 		inventoryManager.add(feets);
-		
+		inventoryManager.add(head);
+		inventoryManager.add(shield);
 		inventoryManager.add(poisson);
 		inventoryManager.add(poisson);
 		

@@ -1,8 +1,9 @@
 package de.kaffeeliebhaber.inventorySystem;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.kaffeeliebhaber.inventorySystem.item.Item;
@@ -10,120 +11,59 @@ import de.kaffeeliebhaber.inventorySystem.item.ItemListener;
 import de.kaffeeliebhaber.inventorySystem.item.ItemType;
 
 public class EquipmentManager implements EquipmentManagerModel, ItemListener {
-
-	private List<InventoryModelListener> inventoryModelListeners;
-	private List<EquipmentManagerListener> equipmentManagerListeners;
 	
-	// TODO:
-	// --------------------------------------------------------
-	private Item itemHead, itemChest, itemFeets, itemWeapon, itemShield;
-	
-	// private Map<ItemType, Item> availableItems;
-	// --------------------------------------------------------
+	private final List<InventoryModelListener> inventoryModelListeners;
+	private final List<EquipmentManagerListener> equipmentManagerListeners;
+	private final Map<ItemType, Item> availableItems;
 	
 	public EquipmentManager() {
+		
 		equipmentManagerListeners = new ArrayList<EquipmentManagerListener>();
 		inventoryModelListeners = new ArrayList<InventoryModelListener>();
+		availableItems = new HashMap<ItemType, Item>();
+		
+		init();
 	}
 	
-	// --------------------------------------------------------
-	// TODO:
+	private void init() {
+		availableItems.put(ItemType.CHEST, null);
+		availableItems.put(ItemType.FEETS, null);
+		availableItems.put(ItemType.HEAD, null);
+		availableItems.put(ItemType.LEGS, null);
+		availableItems.put(ItemType.WEAPON, null);
+		availableItems.put(ItemType.SHIELD, null);
+	}
+	
 	public Set<ItemType> getAvailableItemTypes() {
-		final Set<ItemType> availableItemTypes = new HashSet<ItemType>();
-		
-		availableItemTypes.add(ItemType.CHEST);
-		
-		return availableItemTypes;
+		return availableItems.keySet();
 	}
 	
-	// TODO:
 	public Item getByItemType(final ItemType itemType) {
-		Item item = null;
-		
-		
-		
-		return item;
+		return availableItems.get(itemType);
 	}
 	
-	// --------------------------------------------------------
 	public void clear() {
-		
-		itemHead = null;
-		itemChest = null;
-		itemFeets = null;
-		itemWeapon = null;
-		itemShield = null;
-		
+		availableItems.values().clear();
 		notifyAllEquipmentManagerModelListener();	
 	}
 	
-	@SuppressWarnings("incomplete-switch")
 	public void add(final Item item) {
-		
-		switch (item.getItemType()) {
-			case HEAD: setItemHead(item); break;
-			case CHEST: setItemChest(item);  break;
-			case FEETS: setItemFeets(item); break;
-			case WEAPON: setItemWeapon(item); break;
-			case SHIELD: setItemShield(item); break;
-		}
-		
+		addItem(item);
 		item.addItemListner(this);
 		notifyAllEquipmentManagerModelListener();
 	}
 	
-	@SuppressWarnings("incomplete-switch")
+	private void addItem(final Item item) {
+		final ItemType itemType = item.getItemType();
+		final Item oldItem = availableItems.get(itemType);
+		availableItems.replace(itemType, item);
+		fireEquippedEvent(oldItem, item, itemType);
+	}
+	
 	private void remove(final Item item) {
-		switch (item.getItemType()) {
-			case HEAD: 
-				itemHead = null; 
-				break;
-			case CHEST: 
-				itemChest = null; 
-				break;
-			case FEETS: 
-				itemFeets = null;
-				break;
-			case WEAPON: 
-				itemWeapon = null; 
-				break;
-			case SHIELD: 
-				itemShield = null; 
-				break;
-		}
-		
+		availableItems.replace(item.getItemType(), null);
 		fireUnequippedEvent(item);
 		notifyAllEquipmentManagerModelListener();
-	}
-	
-	private void setItemHead(final Item head) {
-		Item oldItem = itemHead;
-		itemHead = head;
-		fireEquippedEvent(oldItem, itemHead, head.getItemType());
-	}
-	
-	private void setItemChest(final Item chest) {
-		Item oldItem = itemChest;
-		itemChest = chest;
-		fireEquippedEvent(oldItem, itemChest, chest.getItemType());
-	}
-	
-	private void setItemFeets(final Item feets) {
-		Item oldItem = itemFeets;
-		itemFeets = feets;
-		fireEquippedEvent(oldItem, itemFeets, feets.getItemType());
-	}
-	
-	private void setItemWeapon(final Item weapon) {
-		Item oldItem = itemWeapon;
-		itemWeapon = weapon;
-		fireEquippedEvent(oldItem, itemWeapon, weapon.getItemType());
-	}
-	
-	private void setItemShield(final Item shield) {
-		Item oldItem = itemShield;
-		itemShield = shield;
-		fireEquippedEvent(oldItem, itemShield, shield.getItemType());
 	}
 	
 	//
@@ -143,35 +83,6 @@ public class EquipmentManager implements EquipmentManagerModel, ItemListener {
 	
 	public void removeEquipmentManagerListener(EquipmentManagerListener l) {
 		equipmentManagerListeners.remove(l);
-	}
-
-	//
-	// EQUIPMENT_MANAGER_MODEL
-	//
-	
-	@Override
-	public Item getItemHead() {
-		return itemHead;
-	}
-
-	@Override
-	public Item getItemChest() {
-		return itemChest;
-	}
-
-	@Override
-	public Item getItemFeets() {
-		return itemFeets;
-	}
-
-	@Override
-	public Item getItemWeapon() {
-		return itemWeapon;
-	}
-
-	@Override
-	public Item getItemShield() {
-		return itemShield;
 	}
 	
 	private void notifyAllEquipmentManagerModelListener() {
